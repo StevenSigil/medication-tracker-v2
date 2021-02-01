@@ -1,38 +1,28 @@
-.App {
+body {
+  background-color: rgb(38, 61, 71);
+}
+
+.login-card {
+  max-width: 40%;
+  margin: 2rem auto;
+  min-height: 80vh;
+  background-color: #eeeeeeb9;
+}
+.login-card .card-header {
+  padding: 2rem;
+}
+.login-card h1 {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.login-card .h6 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.login-card .card-body {
+  padding: 1.5rem;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login-card .form-group {
+  margin-bottom: 1rem;
 }

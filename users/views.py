@@ -42,6 +42,7 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         user = create_user_accont(**serializer.validated_data)
         # user = get_and_authenticate_user(user.email, user.password)
+        login(request, user)
         data = serializers.AuthUserSerializer(user).data
         return Response(data, status=status.HTTP_201_CREATED)
 

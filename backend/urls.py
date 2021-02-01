@@ -7,5 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
 
+    path('', index, name='index'),
     re_path('(?P<pk>[^/.]+)/$', index, name='index'),
 ]

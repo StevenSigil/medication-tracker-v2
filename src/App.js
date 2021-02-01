@@ -1,20 +1,59 @@
-import React from 'react';
-import axios from 'axios';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+
+import LoginPage from "./components/LoginPage";
+import RegistrationPage from "./components/RegistrationPage";
+import axiosInstance from "./util/axios";
+import "./App.css";
 
 function App() {
-    function handleSubmit() {
-        axios
-            .post('http://127.0.0.1:8000/api/users/login', {email: 's@example.com', password: '1234'}, {with_credentials: true})
-            .then(response => console.log(response))
-            .catch(error => console.log(error))
-    }
-  return (
-    <div className="App">
-      <h1> You are live! </h1>
+  function Main() {
+    return <h1>Main</h1>;
+  }
 
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  function checkForToken() {
+    // Checks for a token in the broser and returns the
+    //   user to either main if true or login if false.
+    const token = sessionStorage.getItem("Token");
+    if (token) {
+      axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
+      setIsLoggedIn(true);
+      return <Redirect to="/main/" />;
+    } else {
+      return <Redirect to="/login/" />;
+    }
+  }
+
+  return (
+    <>
+      <BrowserRouter>
+        <div className="App">
+          <Switch>
+            <Route exact path={"/login/"}>
+              {isLoggedIn ? (
+                <Redirect to="/main/" />
+              ) : (
+                <LoginPage checkForToken={checkForToken} />
+              )}
+            </Route>
+
+            <Route exact path={"/register/"}>
+              {isLoggedIn ? (
+                <Redirect to="/main/" />
+              ) : (
+                <RegistrationPage checkForToken={checkForToken} />
+              )}
+            </Route>
+
+            <Route exact path={"/main/"}>
+              {!isLoggedIn ? checkForToken() : <Main />}
+            </Route>
+          </Switch>
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 
