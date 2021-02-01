@@ -3,14 +3,12 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import LoginPage from "./components/LoginPage";
 import RegistrationPage from "./components/RegistrationPage";
+import Main from './components/Main';
+
 import axiosInstance from "./util/axios";
 import "./App.css";
 
 function App() {
-  function Main() {
-    return <h1>Main</h1>;
-  }
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function checkForToken() {
@@ -28,7 +26,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="/">
         <div className="App">
           <Switch>
             <Route exact path={"/login/"}>
