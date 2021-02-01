@@ -8,6 +8,9 @@
 
 # production
 .env
+.idea
+.eslintcache
+
 /build
 
 db.sqlite3
