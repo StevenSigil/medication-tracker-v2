@@ -19,7 +19,7 @@ class MedicationView(viewsets.GenericViewSet):
 
     def list(self, request):
         """
-        Returns a list of (all-at this time) medications        ## the user has logged on their account.
+        Returns a list of (all-at this time) medications
         """
         query = self.get_queryset()
         serializer = self.get_serializer(query, many=True)
@@ -32,12 +32,12 @@ class MedicationView(viewsets.GenericViewSet):
         """
         serializer = self.get_serializer(data=request.data, *args, **kwargs)
         serializer.is_valid(raise_exception=True)
-        medication= Medication.objects.create(created_by=request.user, **serializer.validated_data)
+        medication = Medication.objects.create(created_by=request.user, **serializer.validated_data)
         serializer = self.serializer_class(medication)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        return Medication.objects.all()     # filter(user=self.request.user)
+        return Medication.objects.all()
 
     def get_serializer_class(self):
         """

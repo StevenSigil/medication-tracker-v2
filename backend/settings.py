@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'users',
+    'logs',
     'medications',
 ]
 

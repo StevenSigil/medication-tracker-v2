@@ -13,11 +13,10 @@ class MedicationSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=100, required=True)
     strength = serializers.CharField(max_length=30, required=True)
     date_created = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", read_only=True)
-    created_by = serializers.SerializerMethodField()
 
     class Meta:
         model = Medication
-        fields = ('id', 'name', 'strength', 'date_created', 'created_by')
+        fields = ('id', 'name', 'strength', 'date_created')
 
     def get_created_by(self, med_obj):
         created_by = User.objects.get(id=med_obj.created_by.id)
