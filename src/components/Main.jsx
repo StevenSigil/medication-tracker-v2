@@ -1,20 +1,41 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import "../public/css/main.css";
 
-import CreateMedModal from "./CreateMedModal";
-import SingleMedication from "./SingleMedication";
+import UsersMedications from "./UsersMedications";
 
 function Main() {
   const [showCreateMedModal, setShowCreateMedModal] = useState(false);
 
-  const fake = [
-    { id: 1, name: "Lisinopril" },
-    { id: 2, name: "Atorvastatin" },
-    { id: 3, name: "Levothyroxine" },
-    { id: 4, name: "Metformin" },
-    { id: 5, name: "Amlodipine" },
-  ];
+  const now = new Date();
+  const offsetMs = now.getTimezoneOffset() * 60 * 1000;
+  const dateLocal = new Date(now.getTime() - offsetMs);
+  const str = dateLocal
+    .toISOString()
+    .slice(0, 19)
+    .replace(/-/g, "/")
+    .replace("T", " ");
+  const [date, setDate] = useState(str);
+
+  const submitMedications = [];
+  function addMedication(medID) {
+    if (submitMedications.some((id) => id === medID)) {
+      submitMedications.pop(medID);
+    } else {
+      submitMedications.push(medID);
+    }
+    console.log(submitMedications);
+    return submitMedications;
+  }
+
+  console.log(date);
 
   return (
     <>
@@ -26,15 +47,13 @@ function Main() {
         <Row className="main-row">
           <Col md={4}>
             <div>
-              <Row noGutters>
-                {fake.map((med) => {
-                  return (
-                    <SingleMedication key={med.id} medication={med.name} />
-                  );
-                })}
-              </Row>
+              <UsersMedications
+                addMedication={addMedication}
+                showCreateMedModal={showCreateMedModal}
+                setShowCreateMedModal={setShowCreateMedModal}
+              />
 
-              <Container className='addMed-container'>
+              <Container className="addMed-container">
                 <Button
                   variant="outline-danger"
                   onClick={() => setShowCreateMedModal(true)}
@@ -45,11 +64,25 @@ function Main() {
             </div>
           </Col>
 
-          <Col md={4}>
+          <Col md={4} className="middle-col">
             <Container>
-              <p>Inputs go here</p>
+              <Row noGutters className="current-time-btn">
+                <Button size="lg" variant="outline-light">
+                  Click to use current time
+                </Button>
+              </Row>
 
-              <p>Other input underneath</p>
+              <Row noGutters>
+                <h5>Enter a time</h5>
+                <FormControl
+                  size="lg"
+                  type="datetime-local"
+                  className="dateTime-input"
+                  value={date}
+                  placeholder={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+              </Row>
             </Container>
           </Col>
 
@@ -62,11 +95,6 @@ function Main() {
           </Col>
         </Row>
       </div>
-
-      <CreateMedModal
-        show={showCreateMedModal}
-        setShow={setShowCreateMedModal}
-      />
     </>
   );
 }

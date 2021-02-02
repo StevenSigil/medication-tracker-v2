@@ -1,66 +1,81 @@
 /* Main */
 .main {
-    max-width: 100vw;
-    overflow-x: hidden;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 /* Main Heading */
 .main-head {
-    min-height: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  min-height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .main-head h1 {
-    font-weight: bold;
-    color: snow;
+  font-weight: bold;
+  color: snow;
 }
 
 /* Main Interaction Row */
 .main-row {
-    color: snow;
-    text-align: center;
-    margin-top: 1rem;
+  color: snow;
+  text-align: center;
+  margin-top: 1rem;
 }
 .main-row .col {
-    padding: 0;
+  padding: 0;
 }
 
 /* CreateMedModal */
 .modal-content {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 .createMedModal .modal-title {
-    margin: 1.5rem auto 0.5rem;
+  margin: 1.5rem auto 0.5rem;
 }
 .createMedModal .modal-body {
-    margin: 1.5rem 0;
-    padding: 0 15px;
+  margin: 1.5rem 0;
+  padding: 0 15px;
 }
 .createMedModal .form-group {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .btn-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
 }
 
 /* Left column */
 .med-col {
-    padding: 20px;
+  padding: 20px;
 }
 .med-btn {
-    width: 20vh;
-    min-width: fit-content;
-    height: 15vh;
-    
+  width: 20vh;
+  min-width: fit-content;
+  height: 15vh;
 }
 
 .addMed-container {
-    margin-top: 3rem;
+  margin-top: 3rem;
 }
 .addMed-container button {
-    padding: 1rem;
+  padding: 1rem;
+}
+
+/* Middle Column */
+.middle-col > .container {
+  height: 100%;
+  padding: 20px 60px;
+}
+.dateTime-input {
+  background-color: #cccccc86;
+  min-width: fit-content;
+}
+.dateTime-input:hover {
+  background-color: #eeeeee;
+}
+.current-time-btn {
+  margin-bottom: 2rem;
 }

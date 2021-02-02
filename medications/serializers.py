@@ -16,11 +16,20 @@ class MedicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Medication
-        fields = ('id', 'name', 'strength', 'date_created')
+        fields = ('id', 'name', 'strength', 'date_created', 'users_taking')
 
     def get_created_by(self, med_obj):
         created_by = User.objects.get(id=med_obj.created_by.id)
         return created_by.__str__()
+
+
+class UserAddRemoveFromMedication(serializers.ModelSerializer):
+    id = serializers.UUIDField()
+    user = serializers.PrimaryKeyRelatedField(source='users_taking', read_only=True)
+
+    class Meta:
+        model = Medication
+        fields = ('id', 'user')
 
 
 class MedicationCreateSerializer(serializers.ModelSerializer):

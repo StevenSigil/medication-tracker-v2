@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import LoginPage from "./components/LoginPage";
 import RegistrationPage from "./components/RegistrationPage";
-import Main from './components/Main';
+import Main from "./components/Main";
 
 import axiosInstance from "./util/axios";
 import "./App.css";

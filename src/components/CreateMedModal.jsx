@@ -7,30 +7,39 @@ function CreateMedModal(props) {
   const setShow = props.setShow;
 
   const [name, setName] = useState("");
+  const [strength, setStrength] = useState("");
 
-  function handleChange(e) {
-    // Seperate function incase client wants more than one input.
-    setName(e.target.value);
+  function prepData(name, strength) {
+    var data = {};
+    name = name.toLowerCase();
+    console.log(name);
+    strength = strength.toLowerCase();
+    console.log(strength);
+    data.name = name;
+    data.strength = strength;
+    return data;
   }
 
   function handleSubmit(e) {
-    // TODO: Sends a post request to create a 'medication' instance.
-    e.preventDefault();
-    console.log("submit");
+    // TODO: Search for a previously defined medication on file before creating a new one.
 
-    // axiosInstance
-    //   .post('url', name)
-    //   .then(response => {
-    //     console.log(response);
-    //     resetModal();
-    //   })
-    //   .catch(error => console.log(error))
+    e.preventDefault();
+    const data = prepData(name, strength);
+
+    axiosInstance
+      .post("medications/new_medication/", data)
+      .then((response) => {
+        console.log(response);
+        resetModal();
+      })
+      .catch((error) => console.log(error));
   }
 
   function resetModal() {
-    // Closes the modal and resets the input
+    // Closes the modal, resets the input and refreshes the list of users medications
     setShow(false);
     setName("");
+    props.getUsersMedications();
   }
 
   return (
@@ -46,7 +55,15 @@ function CreateMedModal(props) {
                 type="text"
                 placeholder="Enter the medication name"
                 value={name}
-                onChange={handleChange}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="createModalStrength">
+              <Form.Control
+                type="text"
+                placeholder="Enter the medication strength"
+                value={strength}
+                onChange={(e) => setStrength(e.target.value)}
               />
             </Form.Group>
             <Container className="btn-container">
