@@ -53,8 +53,9 @@
 }
 .med-btn {
   width: 20vh;
-  min-width: fit-content;
-  height: 15vh;
+  width: auto;
+  height: auto;
+  padding: 1rem;
 }
 
 .addMed-container {
@@ -69,13 +70,20 @@
   height: 100%;
   padding: 20px 60px;
 }
+
+.dateTime-input1 {
+  min-height: 100%;
+  min-width: 100%;
+  font-size: large;
+}
 .dateTime-input {
   background-color: #cccccc86;
-  min-width: fit-content;
 }
 .dateTime-input:hover {
   background-color: #eeeeee;
 }
 .current-time-btn {
-  margin-bottom: 2rem;
+  margin: 2rem auto 1rem;
+  width: inherit;
+
 }

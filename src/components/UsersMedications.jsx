@@ -22,6 +22,7 @@ function UsersMedications(props) {
 
   return (
     <>
+    <h4>Your medications</h4>
       <Row noGutters>
         {usersMedications.length !== 0
           ? usersMedications.map((med) => {
@@ -30,6 +31,8 @@ function UsersMedications(props) {
                   key={med.id}
                   medication={med}
                   addMedication={props.addMedication}
+
+                  buttonsDisabled={props.buttonsDisabled}
                 />
               );
             })
