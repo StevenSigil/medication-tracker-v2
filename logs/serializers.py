@@ -27,7 +27,7 @@ class CreateLog(serializers.ModelSerializer):
         fields = ('id', 'user', 'medication_quantities', 'time_taken')
 
 
-class UsersLogsSerializer(serializers.ModelSerializer):
+class UsersCondensedLogsSerializer(serializers.ModelSerializer):
     medication_quantities = serializers.SerializerMethodField()
 
     class Meta:
@@ -56,3 +56,8 @@ class DeleteLogSerializer(serializers.Serializer):
         if not log:
             raise ValidationError('Log does not exist.')
         return obj_id
+
+
+class StartEndTime(serializers.Serializer):
+    start_time = serializers.DateField(format="%Y-%m-%d")
+    end_time = serializers.DateField(format="%Y-%m-%d")
