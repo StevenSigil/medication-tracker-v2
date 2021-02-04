@@ -1,74 +1,83 @@
-import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import "../public/css/main.css";
 
 import UsersMedications from "./UsersMedications";
+import TimeInput from "./TimeInput";
+import ConfirmationForm from "./ConfirmationForm";
 import History from "./History";
+import axiosInstance from "../util/axios";
 
 function Main() {
-  const [showCreateMedModal, setShowCreateMedModal] = useState(false);
+  const [usersMedications, setUsersMedications] = useState([]);
+  const [showConfirmLogModal, setShowConfirmLogModal] = useState(false);
+  const [confirmItems, setConfirmItems] = useState([]);
+  const [getHistory, setGetHistory] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(true);
 
-  const [dateTime, setDateTime] = useState(getDateTime());
+  const [submitData, setSubmitData] = useState({});
 
-  function getDateTime() {
-    const now = new Date();
-    const offsetMs = now.getTimezoneOffset() * 60 * 1000;
-    const dateLocal = new Date(now.getTime() - offsetMs);
-    const str = dateLocal
-      .toISOString()
-      .slice(0, 19)
-      // .replace(/-/g, "/")
-      .replace("T", " ");
-    return str;
-  }
+  var submitMedications = [];
 
-  const formDateTime = getDateTime();
-  const [formDate, setFormDate] = useState(formDateTime.slice(0, 10));
-  const [formTime, setFormTime] = useState(formDateTime.slice(11, 16));
-
-  let submitData = {};
-  let submitMedications = [];
   // {"medication_quantities": [{"medication": UUID, "quantity": int},...], "time_taken": datetime.datetime}
 
   function addMedication(medAndQuantity) {
-    // Adds or removes the medication and quantity object from submitMedications (arr)
-    if (
-      submitMedications.some(
-        (obj) => obj.medication === medAndQuantity.medication
-      )
-    ) {
-      submitMedications.pop(medAndQuantity);
-    } else {
+    // Adds the medication and quantity object from submitMedications (arr)
+    if (medAndQuantity) {
       submitMedications.push(medAndQuantity);
+      console.log(submitMedications);
     }
   }
-
-  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   function addTimeTaken(dT) {
     // Convers the dateTime param from "yyy-mm-dd hh:mm:ss" to "yyyy-mm-ddThh:mm:sss.mmm(tz)"
+    // and adds it to 'submitData', if submitdata is OK, Confirmation Modal should appear.
     dT = dT.replace(" ", "T");
-    dT = new Date().toISOString(dT);
-    submitData.time_taken = dT;
+    console.log(dT);
+    dT = new Date(dT).toISOString();
+    setSubmitData({ time_taken: dT, medication_quantities: submitMedications });
 
-    if (submitMedications.length > 0) {
-      setButtonsDisabled(true);
-      // SHOW CONFIRM SUBMIT FORM HERE!
-      submitData.medication_quantities = submitMedications;
+    PrepConfirmationForm(dT);
+    setShowConfirmLogModal(true);
+  }
+
+  function PrepConfirmationForm(dateTime) {
+    const displayList = submitMedications.map((mq) => {
+      usersMedications.forEach((med) => {
+        if (med.id === mq.medication) {
+          mq.name = med.name;
+          mq.strength = med.strength;
+        }
+      });
+      return mq;
+    });
+    displayList.push(dateTime);
+    setConfirmItems(displayList);
+  }
+
+  function sendLog() {
+    if (submitData) {
+      console.log(submitData);
+
+      axiosInstance
+        .post("logs/create_log/", submitData)
+        .then((response) => {
+          console.log(response);
+          setGetHistory(true);
+        })
+        .catch((error) => console.log(error));
+
+      resetSubmitData();
     }
   }
 
+  const [resetSignal, setResetSignal] = useState(false);
   function resetSubmitData() {
-    setButtonsDisabled(false);
-    submitData = {};
-    submitMedications = [];
+    setConfirmItems([]);
+    setSubmitData({});
+    setDisabledButton(true);
+    setResetSignal(true);
+    submitMedications.fill(null, 0);
   }
 
   return (
@@ -84,99 +93,46 @@ function Main() {
             <div>
               <UsersMedications
                 addMedication={addMedication}
-                showCreateMedModal={showCreateMedModal}
-                setShowCreateMedModal={setShowCreateMedModal}
-                buttonsDisabled={buttonsDisabled}
+                usersMedications={usersMedications}
+                setUsersMedications={setUsersMedications}
+                resetSignal={resetSignal}
+                setResetSignal={setResetSignal}
+                setDisabledButton={setDisabledButton}
               />
-
-              <Container className="addMed-container">
-                <Button
-                  disabled={buttonsDisabled}
-                  variant="outline-danger"
-                  onClick={() => setShowCreateMedModal(true)}
-                >
-                  Add Medication
-                </Button>
-              </Container>
             </div>
           </Col>
 
           {/* MIDDLE COLUMN */}
           <Col md={12} lg={4} className="middle-col">
-            <h4>Enter a Date and Time</h4>
+            <h4>Confirm the date and time taken</h4>
+
             <Container>
-              {/* <Row noGutters className="current-time-btn">
-                <Button
-                  size="lg"
-                  variant="success"
-                  onClick={() => addTimeTaken(dateTime)}
-                >
-                  Click to use current time
-                </Button>
-              </Row> */}
-
-              {/* <Row noGutters style={{ padding: "2rem", color: "#dc3545" }}>
-                <h5>OR</h5>
-              </Row> */}
-
-              <Row noGutters>
-                <InputGroup size="lg">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text
-                      className="dateTime-input1"
-                      id="date-input1"
-                    >
-                      Date
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    type="date"
-                    className="dateTime-input"
-                    value={formDate}
-                    onChange={(e) => setFormDate(e.target.value)}
-                    aria-label="Date"
-                    aria-describedby="date-input1"
-                  />
-                </InputGroup>
-
-                <InputGroup size="lg">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text
-                      className="dateTime-input1"
-                      id="Time-input1"
-                    >
-                      Time
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    type="time"
-                    className="dateTime-input"
-                    value={formTime}
-                    onChange={(e) => setFormTime(e.target.value)}
-                    aria-label="Time"
-                    aria-describedby="Time-input1"
-                  />
-                </InputGroup>
-              </Row>
+              <TimeInput
+                addTimeTaken={addTimeTaken}
+                disabledButton={disabledButton}
+              />
               <Row noGutters className="current-time-btn">
-                <Button
-                  disabled={buttonsDisabled}
-                  size="lg"
-                  variant="outline-success"
-                  onClick={() => addTimeTaken(formDate, formTime)}
-                >
-                  Click to use custom time
+                <Button variant="outline-danger" onClick={resetSubmitData}>
+                  Start over
                 </Button>
               </Row>
-
-              {buttonsDisabled ? <Button onClick={resetSubmitData}>Reset</Button> : null}
             </Container>
+
+            {confirmItems ? (
+              <ConfirmationForm
+                confirmationItems={confirmItems}
+                dateTime={confirmItems.slice(-1)}
+                show={showConfirmLogModal}
+                setShow={setShowConfirmLogModal}
+                sendLog={sendLog}
+              />
+            ) : null}
           </Col>
 
           {/* RIGHT COLUMN */}
           <Col md={12} lg={4}>
             <Container>
-              <History />
+              <History getData={getHistory} setGetData={setGetHistory} />
             </Container>
           </Col>
         </Row>

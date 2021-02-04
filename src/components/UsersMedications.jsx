@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { Row } from "react-bootstrap";
+import { Row, Container, Button } from "react-bootstrap";
 
 import axiosInstance from "../util/axios";
 
 import CreateMedModal from "./CreateMedModal";
+import SearchMedModal from "./SearchMedModal";
 import SingleMedication from "./SingleMedication";
 
 function UsersMedications(props) {
-  const [usersMedications, setUsersMedications] = useState([]);
+  const usersMedications = props.usersMedications;
+  const setUsersMedications = props.setUsersMedications;
+
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showCreateMedModal, setShowCreateMedModal] = useState(false);
 
   function getUsersMedications() {
     // Sets the medications the user wants on the're dashboard
@@ -22,7 +27,7 @@ function UsersMedications(props) {
 
   return (
     <>
-    <h4>Your medications</h4>
+      <h4>Your medications</h4>
       <Row noGutters>
         {usersMedications.length !== 0
           ? usersMedications.map((med) => {
@@ -31,17 +36,34 @@ function UsersMedications(props) {
                   key={med.id}
                   medication={med}
                   addMedication={props.addMedication}
-
-                  buttonsDisabled={props.buttonsDisabled}
+                  setDisabledButton={props.setDisabledButton}
+                  resetSignal={props.resetSignal}
+                  setResetSignal={props.setResetSignal}
                 />
               );
             })
           : getUsersMedications()}
       </Row>
 
+      <Container className="addMed-container">
+        <Button
+          variant="outline-danger"
+          onClick={() => setShowSearchModal(true)}
+        >
+          Add Medication
+        </Button>
+      </Container>
+
+      <SearchMedModal
+        show={showSearchModal}
+        setShow={setShowSearchModal}
+        getUsersMedications={getUsersMedications}
+        setShowCreateMedModal={setShowCreateMedModal}
+      />
+
       <CreateMedModal
-        show={props.showCreateMedModal}
-        setShow={props.setShowCreateMedModal}
+        show={showCreateMedModal}
+        setShow={setShowCreateMedModal}
         getUsersMedications={getUsersMedications}
       />
     </>

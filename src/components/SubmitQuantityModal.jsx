@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { Modal, Button, FormControl, Form } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 
 function SubmitQuantityModal(props) {
   const show = props.show;
   const setShow = props.setShow;
   const medName = props.medName;
   const medID = props.medID;
-  const addMedication = props.addMedication;
+  const finishButtonInput = props.finishButtonInput;
   const [quantity, setQuantity] = useState(1);
 
   function handleClose() {
-    addMedication({ medication: medID, quantity: quantity });
-    setShow(false);
+    finishButtonInput({ medication: medID, quantity: quantity });
   }
 
   return (
@@ -21,14 +20,10 @@ function SubmitQuantityModal(props) {
       </Modal.Header>
       <Modal.Body>
         <Form.Label htmlFor="quantityFormInput"> {medName}: </Form.Label>
-        <Form.Control as="select">
+        <Form.Control as="select" onChange={(e) => setQuantity(e.target.value)}>
           {Array.from(Array(10).keys()).map((i) => {
             return (
-              <option
-                key={i}
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-              >
+              <option key={i} value={i + 1}>
                 {" "}
                 {i + 1}{" "}
               </option>

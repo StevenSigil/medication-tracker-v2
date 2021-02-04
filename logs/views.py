@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 
+from django.utils.timezone import datetime, timedelta
+
 from medications.models import Medication
 from medications.serializers import MedicationSerializer
 from .models import Log, MedicationAndQuantity
@@ -51,11 +53,17 @@ class LogViewSet(viewsets.GenericViewSet):
     @action(methods=['GET', ], detail=False)
     def users_logs(self, request):
         """
-        Returns a list of the Log's a user has made.
+        Returns a list of the Log's a user has made from 2.5 days ago to now.
+        Used on the main interaction screen - limited amount of data for api.
         """
-        queryset = Log.objects.filter(user=request.user)
+        queryset = Log.objects.filter(user=request.user, time_taken__date__gt=datetime.now() - timedelta(days=3, hours=12))
+
         data = self.get_serializer(queryset, many=True).data
         return Response(data, status=status.HTTP_200_OK)
+
+        def get_week_of_data(today):
+            y_w_d = datetime.date(today).isocalendar()
+            start = datetime.today()
 
     @action(methods=['POST', ], detail=False)
     def delete_log(self, request):

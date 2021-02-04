@@ -4,11 +4,13 @@ import axiosInstace from "../util/axios";
 
 import HistorySingleLog from "./HistorySingleLog";
 
-function History() {
+function History(props) {
+  const getData = props.getData;
+  const setGetData = props.setGetData;
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (data.length === 0) {
+    if (data.length === 0 || getData === true) {
       axiosInstace
         .get("logs/users_logs/")
         .then((response) => {
@@ -17,22 +19,25 @@ function History() {
         })
         .catch((error) => console.log(error));
     }
-  }, [data]);
+    return () => {
+      setGetData(false);
+    };
+  }, [data, getData, setGetData]);
 
   return data.length > 0 ? (
     <>
       <h4>Recent history</h4>
       {data.map((d) => {
         return (
-          <div style={{ padding: "20px" }} key={d.id}>
-            <Card bg="secondary">
-              <HistorySingleLog historyItem={d} />
-            </Card>
-          </div>
+          <Card className="outerHistory-card" bg="secondary" key={d.id}>
+            <HistorySingleLog historyItem={d} />
+          </Card>
         );
       })}
 
-      <Button variant="outline-danger">Download Data</Button>
+      <Button className="download-btn" variant="outline-danger">
+        Download Data
+      </Button>
     </>
   ) : null;
 }

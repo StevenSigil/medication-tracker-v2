@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ImproperlyConfigured
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.decorators import action
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 
@@ -78,3 +78,10 @@ class MedicationPartialUpdateView(GenericAPIView, UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+class MedicationSearchView(ListAPIView):
+    queryset = Medication.objects.all()
+    serializer_class = serializers.MedicationSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'strength']

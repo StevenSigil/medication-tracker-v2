@@ -16,7 +16,7 @@ class MedicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Medication
-        fields = ('id', 'name', 'strength', 'date_created', 'users_taking')
+        fields = ('id', 'name', 'strength', 'date_created')
 
     def get_created_by(self, med_obj):
         created_by = User.objects.get(id=med_obj.created_by.id)

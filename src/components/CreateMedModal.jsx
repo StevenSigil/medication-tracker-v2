@@ -21,8 +21,6 @@ function CreateMedModal(props) {
   }
 
   function handleSubmit(e) {
-    // TODO: Search for a previously defined medication on file before creating a new one.
-
     e.preventDefault();
     const data = prepData(name, strength);
 
@@ -44,7 +42,12 @@ function CreateMedModal(props) {
 
   return (
     <>
-      <Modal show={show} onHide={resetModal} className="createMedModal">
+      <Modal
+        animation={false}
+        show={show}
+        onHide={resetModal}
+        className="createMedModal"
+      >
         <Modal.Header>
           <Modal.Title>Add a medication</Modal.Title>
         </Modal.Header>

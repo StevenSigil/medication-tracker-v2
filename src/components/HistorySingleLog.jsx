@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, ListGroup, Col, Container } from "react-bootstrap";
+import { Card, ListGroup, Col } from "react-bootstrap";
 
 function HistorySingleLog(props) {
   const item = props.historyItem;
@@ -13,12 +13,22 @@ function HistorySingleLog(props) {
     const i = props.data;
     return (
       <>
-        <Container style={{ display: "inline-flex" }}>
-          <Col>
-            {i.name}
-            {i.strength} - ({i.quantity})
-          </Col>
-        </Container>
+        <Col>{i.name}</Col>
+        <Col
+          style={{
+            alignItems: "center",
+          }}
+        >
+          {i.strength}{" "}
+        </Col>
+        <Col
+          style={{
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          ({i.quantity})
+        </Col>
       </>
     );
   };
@@ -26,18 +36,15 @@ function HistorySingleLog(props) {
   return item ? (
     <>
       <Card.Header>
-        <Card.Title>
-          {time} {date}
+        <Card.Title className="history-title">
+          <Col>{time}</Col> <Col>{date}</Col>
         </Card.Title>
       </Card.Header>
       <Card.Body>
         <ListGroup>
           {item.medication_quantities.map((med) => {
             return (
-              <ListGroup.Item
-                key={med.id}
-                style={{ backgroundColor: "transparent" }}
-              >
+              <ListGroup.Item key={med.id} className="history-listItem">
                 <InnerMap data={med} />
               </ListGroup.Item>
             );

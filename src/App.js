@@ -29,6 +29,14 @@ function App() {
       <BrowserRouter basename="/">
         <div className="App">
           <Switch>
+            <Route exact path={"/"}>
+              {isLoggedIn ? (
+                <Redirect to="/main/" />
+              ) : (
+                <Redirect to="/login/" />
+              )}
+            </Route>
+
             <Route exact path={"/login/"}>
               {isLoggedIn ? (
                 <Redirect to="/main/" />

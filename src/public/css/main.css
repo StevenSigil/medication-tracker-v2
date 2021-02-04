@@ -34,7 +34,7 @@
   margin: 1.5rem auto 0.5rem;
 }
 .createMedModal .modal-body {
-  margin: 1.5rem 0;
+  margin: 1.5rem 0 0.5rem;
   padding: 0 15px;
 }
 .createMedModal .form-group {
@@ -45,6 +45,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0;
+  margin: 1rem 0;
 }
 
 /* Left column */
@@ -52,22 +53,22 @@
   padding: 20px;
 }
 .med-btn {
-  width: 20vh;
-  width: auto;
+  min-width: 7rem;
   height: auto;
   padding: 1rem;
 }
 
 .addMed-container {
-  margin-top: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 3.5rem;
+  /* padding: 20px 60px; */
 }
 .addMed-container button {
-  padding: 1rem;
+  width: inherit;
 }
 
 /* Middle Column */
 .middle-col > .container {
-  height: 100%;
   padding: 20px 60px;
 }
 
@@ -85,5 +86,26 @@
 .current-time-btn {
   margin: 2rem auto 1rem;
   width: inherit;
+}
 
+/* Right Column */
+.outerHistory-card {
+  margin: 10px 5px;
+}
+.outerHistory-card .card-body {
+  padding: 0.5rem 0.5rem;
+}
+.history-title {
+  display: flex;
+  margin: 0;
+}
+.history-listItem {
+  background-color: inherit;
+  display: flex;
+  align-items: center;
+}
+.download-btn {
+  margin-top: 1rem;
+  margin-bottom: 3.5rem;
+  width: inherit;
 }
