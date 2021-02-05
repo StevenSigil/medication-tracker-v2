@@ -4,6 +4,7 @@ import axiosInstance from "../util/axios";
 
 import CreateMedModal from "./CreateMedModal";
 import SearchMedModal from "./SearchMedModal";
+import ManageMedicationModal from './ManageMedicationModal';
 import SingleMedication from "./SingleMedication";
 
 function UsersMedications(props) {
@@ -12,6 +13,7 @@ function UsersMedications(props) {
 
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showCreateMedModal, setShowCreateMedModal] = useState(false);
+  const [showManageMedModal, setShowManageMedModal] = useState(false);
 
   function getUsersMedications() {
     // Sets the medications the user wants on the're dashboard
@@ -20,9 +22,8 @@ function UsersMedications(props) {
       .then((response) => {
         console.log(response);
         if (response.data.length === 0) {
-          setUsersMedications([{id: 'x'}])
+          setUsersMedications([{ id: "x" }]);
         } else setUsersMedications(response.data);
-
       })
       .catch((error) => console.log(error));
   }
@@ -53,6 +54,12 @@ function UsersMedications(props) {
         >
           Add Medication
         </Button>
+        <Button
+          variant="outline-secondary"
+          onClick={() => setShowManageMedModal(true)}
+        >
+          Manage medications
+        </Button>
       </Container>
 
       <SearchMedModal
@@ -65,6 +72,13 @@ function UsersMedications(props) {
       <CreateMedModal
         show={showCreateMedModal}
         setShow={setShowCreateMedModal}
+        getUsersMedications={getUsersMedications}
+      />
+
+      <ManageMedicationModal
+        usersMedications={usersMedications}
+        show={showManageMedModal}
+        setShow={setShowManageMedModal}
         getUsersMedications={getUsersMedications}
       />
     </>
