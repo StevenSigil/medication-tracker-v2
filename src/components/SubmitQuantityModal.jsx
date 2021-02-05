@@ -7,10 +7,15 @@ function SubmitQuantityModal(props) {
   const medName = props.medName;
   const medID = props.medID;
   const finishButtonInput = props.finishButtonInput;
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(false);
 
   function handleClose() {
     finishButtonInput({ medication: medID, quantity: quantity });
+  }
+
+  function handleHotKey(quantity) {
+    setQuantity(quantity);
+    handleClose();
   }
 
   return (
@@ -18,8 +23,29 @@ function SubmitQuantityModal(props) {
       <Modal.Header>
         <Modal.Title>Please enter a quantity</Modal.Title>
       </Modal.Header>
+
+      <Modal.Header style={{ paddingBottom: 0 }}>
+        <Modal.Title as="h5">{medName}:</Modal.Title>
+      </Modal.Header>
+
       <Modal.Body>
-        <Form.Label htmlFor="quantityFormInput"> {medName}: </Form.Label>
+        {Array.from(Array(4).keys()).map((n) => {
+          return (
+            <Button
+              className="med-btn"
+              style={{ margin: "2px" }}
+              key={n}
+              onClick={() => setQuantity(n + 1)}
+            >
+              {" "}
+              {n + 1}{" "}
+            </Button>
+          );
+        })}
+      </Modal.Body>
+
+      <Modal.Body>
+        {/* <Form.Label htmlFor="quantityFormInput"> {medName}: </Form.Label> */}
         <Form.Control as="select" onChange={(e) => setQuantity(e.target.value)}>
           {Array.from(Array(10).keys()).map((i) => {
             return (
