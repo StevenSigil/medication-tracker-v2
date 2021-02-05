@@ -59,5 +59,28 @@ class DeleteLogSerializer(serializers.Serializer):
 
 
 class StartEndTime(serializers.Serializer):
-    start_time = serializers.DateField(format="%Y-%m-%d")
-    end_time = serializers.DateField(format="%Y-%m-%d")
+    start_date = serializers.DateField(format="%Y-%m-%d")
+    end_date = serializers.DateField(format="%Y-%m-%d")
+
+
+class UsersCSVLogsSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format='%Y-%m-%d', source='time_taken')
+    medication = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Log
+        fields = ('date', 'medication')
+
+    def get_medication(self, obj):
+        """obj is expected to be a Log object"""
+        child = obj.logged_quantity
+        m_and_q = MedicationAndQuantitySerialiser(child, many=True).data
+        new_data = []
+        for i in m_and_q:
+            med = Medication.objects.get(id=i['medication'])
+            med_serializer = MedicationSerializer(med).data
+            med_serializer.pop('date_created')
+            med_serializer.pop('id')
+            med_serializer['quantity'] = i['quantity']
+            new_data.append(med_serializer)
+        return new_data

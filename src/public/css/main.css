@@ -1,26 +1,30 @@
 /* Main */
+h2 {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid blueviolet;
+}
+
 .main {
   max-width: 100vw;
   overflow-x: hidden;
 }
 
-/* Main Heading */
-.main-head {
-  min-height: 5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.card,
+.card * {
+  border-color: blueviolet;
 }
-.main-head h1 {
-  font-weight: bold;
-  color: snow;
+
+/* Main Heading */
+.customNav {
+  background-color: rgb(199, 179, 245);
 }
 
 /* Main Interaction Row */
 .main-row {
-  color: snow;
   text-align: center;
   margin-top: 1rem;
+  justify-content: center;
 }
 .main-row .col {
   padding: 0;
@@ -40,7 +44,6 @@
 .createMedModal .form-group {
   margin-bottom: 1.5rem;
 }
-
 .btn-container {
   display: flex;
   justify-content: space-between;
@@ -49,29 +52,37 @@
 }
 
 /* Left column */
+.usersMeds {
+  background-color: #eee;
+  /* border: 2px solid blueviolet; */
+  padding-top: 1rem;
+  margin-left: 1rem;
+}
+.usersMeds-div {
+  padding-bottom: 5rem;
+  width: auto;
+}
+/* Meds area */
 .med-col {
-  padding: 20px;
+  padding: 1rem 0;
 }
 .med-btn {
   min-width: 7rem;
   height: auto;
   padding: 1rem;
 }
-
+/* add medication button */
 .addMed-container {
   margin-top: 2rem;
-  margin-bottom: 3.5rem;
-  /* padding: 20px 60px; */
+  margin-bottom: 5.5rem;
 }
 .addMed-container button {
   width: inherit;
 }
-
-/* Middle Column */
+/* Time Input */
 .middle-col > .container {
   padding: 20px 60px;
 }
-
 .dateTime-input1 {
   min-height: 100%;
   min-width: 100%;
@@ -89,6 +100,15 @@
 }
 
 /* Right Column */
+.history-col {
+  padding-right: 2rem;
+  padding-left: 2rem;
+  padding-bottom: 5rem;
+  padding-top: 1rem;
+  background-color: #eee;
+  /* border: 2px solid blueviolet; */
+}
+
 .outerHistory-card {
   margin: 10px 5px;
 }
@@ -103,9 +123,4 @@
   background-color: inherit;
   display: flex;
   align-items: center;
-}
-.download-btn {
-  margin-top: 1rem;
-  margin-bottom: 3.5rem;
-  width: inherit;
 }

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import axiosInstace from "../util/axios";
 
 import HistorySingleLog from "./HistorySingleLog";
-import DownloadDataModal from "./DownloadDataModal";
 
 function History(props) {
   const getData = props.getData;
   const setGetData = props.setGetData;
   const [data, setData] = useState([]);
-  const [showDownloadModal, setShowDownloadMoadal] = useState(false);
 
   useEffect(() => {
     if (data.length === 0 || getData === true) {
@@ -17,7 +15,7 @@ function History(props) {
         .get("logs/users_logs/")
         .then((response) => {
           console.log(response);
-          setData(response.data);
+          setData(response.data.reverse());
         })
         .catch((error) => console.log(error));
     }
@@ -28,27 +26,14 @@ function History(props) {
 
   return data.length > 0 ? (
     <>
-      <h4>Recent history</h4>
+      <h2>Your recent history</h2>
       {data.map((d) => {
         return (
-          <Card className="outerHistory-card" bg="secondary" key={d.id}>
+          <Card className="outerHistory-card" key={d.id}>
             <HistorySingleLog historyItem={d} />
           </Card>
         );
       })}
-
-      <Button
-        className="download-btn"
-        variant="outline-danger"
-        onClick={() => setShowDownloadMoadal(true)}
-      >
-        Download Data
-      </Button>
-
-      <DownloadDataModal
-        show={showDownloadModal}
-        setShow={setShowDownloadMoadal}
-      />
     </>
   ) : null;
 }

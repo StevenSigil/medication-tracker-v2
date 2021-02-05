@@ -35,7 +35,7 @@ function SingleMedication(props) {
     <Col xs={6} sm={4} md={3} lg={6} xl={4} className="med-col">
       <Button
         disabled={disabledButton}
-        variant={disabledButton ? "outline-secondary" : "secondary"}
+        variant={disabledButton ? "outline-primary" : "primary"}
         className="med-btn"
         onClick={handleClick}
       >

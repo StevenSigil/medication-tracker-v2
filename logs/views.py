@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 
+from rest_framework.settings import api_settings
+from rest_framework_csv.renderers import CSVRenderer
+
 from django.utils.timezone import datetime, timedelta
 
 from medications.models import Medication
@@ -26,8 +29,6 @@ class LogViewSet(viewsets.GenericViewSet):
         query = self.get_queryset()
         serializer = self.get_serializer(query, many=True)
         return Response(serializer.data)
-
-
 
     @action(methods=['POST', 'GET'], detail=False)
     def create_log(self, request, *args, **kwargs):
@@ -59,7 +60,9 @@ class LogViewSet(viewsets.GenericViewSet):
         Returns a list of the Log's a user has made from 2.5 days ago to now + 1 day.
         Used on the main interaction screen - limited amount of data for api.
         """
-        queryset = Log.objects.filter(user=request.user, time_taken__date__gte=datetime.now() - timedelta(days=3, hours=12), time_taken__date__lte=datetime.now() + timedelta(days=1))
+        queryset = Log.objects.filter(user=request.user,
+                                      time_taken__date__gte=datetime.now() - timedelta(days=3, hours=12),
+                                      time_taken__date__lte=datetime.now() + timedelta(days=1))
         data = self.get_serializer(queryset, many=True).data
         return Response(data, status=status.HTTP_200_OK)
 
@@ -84,14 +87,16 @@ class LogViewSet(viewsets.GenericViewSet):
             serializer = self.serializer_class(Log.objects.filter(user=request.user), many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
+            self.renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            start_date = serializer.validated_data.pop('start_time')
-            end_date = serializer.validated_data.pop('end_time')
+            start_date = serializer.validated_data.pop('start_date')
+            end_date = serializer.validated_data.pop('end_date')
             print(start_date, end_date)
-            query = Log.objects.filter(user=request.user, time_taken__date__gte=start_date, time_taken__date__lte=end_date)
-            final = self.serializer_class(query, many=True).data
-            return Response(final, status=status.HTTP_200_OK, content_type='csv')
+            query = Log.objects.filter(user=request.user, time_taken__date__gte=start_date,
+                                       time_taken__date__lte=end_date)
+            final = serializers.UsersCSVLogsSerializer(query, many=True).data
+            return Response(final, status=status.HTTP_200_OK, content_type="text/csv")
 
     def get_serializer_class(self):
         """

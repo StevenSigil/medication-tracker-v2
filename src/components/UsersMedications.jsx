@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Row, Container, Button } from "react-bootstrap";
-
 import axiosInstance from "../util/axios";
 
 import CreateMedModal from "./CreateMedModal";
@@ -27,7 +26,6 @@ function UsersMedications(props) {
 
   return (
     <>
-      <h4>Your medications</h4>
       <Row noGutters>
         {usersMedications.length !== 0
           ? usersMedications.map((med) => {

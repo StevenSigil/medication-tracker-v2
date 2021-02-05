@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "../public/css/main.css";
 
+import Heading from "./Heading";
 import UsersMedications from "./UsersMedications";
 import TimeInput from "./TimeInput";
 import ConfirmationForm from "./ConfirmationForm";
@@ -16,10 +17,7 @@ function Main() {
   const [disabledButton, setDisabledButton] = useState(true);
 
   const [submitData, setSubmitData] = useState({});
-
   var submitMedications = [];
-
-  // {"medication_quantities": [{"medication": UUID, "quantity": int},...], "time_taken": datetime.datetime}
 
   function addMedication(medAndQuantity) {
     // Adds the medication and quantity object from submitMedications (arr)
@@ -83,57 +81,52 @@ function Main() {
   return (
     <>
       <div className="main">
-        <Container fluid className="main-head">
-          <h1>The Drug Keep</h1>
-        </Container>
+        <Heading />
 
         <Row className="main-row">
           {/* LEFT COLUMN */}
-          <Col md={12} lg={4}>
-            <div>
-              <UsersMedications
-                addMedication={addMedication}
-                usersMedications={usersMedications}
-                setUsersMedications={setUsersMedications}
-                resetSignal={resetSignal}
-                setResetSignal={setResetSignal}
-                setDisabledButton={setDisabledButton}
-              />
+          <Col md={12} lg={5} className="usersMeds">
+            <div className="usersMeds-div">
+              <Container>
+                <h2>Add a new entry</h2>
+                <UsersMedications
+                  addMedication={addMedication}
+                  usersMedications={usersMedications}
+                  setUsersMedications={setUsersMedications}
+                  resetSignal={resetSignal}
+                  setResetSignal={setResetSignal}
+                  setDisabledButton={setDisabledButton}
+                />
+
+                <h2>Confirm the date and time taken</h2>
+                <TimeInput
+                  addTimeTaken={addTimeTaken}
+                  disabledButton={disabledButton}
+                />
+                <Row noGutters className="current-time-btn">
+                  <Button variant="outline-danger" onClick={resetSubmitData}>
+                    Start over
+                  </Button>
+                </Row>
+              </Container>
+
+              {confirmItems ? (
+                <ConfirmationForm
+                  confirmationItems={confirmItems}
+                  dateTime={confirmItems.slice(-1)}
+                  show={showConfirmLogModal}
+                  setShow={setShowConfirmLogModal}
+                  sendLog={sendLog}
+                />
+              ) : null}
             </div>
           </Col>
 
-          {/* MIDDLE COLUMN */}
-          <Col md={12} lg={4} className="middle-col">
-            <h4>Confirm the date and time taken</h4>
-
-            <Container>
-              <TimeInput
-                addTimeTaken={addTimeTaken}
-                disabledButton={disabledButton}
-              />
-              <Row noGutters className="current-time-btn">
-                <Button variant="outline-danger" onClick={resetSubmitData}>
-                  Start over
-                </Button>
-              </Row>
-            </Container>
-
-            {confirmItems ? (
-              <ConfirmationForm
-                confirmationItems={confirmItems}
-                dateTime={confirmItems.slice(-1)}
-                show={showConfirmLogModal}
-                setShow={setShowConfirmLogModal}
-                sendLog={sendLog}
-              />
-            ) : null}
-          </Col>
-
           {/* RIGHT COLUMN */}
-          <Col md={12} lg={4}>
-            <Container>
+          <Col md={12} lg={5}>
+            <div className="history-col">
               <History getData={getHistory} setGetData={setGetHistory} />
-            </Container>
+            </div>
           </Col>
         </Row>
       </div>
