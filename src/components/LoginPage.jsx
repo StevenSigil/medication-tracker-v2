@@ -22,6 +22,10 @@ function LoginPage(props) {
       .catch((error) => console.log(error));
   }
 
+  function goToRegisterPage() {
+    return (window.location = "/register/");
+  }
+
   return (
     <>
       <Card className="login-card">
@@ -60,6 +64,8 @@ function LoginPage(props) {
             </Button>
           </Form>
         </Card.Body>
+
+        <Button onClick={goToRegisterPage}>Register</Button>
       </Card>
     </>
   );

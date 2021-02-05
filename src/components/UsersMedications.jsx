@@ -19,7 +19,10 @@ function UsersMedications(props) {
       .get("medications/medication_to_user/")
       .then((response) => {
         console.log(response);
-        setUsersMedications(response.data);
+        if (response.data.length === 0) {
+          setUsersMedications([{id: 'x'}])
+        } else setUsersMedications(response.data);
+
       })
       .catch((error) => console.log(error));
   }

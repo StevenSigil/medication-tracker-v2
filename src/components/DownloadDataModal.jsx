@@ -6,9 +6,6 @@ function DownloadDataModal(props) {
   const show = props.show;
   const setShow = props.setShow;
 
-  console.log(document.getElementById("download-startDate"));
-  console.log(document.getElementById("download-endDate"));
-
   const currentDate = new Date().toISOString().slice(0, 10);
   const [startDate, setStartDate] = useState(currentDate);
   const [endDate, setEndDate] = useState(currentDate);
