@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+
+import django_heroku
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -23,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
 
-    # 'whitenoise.runserver_nostatic',  # Per whitenoise documentation
+    'whitenoise.runserver_nostatic',  # Per whitenoise documentation
     'django.contrib.staticfiles',
 
     'rest_framework',
@@ -36,8 +38,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',    # CORS Middleware
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Whitenoise Middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -45,6 +48,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -80,6 +87,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+CONN_MAX_AGE = 300
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -111,10 +119,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:8000"
 ]
+# Configuration for Heroku deployment
+django_heroku.settings(locals())
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-# STATICFILES_DIRS = []
+STATICFILES_DIRS = []
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
