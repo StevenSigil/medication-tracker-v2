@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "../public/css/main.css";
 
-import Heading from "./Heading";
+// import Heading from "./Heading";
 import UsersMedications from "./UsersMedications";
 import TimeInput from "./TimeInput";
 import ConfirmationForm from "./ConfirmationForm";
 import History from "./History";
 import axiosInstance from "../util/axios";
 
-function Main(props) {
+function Main() {
   const [usersMedications, setUsersMedications] = useState([]);
   const [showConfirmLogModal, setShowConfirmLogModal] = useState(false);
   const [confirmItems, setConfirmItems] = useState([]);
@@ -80,14 +80,12 @@ function Main(props) {
   return (
     <>
       <div className="main">
-        <Heading setLogin={props.setLogin} />
-
         <Row className="main-row">
           {/* LEFT COLUMN */}
           <Col md={12} lg={5} className="usersMeds">
             <div className="usersMeds-div">
               <Container>
-                <h2>Add a new entry</h2>
+                <h2>Add a new medication entry</h2>
                 <UsersMedications
                   addMedication={addMedication}
                   usersMedications={usersMedications}

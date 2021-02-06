@@ -57,6 +57,7 @@ h2 {
   /* border: 2px solid blueviolet; */
   padding-top: 1rem;
   margin-left: 1rem;
+  min-height: 95vh;
 }
 .usersMeds-div {
   padding-bottom: 5rem;
@@ -102,6 +103,7 @@ h2 {
 
 /* Right Column */
 .history-col {
+  min-height: 95vh;
   padding-right: 2rem;
   padding-left: 2rem;
   padding-bottom: 5rem;
@@ -126,9 +128,21 @@ h2 {
   align-items: center;
 }
 
-
-
-
-.password-help p{ 
+.password-help p {
   margin: 0;
+}
+
+/* BloodPressure */
+.bpForm-row {
+  margin-bottom: 5.5rem;
+}
+.BPHistory-note p {
+  text-align: start;
+  font-weight: 600;
+  margin: 0.5rem 0 8px;
+  border-bottom: 1px solid blueviolet;
+}
+.BPHistory-note > .container {
+  padding: 0 2rem;
+  text-align: start;
 }

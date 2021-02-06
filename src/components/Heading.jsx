@@ -7,8 +7,17 @@ function Heading(props) {
   const setLogin = props.setLogin;
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
+  const token = sessionStorage.getItem("Token");
+    if (token) {
+      axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
+    }
+
   function handleSelect(eventKey) {
-    if (eventKey === "download") {
+    if (eventKey === "medications") {
+      window.location = "/main/";
+    } else if (eventKey === "bp") {
+      window.location = "/bp/";
+    } else if (eventKey === "download") {
       setShowDownloadModal(true);
     } else if (eventKey === "logout") {
       handleLogout();
@@ -41,6 +50,12 @@ function Heading(props) {
           style={{ marginRight: "2rem" }}
         >
           <Nav onSelect={handleSelect}>
+            <Nav.Item>
+              <Nav.Link eventKey="medications">Medications</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="bp">Blood Pressure</Nav.Link>
+            </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="download">Download Data</Nav.Link>
             </Nav.Item>

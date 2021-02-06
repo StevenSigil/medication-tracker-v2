@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
-import axiosInstance from "../util/axios";
+import axiosInstance from "../../util/axios";
 
-import HistorySingleLog from "./HistorySingleLog";
+import BPHistorySingleLog from "./BPHistorySingleLog";
 
-function History(props) {
+function BPHistory(props) {
   const getData = props.getData;
   const setGetData = props.setGetData;
   const [data, setData] = useState([]);
@@ -12,12 +12,13 @@ function History(props) {
   useEffect(() => {
     if (data.length === 0 || getData === true) {
       axiosInstance
-        .get("logs/users_logs/")
+        .get("bp/get_post_bp_logs/")
         .then((response) => {
           console.log(response);
           if (response.data.length === 0) {
-            setData([{ id: null, name: null, strength: null, quantity: null }]);
+            setData([{ id: null, sys: null, dia: null, pulse: null }]);
           } else setData(response.data.reverse());
+
         })
         .catch((error) => console.log(error));
     }
@@ -33,7 +34,7 @@ function History(props) {
         {data.map((d) => {
           return (
             <Card className="outerHistory-card" key={d.id}>
-              <HistorySingleLog historyItem={d} />
+              <BPHistorySingleLog historyItem={d} />
             </Card>
           );
         })}
@@ -44,4 +45,4 @@ function History(props) {
   }
 }
 
-export default History;
+export default BPHistory;

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
+import Heading from "./components/Heading";
 import LoginPage from "./components/LoginPage";
 import RegistrationPage from "./components/RegistrationPage";
 import Main from "./components/Main";
+import BPMain from "./components/BloodPressureMain";
 
 import axiosInstance from "./util/axios";
 import "./App.css";
@@ -20,7 +22,12 @@ function App() {
       console.log("token");
       axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
       setIsLoggedIn(true);
-      return <Main setLogin={setIsLoggedIn} />;
+      return (
+        <>
+          <Heading setLogin={setIsLoggedIn} />
+          <Main />
+        </>
+      );
     } else {
       window.location = "/login/";
     }
@@ -39,6 +46,10 @@ function App() {
               )}
             </Route>
 
+            <Route exact path={"/register/"}>
+              <RegistrationPage checkForToken={checkForToken} />
+            </Route>
+
             <Route exact path={"/login/"}>
               {isLoggedIn ? (
                 <Redirect to="/main/" />
@@ -47,12 +58,14 @@ function App() {
               )}
             </Route>
 
-            <Route exact path={"/register/"}>
-              <RegistrationPage checkForToken={checkForToken} />
-            </Route>
-
             <Route exact path={"/main/"}>
               {checkForToken}
+            </Route>
+
+            <Route exact path={"/bp/"}>
+              <Heading setLogin={setIsLoggedIn} />
+
+              {window.sessionStorage.getItem('Token') ? <BPMain /> : <LoginPage/>}
             </Route>
           </Switch>
         </div>

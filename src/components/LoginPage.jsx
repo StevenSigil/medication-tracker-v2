@@ -25,8 +25,8 @@ function LoginPage(props) {
         checkForToken();
       })
       .catch((error) => {
-        // console.log(error.response.data);
-        handleErrMsg(error.response.data);
+        console.log(error);
+        // handleErrMsg(error.response.data);
       });
   }
 
