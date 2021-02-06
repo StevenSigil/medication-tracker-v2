@@ -13,11 +13,6 @@ function SubmitQuantityModal(props) {
     finishButtonInput({ medication: medID, quantity: quantity });
   }
 
-  function handleHotKey(quantity) {
-    setQuantity(quantity);
-    handleClose();
-  }
-
   return (
     <Modal animation={false} show={show} onHide={() => setShow(false)}>
       <Modal.Header>
@@ -25,7 +20,9 @@ function SubmitQuantityModal(props) {
       </Modal.Header>
 
       <Modal.Header style={{ paddingBottom: 0 }}>
-        <Modal.Title as="h5">{medName}:</Modal.Title>
+        <Modal.Title as="h5">
+          {medName}: {quantity}{" "}
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -45,7 +42,6 @@ function SubmitQuantityModal(props) {
       </Modal.Body>
 
       <Modal.Body>
-        {/* <Form.Label htmlFor="quantityFormInput"> {medName}: </Form.Label> */}
         <Form.Control as="select" onChange={(e) => setQuantity(e.target.value)}>
           {Array.from(Array(10).keys()).map((i) => {
             return (

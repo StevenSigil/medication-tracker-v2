@@ -9,12 +9,14 @@ import ConfirmationForm from "./ConfirmationForm";
 import History from "./History";
 import axiosInstance from "../util/axios";
 
-function Main() {
+function Main(props) {
   const [usersMedications, setUsersMedications] = useState([]);
   const [showConfirmLogModal, setShowConfirmLogModal] = useState(false);
   const [confirmItems, setConfirmItems] = useState([]);
   const [getHistory, setGetHistory] = useState(false);
   const [disabledButton, setDisabledButton] = useState(true);
+
+  const [resetSignal, setResetSignal] = useState(false);
 
   const [submitData, setSubmitData] = useState({});
   var submitMedications = [];
@@ -69,7 +71,6 @@ function Main() {
     }
   }
 
-  const [resetSignal, setResetSignal] = useState(false);
   function resetSubmitData() {
     setConfirmItems([]);
     setSubmitData({});
@@ -81,7 +82,7 @@ function Main() {
   return (
     <>
       <div className="main">
-        <Heading />
+        <Heading setLogin={props.setLogin} />
 
         <Row className="main-row">
           {/* LEFT COLUMN */}

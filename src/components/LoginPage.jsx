@@ -41,6 +41,7 @@ function LoginPage(props) {
                 // required
                 type="email"
                 placeholder="Email"
+                autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -55,6 +56,7 @@ function LoginPage(props) {
                 // minLength={4}
                 type="password"
                 placeholder="Password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

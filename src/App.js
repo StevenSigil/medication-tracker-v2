@@ -15,12 +15,15 @@ function App() {
     // Checks for a token in the broser and returns the
     //   user to either main if true or login if false.
     const token = sessionStorage.getItem("Token");
+
     if (token) {
+      console.log("token");
       axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
       setIsLoggedIn(true);
-      return <Redirect to="/main/" />;
+      return <Main setLogin={setIsLoggedIn} />;
     } else {
-      return <Redirect to="/login/" />;
+      console.log("noToken");
+      return (window.location = "/login/");
     }
   }
 
@@ -46,15 +49,12 @@ function App() {
             </Route>
 
             <Route exact path={"/register/"}>
-              {isLoggedIn ? (
-                <Redirect to="/main/" />
-              ) : (
-                <RegistrationPage checkForToken={checkForToken} />
-              )}
+              <RegistrationPage checkForToken={checkForToken} />
             </Route>
 
             <Route exact path={"/main/"}>
-              {!isLoggedIn ? checkForToken() : <Main />}
+              {/* {!isLoggedIn ? checkForToken : <Main />} */}
+              {checkForToken}
             </Route>
           </Switch>
         </div>

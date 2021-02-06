@@ -43,6 +43,7 @@ function RegistrationPage(props) {
                 // required
                 type="email"
                 placeholder="Email"
+                autoComplete="new-username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -57,6 +58,7 @@ function RegistrationPage(props) {
                 // minLength={4}
                 type="password"
                 placeholder="Password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -67,6 +69,7 @@ function RegistrationPage(props) {
                 // required
                 type="text"
                 placeholder="First name"
+                autoComplete="first-name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
@@ -77,6 +80,7 @@ function RegistrationPage(props) {
                 // required
                 type="text"
                 placeholder="Last name"
+                autoComplete="last-name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
