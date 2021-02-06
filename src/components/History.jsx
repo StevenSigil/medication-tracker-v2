@@ -15,7 +15,9 @@ function History(props) {
         .get("logs/users_logs/")
         .then((response) => {
           console.log(response);
-          setData(response.data.reverse());
+          if (response.data.length === 0) {
+            setData([{ id: null, name: null, strength: null, quantity: null }]);
+          } else setData(response.data.reverse());
         })
         .catch((error) => console.log(error));
     }

@@ -5,7 +5,6 @@ import SubmitQuantityModal from "./SubmitQuantityModal";
 function SingleMedication(props) {
   const med = props.medication;
   const addMedication = props.addMedication;
-  const setConfirmButtonDisabled = props.setDisabledButton;
   const resetSignal = props.resetSignal;
   const setResetSignal = props.setResetSignal;
   const [disabledButton, setDisabledButton] = useState(false);
@@ -14,7 +13,6 @@ function SingleMedication(props) {
   function handleClick() {
     setShowQuantityModal(true);
     setDisabledButton(true);
-    setConfirmButtonDisabled(false);
   }
 
   function finishButtonInput(obj) {
@@ -35,7 +33,7 @@ function SingleMedication(props) {
     <Col xs={6} sm={4} md={3} lg={6} xl={4} className="med-col">
       <Button
         disabled={disabledButton}
-        variant={disabledButton ? "outline-primary" : "primary"}
+        variant={disabledButton ? "primary" : "outline-primary"}
         className="med-btn"
         onClick={handleClick}
       >
@@ -46,6 +44,7 @@ function SingleMedication(props) {
       <SubmitQuantityModal
         show={showQuantityModal}
         setShow={setShowQuantityModal}
+        setResetSignal={setResetSignal}
         medName={med.name}
         medID={med.id}
         finishButtonInput={finishButtonInput}

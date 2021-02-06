@@ -32,7 +32,7 @@ h2 {
 
 /* CreateMedModal */
 .modal-content {
-  background-color: #e0e0e0;
+  background-color: rgb(255, 255, 255);
 }
 .createMedModal .modal-title {
   margin: 1.5rem auto 0.5rem;
@@ -77,7 +77,8 @@ h2 {
   margin-bottom: 5.5rem;
 }
 .addMed-container button {
-  width: inherit;
+  width: 45%;
+  margin: 0 2.5%;
 }
 /* Time Input */
 .middle-col > .container {
@@ -123,4 +124,11 @@ h2 {
   background-color: inherit;
   display: flex;
   align-items: center;
+}
+
+
+
+
+.password-help p{ 
+  margin: 0;
 }

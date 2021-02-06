@@ -15,10 +15,17 @@ class AuthViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny, ]
     serializer_class = serializers.EmptySerializer
     serializer_classes = {
+        'authenticate_user': serializers.AuthUserSerializer,
         'login': serializers.UserLoginSerializer,
         'register': serializers.UserRegisterSerializer,
         'password_change': serializers.PasswordChangeSerializer,
     }
+
+    @action(methods=['POST', ], detail=False, permission_classes=[IsAuthenticated, ])
+    def authenticate_user(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=['POST', ], detail=False)
     def login(self, request):
@@ -52,9 +59,7 @@ class AuthViewSet(viewsets.GenericViewSet):
         Performs a logout on the user instance. Returns a simple message.
         No serializer is declared, falls back to the EmptySerializer.
         """
-        print(request.user.is_anonymous)
         logout(request)
-        print(request.user.is_anonymous)
         data = {'success': 'Successfully logged out'}
         return Response(data=data, status=status.HTTP_200_OK)
 

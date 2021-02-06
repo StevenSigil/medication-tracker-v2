@@ -4,22 +4,50 @@ import { Modal, Button, Form } from "react-bootstrap";
 function SubmitQuantityModal(props) {
   const show = props.show;
   const setShow = props.setShow;
-  const medName = props.medName;
   const medID = props.medID;
+  const medName = props.medName;
+  const setResetSignal = props.setResetSignal;
   const finishButtonInput = props.finishButtonInput;
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(false);
 
   function handleClose() {
     finishButtonInput({ medication: medID, quantity: quantity });
   }
 
+  function handleCancel() {
+    setResetSignal(true);
+    setShow(false);
+  }
+
   return (
-    <Modal animation={false} show={show} onHide={() => setShow(false)}>
+    <Modal animation={false} show={show} onHide={handleCancel}>
       <Modal.Header>
         <Modal.Title>Please enter a quantity</Modal.Title>
       </Modal.Header>
+
+      <Modal.Header style={{ paddingBottom: 0 }}>
+        <Modal.Title as="h5">
+          {medName}: {quantity}{" "}
+        </Modal.Title>
+      </Modal.Header>
+
       <Modal.Body>
-        <Form.Label htmlFor="quantityFormInput"> {medName}: </Form.Label>
+        {Array.from(Array(4).keys()).map((n) => {
+          return (
+            <Button
+              className="med-btn"
+              style={{ margin: "2px" }}
+              key={n}
+              onClick={() => setQuantity(n + 1)}
+            >
+              {" "}
+              {n + 1}{" "}
+            </Button>
+          );
+        })}
+      </Modal.Body>
+
+      <Modal.Body>
         <Form.Control as="select" onChange={(e) => setQuantity(e.target.value)}>
           {Array.from(Array(10).keys()).map((i) => {
             return (

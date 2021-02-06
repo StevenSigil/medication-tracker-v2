@@ -42,13 +42,15 @@ function HistorySingleLog(props) {
       </Card.Header>
       <Card.Body>
         <ListGroup>
-          {item.medication_quantities.map((med) => {
-            return (
-              <ListGroup.Item key={med.id} className="history-listItem">
-                <InnerMap data={med} />
-              </ListGroup.Item>
-            );
-          })}
+          {item.medication_quantities
+            ? item.medication_quantities.map((med) => {
+                return (
+                  <ListGroup.Item key={med.id} className="history-listItem">
+                    <InnerMap data={med} />
+                  </ListGroup.Item>
+                );
+              })
+            : null}
         </ListGroup>
       </Card.Body>
     </>

@@ -9,37 +9,39 @@ import ConfirmationForm from "./ConfirmationForm";
 import History from "./History";
 import axiosInstance from "../util/axios";
 
-function Main() {
+function Main(props) {
   const [usersMedications, setUsersMedications] = useState([]);
   const [showConfirmLogModal, setShowConfirmLogModal] = useState(false);
   const [confirmItems, setConfirmItems] = useState([]);
   const [getHistory, setGetHistory] = useState(false);
   const [disabledButton, setDisabledButton] = useState(true);
 
+  const [submitMedications, setSubmitMedications] = useState([]);
   const [submitData, setSubmitData] = useState({});
-  var submitMedications = [];
+
+  const [resetSignal, setResetSignal] = useState(false);
 
   function addMedication(medAndQuantity) {
     // Adds the medication and quantity object from submitMedications (arr)
-    if (medAndQuantity) {
-      submitMedications.push(medAndQuantity);
-      console.log(submitMedications);
-    }
+    setSubmitMedications((prev) => {
+      return [...prev, medAndQuantity];
+    });
+    setDisabledButton(false);
   }
 
   function addTimeTaken(dT) {
-    // Convers the dateTime param from "yyy-mm-dd hh:mm:ss" to "yyyy-mm-ddThh:mm:sss.mmm(tz)"
-    // and adds it to 'submitData', if submitdata is OK, Confirmation Modal should appear.
+    // Converts the dateTime param from "yyy-mm-dd hh:mm:ss" to "yyyy-mm-ddThh:mm:sss.mmm(tz)"
+    // and adds it to 'submitData'. Confirmation Modal then will show.
     dT = dT.replace(" ", "T");
-    console.log(dT);
     dT = new Date(dT).toISOString();
     setSubmitData({ time_taken: dT, medication_quantities: submitMedications });
-
     PrepConfirmationForm(dT);
     setShowConfirmLogModal(true);
   }
 
   function PrepConfirmationForm(dateTime) {
+    // Adds the name and strength of the medications to each user selected option
+    //  then the time to overall list before submission
     const displayList = submitMedications.map((mq) => {
       usersMedications.forEach((med) => {
         if (med.id === mq.medication) {
@@ -54,34 +56,31 @@ function Main() {
   }
 
   function sendLog() {
-    if (submitData) {
-      console.log(submitData);
+    // Sends the pre-formatted log to backend.
+    axiosInstance
+      .post("logs/create_log/", submitData)
+      .then((response) => {
+        console.log(response);
+        setGetHistory(true);
+      })
+      .catch((error) => console.log(error));
 
-      axiosInstance
-        .post("logs/create_log/", submitData)
-        .then((response) => {
-          console.log(response);
-          setGetHistory(true);
-        })
-        .catch((error) => console.log(error));
-
-      resetSubmitData();
-    }
+    resetSubmitData();
   }
 
-  const [resetSignal, setResetSignal] = useState(false);
   function resetSubmitData() {
+    // Resets pretty much everything after a successful submission
     setConfirmItems([]);
     setSubmitData({});
     setDisabledButton(true);
     setResetSignal(true);
-    submitMedications.fill(null, 0);
+    setSubmitMedications([]);
   }
 
   return (
     <>
       <div className="main">
-        <Heading />
+        <Heading setLogin={props.setLogin} />
 
         <Row className="main-row">
           {/* LEFT COLUMN */}
@@ -95,7 +94,6 @@ function Main() {
                   setUsersMedications={setUsersMedications}
                   resetSignal={resetSignal}
                   setResetSignal={setResetSignal}
-                  setDisabledButton={setDisabledButton}
                 />
 
                 <h2>Confirm the date and time taken</h2>

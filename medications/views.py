@@ -16,6 +16,8 @@ class MedicationView(viewsets.GenericViewSet):
     serializer_classes = {
         'new_medication': serializers.MedicationCreateSerializer,
         'medication_to_user': serializers.UserAddRemoveFromMedication,
+        'remove_medication': serializers.UserAddRemoveFromMedication,
+        'delete_medication': serializers.UserAddRemoveFromMedication,
     }
 
     def list(self, request):
@@ -52,6 +54,32 @@ class MedicationView(viewsets.GenericViewSet):
         medications = request.user.medications_taking
         res_data = self.serializer_class(medications, many=True).data
         return Response(res_data, status=status.HTTP_202_ACCEPTED)
+
+    @action(methods=['GET', 'POST'], detail=False)
+    def remove_medication(self, request):
+        """
+        POST: Removes a medication instance from a users list of medications assuming medication.id is passed.
+        GET: Returns the medications a user is 'following'
+        """
+        if request.method == 'POST':
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            medication = Medication.objects.get(id=serializer.validated_data['id'])
+            medication.users_taking.remove(request.user)
+        medications = request.user.medications_taking
+        res_data = self.serializer_class(medications, many=True).data
+        return Response(res_data, status=status.HTTP_200_OK)
+
+    @action(methods=['GET', 'POST'], detail=False)
+    def delete_medication(self, request):
+        if request.method == 'POST':
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            medication = Medication.objects.get(id=serializer.validated_data['id'])
+            medication.delete()
+        medications = request.user.medications_taking
+        res_data = self.serializer_class(medications, many=True).data
+        return Response(res_data, status=status.HTTP_200_OK)
 
     def get_queryset(self):
         return Medication.objects.all()
