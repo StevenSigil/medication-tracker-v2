@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosInstance from "../util/axios";
 
-import { Button, Card, Form, Col } from "react-bootstrap";
+import { Button, Card, Form, Col, Container } from "react-bootstrap";
 
 function LoginPage(props) {
   const checkForToken = props.checkForToken;
@@ -19,13 +19,13 @@ function LoginPage(props) {
     axiosInstance
       .post("users/login", { email, password }, { with_credentials: true })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         var token = response.data.auth_token;
         sessionStorage.setItem("Token", token);
         checkForToken();
       })
       .catch((error) => {
-        console.log(error.response.data);
+        // console.log(error.response.data);
         handleErrMsg(error.response.data);
       });
   }
@@ -67,7 +67,7 @@ function LoginPage(props) {
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
-                  className={errMsg.email ? "is-invalid" : "is-valid"}
+                  className={errMsg.email ? "is-invalid" : null}
                   type="email"
                   placeholder="Email"
                   autoComplete="username"
@@ -81,7 +81,7 @@ function LoginPage(props) {
               <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
-                  className={errMsg.password ? "is-invalid" : "is-valid"}
+                  className={errMsg.password ? "is-invalid" : null}
                   type="password"
                   placeholder="Password"
                   autoComplete="current-password"
@@ -96,9 +96,14 @@ function LoginPage(props) {
                 Submit
               </Button>
             </Form>
-          </Card.Body>
+            {/* </Card.Body>
 
-          <Button onClick={goToRegisterPage}>Register</Button>
+          <Card.Body> */}
+            <Container fluid style={{padding: 'inherit', width: 'max-content', textAlign: 'center', marginTop: '3rem' }}>
+              <Card.Title>Not registered?</Card.Title>
+              <Button onClick={goToRegisterPage}>Register</Button>
+            </Container>
+          </Card.Body>
         </Card>
       </Col>
     </>

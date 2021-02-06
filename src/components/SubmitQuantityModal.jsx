@@ -4,8 +4,9 @@ import { Modal, Button, Form } from "react-bootstrap";
 function SubmitQuantityModal(props) {
   const show = props.show;
   const setShow = props.setShow;
-  const medName = props.medName;
   const medID = props.medID;
+  const medName = props.medName;
+  const setResetSignal = props.setResetSignal;
   const finishButtonInput = props.finishButtonInput;
   const [quantity, setQuantity] = useState(false);
 
@@ -13,8 +14,13 @@ function SubmitQuantityModal(props) {
     finishButtonInput({ medication: medID, quantity: quantity });
   }
 
+  function handleCancel() {
+    setResetSignal(true);
+    setShow(false);
+  }
+
   return (
-    <Modal animation={false} show={show} onHide={() => setShow(false)}>
+    <Modal animation={false} show={show} onHide={handleCancel}>
       <Modal.Header>
         <Modal.Title>Please enter a quantity</Modal.Title>
       </Modal.Header>

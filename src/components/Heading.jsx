@@ -5,11 +5,11 @@ import DownloadDataModal from "./DownloadDataModal";
 
 function Heading(props) {
   const setLogin = props.setLogin;
-  const [showDownloadModal, setShowDownloadMoadal] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   function handleSelect(eventKey) {
     if (eventKey === "download") {
-      setShowDownloadMoadal(true);
+      setShowDownloadModal(true);
     } else if (eventKey === "logout") {
       handleLogout();
     }
@@ -53,7 +53,7 @@ function Heading(props) {
 
       <DownloadDataModal
         show={showDownloadModal}
-        setShow={setShowDownloadMoadal}
+        setShow={setShowDownloadModal}
       />
     </>
   );

@@ -9,18 +9,6 @@ function RemoveMedicationModal(props) {
   const medications = props.selection;
   const getUsersMedications = props.getUsersMedications;
 
-  function handleRemove() {
-    medications.forEach((med) => {
-      axiosInstance
-        .post("medications/remove_medication/", { id: med.id })
-        .then((response) => {
-          console.log(response);
-          handleClose();
-        })
-        .catch((error) => console.log(error));
-    });
-  }
-
   function handleDelete() {
     medications.forEach((med) => {
       axiosInstance
@@ -33,6 +21,18 @@ function RemoveMedicationModal(props) {
     });
   }
 
+  // function handleRemove() {
+  //   medications.forEach((med) => {
+  //     axiosInstance
+  //       .post("medications/remove_medication/", { id: med.id })
+  //       .then((response) => {
+  //         console.log(response);
+  //         handleClose();
+  //       })
+  //       .catch((error) => console.log(error));
+  //   });
+  // }
+
   function handleClose() {
     setShow(false);
     resetModal();
@@ -43,10 +43,10 @@ function RemoveMedicationModal(props) {
     <>
       <Modal animation={false} show={show} onHide={handleClose}>
         <Modal.Header>
-          <Modal.Title>Confirm action</Modal.Title>
+          <Modal.Title style={{ margin: "auto" }}>Confirm action</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ marginBottom: "16px" }}>
-          <h5 style={{ textAlign: "center" }}>Your selection</h5>
+          <h5>Your selection</h5>
           <ul style={{ paddingLeft: "3rem", margin: "16px 0 16px" }}>
             {medications.map((med) => {
               return (
@@ -56,16 +56,21 @@ function RemoveMedicationModal(props) {
               );
             })}
           </ul>
-          <Button
-            style={{ position: "absolute", right: 16 }}
-            variant="secondary"
-            onClick={handleClose}
-          >
+        </Modal.Body>
+        <em style={{ margin: "-2rem 1rem 1rem" }}>
+          You will not be able to undo this action. Please confirm now.
+        </em>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
             Go back
           </Button>
-        </Modal.Body>
+          <Button onClick={handleDelete} variant="danger">
+            Confirm Delete
+          </Button>
+        </Modal.Footer>
 
-        <Modal.Header>
+        {/* <Modal.Header>
           <Modal.Title>What would you like to do?</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
@@ -86,7 +91,7 @@ function RemoveMedicationModal(props) {
           <Button onClick={handleDelete} variant="danger">
             Confirm Delete
           </Button>
-        </Modal.Body>
+        </Modal.Body> */}
       </Modal>
     </>
   );

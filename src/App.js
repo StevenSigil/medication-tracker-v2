@@ -12,7 +12,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function checkForToken() {
-    // Checks for a token in the broser and returns the
+    // Checks for a token in the browser and returns the
     //   user to either main if true or login if false.
     const token = sessionStorage.getItem("Token");
 
@@ -22,8 +22,7 @@ function App() {
       setIsLoggedIn(true);
       return <Main setLogin={setIsLoggedIn} />;
     } else {
-      console.log("noToken");
-      return (window.location = "/login/");
+      window.location = "/login/";
     }
   }
 
@@ -53,7 +52,6 @@ function App() {
             </Route>
 
             <Route exact path={"/main/"}>
-              {/* {!isLoggedIn ? checkForToken : <Main />} */}
               {checkForToken}
             </Route>
           </Switch>

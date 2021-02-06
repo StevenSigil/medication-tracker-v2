@@ -32,7 +32,7 @@ h2 {
 
 /* CreateMedModal */
 .modal-content {
-  background-color: #e0e0e0;
+  background-color: rgb(255, 255, 255);
 }
 .createMedModal .modal-title {
   margin: 1.5rem auto 0.5rem;

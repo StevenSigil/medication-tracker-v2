@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Row, Col } from "react-bootstrap";
 
 import RemoveMedicationModal from "./RemoveMedicationModal";
 
@@ -15,6 +15,8 @@ function ManageMedicationModal(props) {
       return [...prev, medication];
     });
     document.getElementById(medication.id).disabled = true;
+    document.getElementById(medication.id).classList =
+      "med-btn btn btn-primary";
   }
 
   function handleContinue() {
@@ -43,20 +45,29 @@ function ManageMedicationModal(props) {
         </Modal.Header>
         <Modal.Body>
           <p>Please select the medication(s) to manage:</p>
-          {usersMedications.map((med) => {
-            return (
-              <Button
-                className="med-btn"
-                style={{ margin: "2px" }}
-                key={med.id}
-                id={med.id}
-                onClick={() => handleClick(med)}
-              >
-                {med.name} <br />
-                {med.strength}
-              </Button>
-            );
-          })}
+          <Row noGutters>
+            {usersMedications.map((med) => {
+              return (
+                <Col
+                  xs={6}
+                  sm={4}
+                  key={med.id}
+                  className="med-col"
+                  style={{ textAlign: "center" }}
+                >
+                  <Button
+                    className="med-btn"
+                    variant="outline-primary"
+                    id={med.id}
+                    onClick={() => handleClick(med)}
+                  >
+                    {med.name} <br />
+                    {med.strength}
+                  </Button>
+                </Col>
+              );
+            })}
+          </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={resetModal}>
