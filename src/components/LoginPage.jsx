@@ -26,7 +26,9 @@ function LoginPage(props) {
       })
       .catch((error) => {
         console.log(error);
-        // handleErrMsg(error.response.data);
+        if (error.response) {
+          handleErrMsg(error.response.data);
+        }
       });
   }
 
@@ -99,7 +101,15 @@ function LoginPage(props) {
             {/* </Card.Body>
 
           <Card.Body> */}
-            <Container fluid style={{padding: 'inherit', width: 'max-content', textAlign: 'center', marginTop: '3rem' }}>
+            <Container
+              fluid
+              style={{
+                padding: "inherit",
+                width: "max-content",
+                textAlign: "center",
+                marginTop: "3rem",
+              }}
+            >
               <Card.Title>Not registered?</Card.Title>
               <Button onClick={goToRegisterPage}>Register</Button>
             </Container>

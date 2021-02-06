@@ -16,7 +16,7 @@ function BPHistory(props) {
         .then((response) => {
           console.log(response);
           if (response.data.length === 0) {
-            setData([{ id: null, sys: null, dia: null, pulse: null }]);
+            setData([{ id: null, sys: null, dia: null, pulse: null, note: "" }]);
           } else setData(response.data.reverse());
 
         })
