@@ -4,8 +4,8 @@ body {
 }
 
 .login-card {
-  max-width: 40%;
-  margin: 2rem auto;
+  /* max-width: ; */
+  margin: auto;
   min-height: 80vh;
   background-color: #eeeeeeb9;
 }
