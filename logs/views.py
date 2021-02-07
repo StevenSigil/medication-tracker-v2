@@ -80,23 +80,47 @@ class LogViewSet(viewsets.GenericViewSet):
     @action(methods=['POST', 'GET'], detail=False)
     def download_logs(self, request):
         """
-        View to allow a retrieval of logs.
-        Expecting request.data to be start and end dates for query formatted as %Y-%m-%d.
+        Allows a user to download data from Log instances (incl. med & quant) via POST req. containing a start/end date & time.
+        Expecting date/time format as "%Y-%m-%dT%H:%M:%S" - defaults to timezone.now()
         """
+        from django.http import HttpResponse
+        import csv
+
         if request.method == 'GET':
             serializer = self.serializer_class(Log.objects.filter(user=request.user), many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            self.renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
-            serializer = self.get_serializer(data=request.data)
+            serializer = self.get_serializer(data=request.data) # data = date/time input
             serializer.is_valid(raise_exception=True)
-            start_date = serializer.validated_data.pop('start_date')
-            end_date = serializer.validated_data.pop('end_date')
-            print(start_date, end_date)
-            query = Log.objects.filter(user=request.user, time_taken__date__gte=start_date,
-                                       time_taken__date__lte=end_date)
-            final = serializers.UsersCSVLogsSerializer(query, many=True).data
-            return Response(final, status=status.HTTP_200_OK, content_type="text/csv")
+            start = serializer.validated_data['start']
+            end = serializer.validated_data['end']
+
+            # Filter logs by user and time between start & end
+            med_logs = Log.objects.filter(user=request.user, time_taken__date__gte=start, time_taken__date__lte=end)
+            log_serializer = serializers.UsersCondensedLogsSerializer(med_logs, many=True).data # serializer returns log and meds instances
+
+            # Due to through model/nested serializer adding values manually to lists for retrieval.
+            final_values = []
+            for log in log_serializer:
+                med_q = log['medication_quantities']
+                for mq in med_q:
+                    group_values = []
+                    group_values.append(log['time_taken'])
+                    group_values.append(mq['name'])
+                    group_values.append(mq['strength'])
+                    group_values.append(mq['quantity'])
+                    final_values.append(group_values)
+
+            # Prep CSV document as 'response' object
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="users.csv"'
+            writer = csv.writer(response)
+            writer.writerow(['date_time', 'medication', 'dosage per', 'quantity'])
+
+            # Writes data from above to csv response obj. and returns as downloadable file.
+            for value in final_values:
+                writer.writerow(value)
+            return response
 
     def get_serializer_class(self):
         """
