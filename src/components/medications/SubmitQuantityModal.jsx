@@ -16,6 +16,7 @@ function SubmitQuantityModal(props) {
 
   function handleCancel() {
     setResetSignal(true);
+    setQuantity(false);
     setShow(false);
   }
 
@@ -36,7 +37,8 @@ function SubmitQuantityModal(props) {
           return (
             <Button
               className="med-btn"
-              style={{ margin: "2px" }}
+              disabled={quantity === n + 1}
+              variant={quantity !== n + 1 ? "outline-primary" : "primary"}
               key={n}
               onClick={() => setQuantity(n + 1)}
             >

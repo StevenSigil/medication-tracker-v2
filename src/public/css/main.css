@@ -54,7 +54,6 @@ h2 {
 /* Left column */
 .usersMeds {
   background-color: #eee;
-  /* border: 2px solid blueviolet; */
   padding-top: 1rem;
   margin-left: 1rem;
   min-height: 95vh;
@@ -71,6 +70,7 @@ h2 {
   min-width: 7rem;
   height: auto;
   padding: 1rem;
+  margin: 2px;
 }
 /* add medication button */
 .addMed-container {
@@ -109,11 +109,12 @@ h2 {
   padding-bottom: 5rem;
   padding-top: 1rem;
   background-color: #eee;
-  /* border: 2px solid blueviolet; */
 }
-
 .outerHistory-card {
-  margin: 10px 5px;
+  margin: 1rem 5px;
+}
+.outerHistory-card > .card-header {
+  border-bottom-style: none;
 }
 .outerHistory-card .card-body {
   padding: 0.5rem 0.5rem;
@@ -128,21 +129,41 @@ h2 {
   align-items: center;
 }
 
-.password-help p {
-  margin: 0;
-}
-
 /* BloodPressure */
 .bpForm-row {
   margin-bottom: 5.5rem;
 }
+.bpHistory-vitals {
+  font-weight: 500;
+}
+.BPHistory-listGroup {
+  padding-bottom: 1rem;
+}
 .BPHistory-note p {
   text-align: start;
-  font-weight: 600;
-  margin: 0.5rem 0 8px;
+  font-weight: 500;
+  margin: 0.5rem 0 0.5rem;
   border-bottom: 1px solid blueviolet;
 }
 .BPHistory-note > .container {
   padding: 0 2rem;
   text-align: start;
+}
+
+/* Download Data Modal(s) */
+.doubleButton-body {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+.doubleButton-container {
+  display: inline-flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+}
+.download-form > .form-group {
+  margin-bottom: 16px;
+}
+.downloadButton-footer {
+  padding-bottom: 0;
 }

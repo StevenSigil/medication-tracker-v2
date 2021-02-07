@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from "../util/axios";
+import axiosInstance from "../../util/axios";
 
 import { Button, Card, Form, Col, Container } from "react-bootstrap";
 
@@ -25,7 +25,7 @@ function LoginPage(props) {
         checkForToken();
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         if (error.response) {
           handleErrMsg(error.response.data);
         }

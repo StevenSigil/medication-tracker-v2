@@ -37,7 +37,7 @@ function Heading(props) {
   return (
     <>
       <Navbar className="customNav" expand="lg">
-        <Navbar.Brand href="#" style={{ margin: "0 2rem" }}>
+        <Navbar.Brand href="/main/" style={{ margin: "0 2rem" }}>
           <h2 style={{ margin: "auto" }}>The Drug Keep</h2>
         </Navbar.Brand>
         <Navbar.Toggle

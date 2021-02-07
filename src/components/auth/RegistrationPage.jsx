@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from "../util/axios";
+import axiosInstance from "../../util/axios";
 import { Card, Form, Button, Col } from "react-bootstrap";
 
 function RegistrationPage(props) {

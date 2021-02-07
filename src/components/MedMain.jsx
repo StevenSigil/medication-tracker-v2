@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "../public/css/main.css";
 
-// import Heading from "./Heading";
-import UsersMedications from "./UsersMedications";
+import UsersMedications from "./medications/UsersMedications";
 import TimeInput from "./TimeInput";
-import ConfirmationForm from "./ConfirmationForm";
-import History from "./History";
+import ConfirmationForm from "./medications/ConfirmationForm";
+import MEDHistory from "./medications/MEDHistory";
 import axiosInstance from "../util/axios";
 
-function Main() {
+function MEDMain() {
   const [usersMedications, setUsersMedications] = useState([]);
   const [showConfirmLogModal, setShowConfirmLogModal] = useState(false);
   const [confirmItems, setConfirmItems] = useState([]);
@@ -69,7 +68,7 @@ function Main() {
   }
 
   function resetSubmitData() {
-    // Resets pretty much everything after a successful submission
+    // Resets pretty much everything after a successful Log submission
     setConfirmItems([]);
     setSubmitData({});
     setDisabledButton(true);
@@ -121,7 +120,7 @@ function Main() {
           {/* RIGHT COLUMN */}
           <Col md={12} lg={5}>
             <div className="history-col">
-              <History getData={getHistory} setGetData={setGetHistory} />
+              <MEDHistory getData={getHistory} setGetData={setGetHistory} />
             </div>
           </Col>
         </Row>
@@ -130,4 +129,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default MEDMain;

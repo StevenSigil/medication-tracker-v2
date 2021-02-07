@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
-import axiosInstance from "../util/axios";
+import axiosInstance from "../../util/axios";
 
-import HistorySingleLog from "./HistorySingleLog";
+import MEDHistorySingleLog from "./MEDHistorySingleLog";
 
-function History(props) {
+function MEDHistory(props) {
   const getData = props.getData;
   const setGetData = props.setGetData;
   const [data, setData] = useState([]);
@@ -33,7 +33,7 @@ function History(props) {
         {data.map((d) => {
           return (
             <Card className="outerHistory-card" key={d.id}>
-              <HistorySingleLog historyItem={d} />
+              <MEDHistorySingleLog historyItem={d} />
             </Card>
           );
         })}
@@ -44,4 +44,4 @@ function History(props) {
   }
 }
 
-export default History;
+export default MEDHistory;

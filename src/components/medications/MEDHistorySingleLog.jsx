@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, ListGroup, Col } from "react-bootstrap";
 
-function HistorySingleLog(props) {
+function MEDHistorySingleLog(props) {
   const item = props.historyItem;
 
   var dateTime = new Date(Date.parse(item.time_taken));
@@ -57,4 +57,4 @@ function HistorySingleLog(props) {
   ) : null;
 }
 
-export default HistorySingleLog;
+export default MEDHistorySingleLog;

@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Container } from "react-bootstrap";
-import axiosInstance from "../util/axios";
+import axiosInstance from "../../util/axios";
 
 function CreateMedModal(props) {
   const show = props.show;
   const setShow = props.setShow;
 
-  const [name, setName] = useState("");
-  const [strength, setStrength] = useState("");
+  const [inputData, setInputData] = useState({
+    name: "",
+    strength: "",
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setInputData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  }
 
   function prepData(name, strength) {
+    // Prepares the data before sending to backend.
     var data = {};
     name = name.toLowerCase();
-    console.log(name);
     strength = strength.toLowerCase();
-    console.log(strength);
     data.name = name;
     data.strength = strength;
     return data;
@@ -22,8 +34,8 @@ function CreateMedModal(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const data = prepData(name, strength);
-
+    
+    const data = prepData(inputData.name, inputData.strength);
     axiosInstance
       .post("medications/new_medication/", data)
       .then((response) => {
@@ -36,7 +48,7 @@ function CreateMedModal(props) {
   function resetModal() {
     // Closes the modal, resets the input and refreshes the list of users medications
     setShow(false);
-    setName("");
+    setInputData({ name: "", strength: "" });
     props.getUsersMedications();
   }
 
@@ -57,16 +69,18 @@ function CreateMedModal(props) {
               <Form.Control
                 type="text"
                 placeholder="Enter the medication name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                name="name"
+                value={inputData.name}
+                onChange={handleChange}
               />
             </Form.Group>
             <Form.Group controlId="createModalStrength">
               <Form.Control
                 type="text"
                 placeholder="Enter the medication strength"
-                value={strength}
-                onChange={(e) => setStrength(e.target.value)}
+                name="strength"
+                value={inputData.strength}
+                onChange={handleChange}
               />
             </Form.Group>
             <Container className="btn-container">

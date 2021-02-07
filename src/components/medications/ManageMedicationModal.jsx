@@ -20,15 +20,27 @@ function ManageMedicationModal(props) {
   }
 
   function handleContinue() {
-    setShowRemoveModal(true);
-    setShow(false);
+    if (medicationsClicked.length < 1) {
+      alert("Please select a medication to continue.");
+    } else {
+      setShowRemoveModal(true);
+      setShow(false);
+    }
   }
 
   function resetChoices() {
     medicationsClicked.forEach((med) => {
       var medID = med.id;
       document.getElementById(medID).disabled = false;
+      document.getElementById(medID).classList =
+        "med-btn btn btn-outline-primary";
     });
+    setMedicationsClicked([]);
+  }
+
+  function backToThisModal() {
+    setShowRemoveModal(false);
+    setShow(true);
     setMedicationsClicked([]);
   }
 
@@ -56,6 +68,7 @@ function ManageMedicationModal(props) {
                   style={{ textAlign: "center" }}
                 >
                   <Button
+                    hidden={!med.name}
                     className="med-btn"
                     variant="outline-primary"
                     id={med.id}
@@ -86,6 +99,7 @@ function ManageMedicationModal(props) {
         show={showRemoveModal}
         setShow={setShowRemoveModal}
         resetModal={resetModal}
+        goBack={backToThisModal}
         selection={medicationsClicked}
         getUsersMedications={props.getUsersMedications}
       />

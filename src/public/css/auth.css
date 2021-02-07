@@ -27,3 +27,7 @@ body {
 .login-card .form-group {
   margin-bottom: 1rem;
 }
+
+.password-help p {
+  margin: 0;
+}

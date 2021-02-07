@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
-import axiosInstance from "../util/axios";
+import { Modal, Button, Container } from "react-bootstrap";
 
 import MedDownloadForm from "./medications/MedDownloadForm";
 import BPDownloadForm from "./bp/BPDownloadForm";
@@ -9,18 +8,12 @@ function DownloadDataModal(props) {
   const show = props.show;
   const setShow = props.setShow;
 
-  const currentDate = new Date().toISOString().slice(0, 10);
-
   const [showButtons, setShowButtons] = useState(true);
   const [formComp, setFormComp] = useState("");
 
   function handleClick(screen) {
     setFormComp(screen);
     setShowButtons(false);
-  }
-
-  function Forms() {
-    return formComp === "med" ? <MedDownloadForm /> : <BPDownloadForm />;
   }
 
   function handleClose() {
@@ -33,19 +26,32 @@ function DownloadDataModal(props) {
     <>
       <Modal animation={false} show={show} onHide={handleClose}>
         <Modal.Header>
-          <Modal.Title>Download your history</Modal.Title>
+          <Modal.Title>Download your {formComp} history</Modal.Title>
         </Modal.Header>
 
         {showButtons ? (
           <>
-            <Modal.Body>
-              <Button onClick={() => handleClick("med")}>Medications</Button>
-              <Button onClick={() => handleClick("bp")}>Blood Pressure</Button>
+            <Modal.Body className="doubleButton-body">
+              <p>Please select a data-set</p>
+
+              <Container className="doubleButton-container">
+                <Button onClick={() => handleClick("medication")}>
+                  Medications
+                </Button>
+
+                <Button onClick={() => handleClick("bp")}>
+                  Blood Pressure
+                </Button>
+              </Container>
             </Modal.Body>
           </>
         ) : (
           <Modal.Body>
-            <Forms />
+            {formComp === "medication" ? (
+              <MedDownloadForm handleClose={handleClose} />
+            ) : (
+              <BPDownloadForm handleClose={handleClose} />
+            )}
           </Modal.Body>
         )}
       </Modal>

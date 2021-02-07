@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import Heading from "./components/Heading";
-import LoginPage from "./components/LoginPage";
-import RegistrationPage from "./components/RegistrationPage";
-import Main from "./components/Main";
+import LoginPage from "./components/auth/LoginPage";
+import RegistrationPage from "./components/auth/RegistrationPage";
+import MedMain from "./components/MedMain";
 import BPMain from "./components/BloodPressureMain";
 
 import axiosInstance from "./util/axios";
-import "./App.css";
+import "./public/css/auth.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,7 +25,7 @@ function App() {
       return (
         <>
           <Heading setLogin={setIsLoggedIn} />
-          <Main />
+          <MedMain />
         </>
       );
     } else {

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Row, Container, Button } from "react-bootstrap";
-import axiosInstance from "../util/axios";
+import axiosInstance from "../../util/axios";
 
 import CreateMedModal from "./CreateMedModal";
-// import SearchMedModal from "./SearchMedModal";
 import ManageMedicationModal from "./ManageMedicationModal";
 import SingleMedication from "./SingleMedication";
 
@@ -11,12 +10,11 @@ function UsersMedications(props) {
   const usersMedications = props.usersMedications;
   const setUsersMedications = props.setUsersMedications;
 
-  // const [showSearchModal, setShowSearchModal] = useState(false);
   const [showCreateMedModal, setShowCreateMedModal] = useState(false);
   const [showManageMedModal, setShowManageMedModal] = useState(false);
 
   function getUsersMedications() {
-    // Sets the medications the user wants on there dashboard
+    // Sets the medications on the users dashboard
     axiosInstance
       .get("medications/medication_to_user/")
       .then((response) => {

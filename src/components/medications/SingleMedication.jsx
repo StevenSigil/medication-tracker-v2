@@ -32,6 +32,7 @@ function SingleMedication(props) {
   return (
     <Col xs={6} sm={4} md={3} lg={6} xl={4} className="med-col">
       <Button
+        hidden={!med.name}
         disabled={disabledButton}
         variant={disabledButton ? "primary" : "outline-primary"}
         className="med-btn"

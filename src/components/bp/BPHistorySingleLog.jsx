@@ -22,7 +22,7 @@ function BPHistorySingleLog(props) {
       <Card.Body>
         <ListGroup>
           <ListGroup.Item>
-            <Row noGutters>
+            <Row noGutters className='bpHistory-vitals'>
               <Col>Systolic</Col>
               <Col>Diastolic</Col>
               <Col>Pulse</Col>
@@ -33,7 +33,7 @@ function BPHistorySingleLog(props) {
               <Col>{item.pulse}</Col>
             </Row>
           </ListGroup.Item>
-          <ListGroup.Item>
+          <ListGroup.Item className="BPHistory-listGroup">
             {item.note.length > 0 ? (
               <Row noGutters className="BPHistory-note">
                 <p>Note:</p>

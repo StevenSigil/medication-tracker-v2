@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Container, Col, Card } from "react-bootstrap";
-import axiosInstance from "../util/axios";
+import axiosInstance from "../../util/axios";
 
 function SearchMedModal(props) {
   const show = props.show;

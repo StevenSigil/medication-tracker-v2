@@ -3,10 +3,11 @@ import { Modal, Button, Form } from "react-bootstrap";
 
 import axiosInstance from "../../util/axios";
 
-function MedDownloadForm() {
+function MedDownloadForm(props) {
+  const handleClose = props.handleClose;
   const [data, setData] = useState({
-    start: "",
-    end: "",
+    start: new Date().toISOString().split("T")[0],
+    end: new Date().toISOString().split("T")[0],
   });
 
   function convertTime(input) {
@@ -29,19 +30,23 @@ function MedDownloadForm() {
   }
 
   function handleSubmit() {
+    // Returns the downloaded data object
+
     const start = convertTime(data.start);
     const end = convertTime(data.end);
+
+    // Set the file name to include start/end times for user convenience
+    const fileName =
+      "medications_" + start.slice(0, 10) + "_" + end.slice(0, 10) + ".csv";
 
     axiosInstance
       .post("logs/download_logs/", { start: start, end: end })
       .then((response) => {
+        // Prep the response to proper downloaded text doc.
         let blob = new Blob([response.data]);
         let link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
-        link.setAttribute(
-          "download",
-          "medication-" + start.slice(0, 10) + "--" + end.slice(0, 10) + ".csv"
-        );
+        link.setAttribute("download", fileName);
         document.body.appendChild(link);
         link.click();
       })
@@ -50,34 +55,39 @@ function MedDownloadForm() {
 
   return (
     <>
-      
-        <p>Please select a start and end date to download</p>
-        <Form>
-          <Form.Group>
-            <Form.Label>Start Date</Form.Label>
-            <Form.Control
-              id="download-MED-startDate"
-              type="date"
-              name="start"
-              value={data.start}
-              onChange={handleChange}
-              aria-label="Start Date"
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>End Date</Form.Label>
-            <Form.Control
-              id="download-MED-endDate"
-              type="date"
-              name="end"
-              value={data.end}
-              onChange={handleChange}
-              aria-label="End Date"
-            />
-          </Form.Group>
-        </Form>
-      
-      <Modal.Footer>
+      <p style={{ textAlign: "center" }}>
+        Please select a start and end date to download
+      </p>
+      <Form className="download-form">
+        <Form.Group>
+          <Form.Label>Start Date</Form.Label>
+          <Form.Control
+            id="download-MED-startDate"
+            type="date"
+            name="start"
+            value={data.start}
+            onChange={handleChange}
+            aria-label="Start Date"
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>End Date</Form.Label>
+          <Form.Control
+            id="download-MED-endDate"
+            type="date"
+            name="end"
+            value={data.end}
+            onChange={handleChange}
+            aria-label="End Date"
+          />
+        </Form.Group>
+      </Form>
+
+      <Modal.Footer className="downloadButton-footer">
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+
         <Button variant="success" onClick={handleSubmit}>
           Download
         </Button>

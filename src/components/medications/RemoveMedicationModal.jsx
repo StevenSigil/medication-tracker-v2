@@ -1,11 +1,12 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
-import axiosInstance from "../util/axios";
+import { Modal, Button, Container } from "react-bootstrap";
+import axiosInstance from "../../util/axios";
 
 function RemoveMedicationModal(props) {
   const show = props.show;
   const setShow = props.setShow;
   const resetModal = props.resetModal;
+  const goBack = props.goBack;
   const medications = props.selection;
   const getUsersMedications = props.getUsersMedications;
 
@@ -21,6 +22,8 @@ function RemoveMedicationModal(props) {
     });
   }
 
+  // POSSIBLE DEPRECATION OF FEATURE.
+  //
   // function handleRemove() {
   //   medications.forEach((med) => {
   //     axiosInstance
@@ -45,9 +48,10 @@ function RemoveMedicationModal(props) {
         <Modal.Header>
           <Modal.Title style={{ margin: "auto" }}>Confirm action</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ marginBottom: "16px" }}>
+        <Modal.Body>
           <h5>Your selection</h5>
-          <ul style={{ paddingLeft: "3rem", margin: "16px 0 16px" }}>
+
+          <Container>
             {medications.map((med) => {
               return (
                 <li key={med.id}>
@@ -55,14 +59,24 @@ function RemoveMedicationModal(props) {
                 </li>
               );
             })}
-          </ul>
+          </Container>
         </Modal.Body>
-        <em style={{ margin: "-2rem 1rem 1rem" }}>
-          You will not be able to undo this action. Please confirm now.
-        </em>
+        <Modal.Body style={{ marginBottom: "16px" }}>
+          <h5>Warning</h5>
+          <Container>
+            <h6>
+              This action will remove the above medication(s) from ALL your log
+              entries.
+            </h6>
+
+            <em>
+              You will not be able to undo this action. Please confirm now.
+            </em>
+          </Container>
+        </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={goBack}>
             Go back
           </Button>
           <Button onClick={handleDelete} variant="danger">
@@ -70,7 +84,8 @@ function RemoveMedicationModal(props) {
           </Button>
         </Modal.Footer>
 
-        {/* <Modal.Header>
+        {/* POSSIBLE DEPRECATION OF FEATURE.
+        <Modal.Header>
           <Modal.Title>What would you like to do?</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>

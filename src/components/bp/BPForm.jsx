@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Form, Button, Row } from "react-bootstrap";
+import React from "react";
+import { Form, Row } from "react-bootstrap";
 
 function BPForm(props) {
   const inputData = props.inputData;
@@ -19,6 +19,7 @@ function BPForm(props) {
   }
 
   function checkData() {
+    // Checks to make sure the required data is included in the form before submission
     if (
       inputData.sys.length > 0 &&
       inputData.dia.length > 0 &&
@@ -30,7 +31,7 @@ function BPForm(props) {
 
   return (
     <>
-      <Row noGutters className='bpForm-row'>
+      <Row noGutters className="bpForm-row">
         <Form>
           <Form.Group controlId="CreateBPLog-sys">
             <Form.Label>Systolic (top)</Form.Label>
