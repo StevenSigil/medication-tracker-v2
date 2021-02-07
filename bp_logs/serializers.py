@@ -15,3 +15,8 @@ class BPLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = BPLog
         fields = ('id', 'user', 'date_time', 'sys', 'dia', 'pulse', 'note')
+
+
+class DateTimeSerializer(serializers.Serializer):
+    start = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())
+    end = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())

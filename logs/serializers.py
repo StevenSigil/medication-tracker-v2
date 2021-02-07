@@ -59,8 +59,8 @@ class DeleteLogSerializer(serializers.Serializer):
 
 
 class StartEndTime(serializers.Serializer):
-    start_date = serializers.DateField(format="%Y-%m-%d")
-    end_date = serializers.DateField(format="%Y-%m-%d")
+    start = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())
+    end = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())
 
 
 class UsersCSVLogsSerializer(serializers.ModelSerializer):
