@@ -60,7 +60,6 @@ class BPLogView(viewsets.GenericViewSet):
             end = serializer.validated_data['end']
             time_offset = serializer.validated_data['time_offset']
             time_delta = timezone.timedelta(minutes=time_offset)
-            print(time_offset)
 
             # Retrieves the BPLog's between start/end date/time(s) 
             bp_logs = BPLog.objects.filter(user=request.user, date_time__date__gte=start, date_time__date__lte=end)
@@ -75,9 +74,7 @@ class BPLogView(viewsets.GenericViewSet):
             # Formats and writes Log object to csv response before returning as downloadable file.
             for log in bp_filtered_values:
                 log = list(log)
-                print(log[0])
                 converter = log[0] - time_delta
-                print(converter)
                 log[0] = converter.date()
                 log.insert(1, converter.time())
                 writer.writerow(log)

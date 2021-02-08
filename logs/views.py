@@ -96,7 +96,7 @@ class LogViewSet(viewsets.GenericViewSet):
             start = serializer.validated_data['start']
             end = serializer.validated_data['end']
             time_offset = serializer.validated_data['time_offset']
-            time_delta = timezone.timedelta(hours=time_offset)
+            time_delta = timezone.timedelta(minutes=time_offset)
 
             # Filter logs by user and time between start & end
             med_logs = Log.objects.filter(user=request.user, time_taken__date__gte=start, time_taken__date__lte=end)
@@ -113,8 +113,8 @@ class LogViewSet(viewsets.GenericViewSet):
                 med_q = log['medication_quantities']
                 for mq in med_q:
                     group_values = []
-                    # Split the 'time_taken' field into separate date & time values for export.
-                    converter = timezone.datetime.strptime(log['time_taken'], "%Y-%m-%dT%H:%M:%S.%fZ") + time_delta
+                    # Split the 'time_taken' field into separate date & time then writes csv rows.
+                    converter = timezone.datetime.strptime(log['time_taken'], "%Y-%m-%dT%H:%M:%S.%fZ") - time_delta
                     group_values.append(converter.date())
                     group_values.append(converter.time())
                     group_values.append(mq['name'])

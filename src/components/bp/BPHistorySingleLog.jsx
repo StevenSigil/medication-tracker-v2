@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, ListGroup, Col, Row, Container } from "react-bootstrap";
+import ISODateTimeToLocalView from "../../util/dateTime";
 
 function BPHistorySingleLog(props) {
   const item = props.historyItem;
 
-  const d = new Date(item.date_time);
-  const offsetMs = d.getTimezoneOffset() * 60 * 1000;
-  const dateLocal = new Date(d.getTime() - offsetMs);
-  const dateTime = dateLocal.toLocaleString().split(", ");
+  // Preparing date/time from item to user's local time.
+  var dateTime = new Date(Date.parse(item.date_time));
+  dateTime = dateTime.toLocaleString().split(", ");
   const date = dateTime[0];
   const time = dateTime[1];
 
@@ -22,7 +22,7 @@ function BPHistorySingleLog(props) {
       <Card.Body>
         <ListGroup>
           <ListGroup.Item>
-            <Row noGutters className='bpHistory-vitals'>
+            <Row noGutters className="bpHistory-vitals">
               <Col>Systolic</Col>
               <Col>Diastolic</Col>
               <Col>Pulse</Col>

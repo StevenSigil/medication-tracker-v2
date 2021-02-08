@@ -26,24 +26,30 @@ function BPDownloadForm(props) {
   }
 
   function handleSubmit() {
-    // Returns the downloaded data object on submit.
+    // Submits start/end dates to backend and returns the downloaded csv file.
+
+    // Use .util function to change users local (displayed) date/time to API valid date/time
     const startDateTime = localSplitDTStringToISO(
       data.start,
-      new Date().toLocaleTimeString().slice(0, 8)
+      new Date().toISOString().slice(11)
     );
 
     const endDateTime = localSplitDTStringToISO(
       data.end,
-      new Date().toLocaleTimeString().slice(0, 8)
+      new Date().toISOString().slice(11)
     );
 
     // Set the file name to include start/end times for user convenience
     const fileName = "blood-pressure_" + data.start + "_" + data.end + ".csv";
 
     axiosInstance
-      .post("bp/bp_csv/", { start: startDateTime, end: endDateTime, data, time_offset: data.time_offset })
+      .post("bp/bp_csv/", {
+        start: startDateTime,
+        end: endDateTime,
+        time_offset: data.time_offset,
+      })
       .then((response) => {
-        // Prep the response to proper downloaded text doc.
+        // Prep the response to downloaded text document
         let blob = new Blob([response.data]);
         let link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);

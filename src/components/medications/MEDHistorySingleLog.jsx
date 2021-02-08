@@ -4,6 +4,7 @@ import { Card, ListGroup, Col } from "react-bootstrap";
 function MEDHistorySingleLog(props) {
   const item = props.historyItem;
 
+  // Preparing date/time from item to user's local time.
   var dateTime = new Date(Date.parse(item.time_taken));
   dateTime = dateTime.toLocaleString().split(", ");
   const date = dateTime[0];

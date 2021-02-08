@@ -1,23 +1,19 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
+import ISODateTimeToLocalView, {
+  localSplitDTStringToISO,
+} from "../../util/dateTime";
 import axiosInstance from "../../util/axios";
 
 function MedDownloadForm(props) {
   const handleClose = props.handleClose;
-  const [data, setData] = useState({
-    start: new Date().toISOString().split("T")[0],
-    end: new Date().toISOString().split("T")[0],
-  });
 
-  function convertTime(input) {
-    // Used to append data to input before sending to api
-    console.log(input);
-    input = input.split("-");
-    var date = new Date().setFullYear(input[0], input[1] - 1, input[2]);
-    date = new Date(date).toISOString();
-    return date;
-  }
+  const [data, setData] = useState({
+    start: ISODateTimeToLocalView().date,
+    end: ISODateTimeToLocalView().date,
+    time_offset: new Date().getTimezoneOffset(),
+  });
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -32,15 +28,26 @@ function MedDownloadForm(props) {
   function handleSubmit() {
     // Returns the downloaded data object
 
-    const start = convertTime(data.start);
-    const end = convertTime(data.end);
+    // Use .util function to change users local (displayed) date/time to API valid date/time
+    const startDateTime = localSplitDTStringToISO(
+      data.start,
+      new Date().toISOString().slice(11)
+    );
+
+    const endDateTime = localSplitDTStringToISO(
+      data.end,
+      new Date().toISOString().slice(11)
+    );
 
     // Set the file name to include start/end times for user convenience
-    const fileName =
-      "medications_" + start.slice(0, 10) + "_" + end.slice(0, 10) + ".csv";
+    const fileName = "medications_" + data.start + "_" + data.end + ".csv";
 
     axiosInstance
-      .post("logs/download_logs/", { start: start, end: end })
+      .post("logs/download_logs/", {
+        start: startDateTime,
+        end: endDateTime,
+        time_offset: data.time_offset,
+      })
       .then((response) => {
         // Prep the response to proper downloaded text doc.
         let blob = new Blob([response.data]);
