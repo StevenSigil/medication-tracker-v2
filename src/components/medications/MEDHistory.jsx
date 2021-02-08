@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
-import axiosInstance from "../../util/axios";
 
+import axiosInstance from "../../util/axios";
 import MEDHistorySingleLog from "./MEDHistorySingleLog";
 
 function MEDHistory(props) {
@@ -16,6 +16,7 @@ function MEDHistory(props) {
         .then((response) => {
           console.log(response);
           if (response.data.length === 0) {
+            // Catch incase a user hasn't previously submitted a log instance.
             setData([{ id: null, name: null, strength: null, quantity: null }]);
           } else setData(response.data.reverse());
         })
@@ -26,22 +27,18 @@ function MEDHistory(props) {
     };
   }, [data, getData, setGetData]);
 
-  if (data.length > 0) {
-    return (
-      <>
-        <h2>Your recent history</h2>
-        {data.map((d) => {
-          return (
-            <Card className="outerHistory-card" key={d.id}>
-              <MEDHistorySingleLog historyItem={d} />
-            </Card>
-          );
-        })}
-      </>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <>
+      <h2>Your recent history</h2>
+      {data.map((d) => {
+        return (
+          <Card className="outerHistory-card" key={d.id}>
+            <MEDHistorySingleLog historyItem={d} />
+          </Card>
+        );
+      })}
+    </>
+  );
 }
 
 export default MEDHistory;

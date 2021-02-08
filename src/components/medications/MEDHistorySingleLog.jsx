@@ -4,7 +4,7 @@ import { Card, ListGroup, Col } from "react-bootstrap";
 function MEDHistorySingleLog(props) {
   const item = props.historyItem;
 
-  // Preparing date/time from item to user's local time.
+  // Preparing datetime from item to user's local time.
   var dateTime = new Date(Date.parse(item.time_taken));
   dateTime = dateTime.toLocaleString().split(", ");
   const date = dateTime[0];
@@ -15,21 +15,8 @@ function MEDHistorySingleLog(props) {
     return (
       <>
         <Col>{i.name}</Col>
-        <Col
-          style={{
-            alignItems: "center",
-          }}
-        >
-          {i.strength}{" "}
-        </Col>
-        <Col
-          style={{
-            alignItems: "center",
-          }}
-        >
-          {" "}
-          ({i.quantity})
-        </Col>
+        <Col style={{ alignItems: "center" }}>{i.strength}</Col>
+        <Col style={{ alignItems: "center" }}>{i.quantity}</Col>
       </>
     );
   };

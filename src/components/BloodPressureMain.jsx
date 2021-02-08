@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import "../public/css/main.css";
 
+import axiosInstance from "../util/axios";
+
 import BPForm from "./bp/BPForm";
 import TimeInput from "./TimeInput";
 import BPHistory from "./bp/BPHistory";
 import BPSubmitModal from "./bp/BPSubmitModal";
-
-import axiosInstance from "../util/axios";
 
 function BPMain() {
   const [disabledButton, setDisabledButton] = useState(true);
@@ -39,12 +39,11 @@ function BPMain() {
     confirmData(dT);
   }
 
-  function handleSend() {
-    // Makes sure the Token header is set (CORS problems), then sends the data to backend API.
+  function handleSubmit() {
     axiosInstance
       .post("bp/get_post_bp_logs/", inputData)
       .then((response) => {
-        // console.log(response);
+        console.log(response);
         resetData();
         setGetHistory(true);
       })
@@ -99,7 +98,7 @@ function BPMain() {
         show={showConfirmation}
         setShow={setShowConfirmation}
         items={inputData}
-        sendLog={handleSend}
+        sendLog={handleSubmit}
       />
     </>
   );

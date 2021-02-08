@@ -1,12 +1,14 @@
 import React from "react";
 import { Modal, Button, Container } from "react-bootstrap";
+
 import axiosInstance from "../../util/axios";
 
 function RemoveMedicationModal(props) {
   const show = props.show;
   const setShow = props.setShow;
-  const resetModal = props.resetModal;
   const goBack = props.goBack;
+  const resetModal = props.resetModal;
+
   const medications = props.selection;
   const getUsersMedications = props.getUsersMedications;
 
@@ -25,6 +27,7 @@ function RemoveMedicationModal(props) {
   // POSSIBLE DEPRECATION OF FEATURE.
   //
   // function handleRemove() {
+  // Used to remove a medication instance from a user's medications
   //   medications.forEach((med) => {
   //     axiosInstance
   //       .post("medications/remove_medication/", { id: med.id })
@@ -84,7 +87,7 @@ function RemoveMedicationModal(props) {
           </Button>
         </Modal.Footer>
 
-        {/* POSSIBLE DEPRECATION OF FEATURE.
+        {/* POSSIBLE DEPRECATION OF REMOVE (from users medications) FEATURE.
         <Modal.Header>
           <Modal.Title>What would you like to do?</Modal.Title>
         </Modal.Header>

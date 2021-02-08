@@ -64,6 +64,7 @@ function LoginPage(props) {
             <Card.Title as={"h1"}>Welcome Back</Card.Title>
             <Card.Subtitle>Please sign in</Card.Subtitle>
           </Card.Header>
+
           <Card.Body>
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="formBasicEmail">
@@ -80,6 +81,7 @@ function LoginPage(props) {
                   {errMsg.email}
                 </Form.Control.Feedback>
               </Form.Group>
+
               <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
@@ -94,24 +96,19 @@ function LoginPage(props) {
                   {errMsg.password}
                 </Form.Control.Feedback>
               </Form.Group>
+
               <Button variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
-            {/* </Card.Body>
+          </Card.Body>
 
-          <Card.Body> */}
-            <Container
-              fluid
-              style={{
-                padding: "inherit",
-                width: "max-content",
-                textAlign: "center",
-                marginTop: "3rem",
-              }}
-            >
+          <Card.Body className="register-body">
+            <Container className="register-container">
               <Card.Title>Not registered?</Card.Title>
-              <Button onClick={goToRegisterPage}>Register</Button>
+              <Card.Title>
+                <Button onClick={goToRegisterPage}>Register</Button>
+              </Card.Title>
             </Container>
           </Card.Body>
         </Card>

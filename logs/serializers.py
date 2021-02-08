@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from medications.models import Medication
+from medications.serializers import MedicationSerializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from .models import Log, MedicationAndQuantity
-from medications.models import Medication
-from medications.serializers import MedicationSerializer
 
 User = get_user_model()
 

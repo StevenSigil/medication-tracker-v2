@@ -9,19 +9,19 @@ import MEDHistory from "./medications/MEDHistory";
 import axiosInstance from "../util/axios";
 
 function MEDMain() {
-  const [usersMedications, setUsersMedications] = useState([]);
+  const [getHistory, setGetHistory] = useState(false);
+  const [usersMedications, setUsersMedications] = useState([]); // from GET req.
+  const [disabledButton, setDisabledButton] = useState(true); // Disables the med btns after selection
+
+  // Confirmation and updating dashboard
   const [showConfirmLogModal, setShowConfirmLogModal] = useState(false);
   const [confirmItems, setConfirmItems] = useState([]);
-  const [getHistory, setGetHistory] = useState(false);
-  const [disabledButton, setDisabledButton] = useState(true);
-
   const [submitMedications, setSubmitMedications] = useState([]);
   const [submitData, setSubmitData] = useState({});
-
   const [resetSignal, setResetSignal] = useState(false);
 
   function addMedication(medAndQuantity) {
-    // Adds the medication and quantity object from submitMedications (arr)
+    // Adds the medication and quantity object from submitMedications as an array
     setSubmitMedications((prev) => {
       return [...prev, medAndQuantity];
     });
@@ -29,13 +29,7 @@ function MEDMain() {
   }
 
   function addTimeTaken(dT) {
-    // Converts the dateTime param from "yyy-mm-dd hh:mm:ss" to "yyyy-mm-ddThh:mm:sss.mmm(tz)"
-    // and adds it to 'submitData'. Confirmation Modal then will show.
-
-    // dT = dT.replace(" ", "T");
-    // dT = new Date(dT).toISOString();
-    console.log(dT);
-
+    // Adds the input date/time to 'submitData'. Then shows the Confirmation Modal.
     setSubmitData({ time_taken: dT, medication_quantities: submitMedications });
     PrepConfirmationForm(dT);
     setShowConfirmLogModal(true);
@@ -43,7 +37,7 @@ function MEDMain() {
 
   function PrepConfirmationForm(dateTime) {
     // Adds the name and strength of the medications to each user selected option
-    //  then the time to overall list before submission
+    // then the time obj to outer list before submission
     const displayList = submitMedications.map((mq) => {
       usersMedications.forEach((med) => {
         if (med.id === mq.medication) {
@@ -58,7 +52,6 @@ function MEDMain() {
   }
 
   function sendLog() {
-    // Sends the pre-formatted log to backend.
     axiosInstance
       .post("logs/create_log/", submitData)
       .then((response) => {
@@ -71,7 +64,6 @@ function MEDMain() {
   }
 
   function resetSubmitData() {
-    // Resets pretty much everything after a successful Log submission
     setConfirmItems([]);
     setSubmitData({});
     setDisabledButton(true);

@@ -2,11 +2,12 @@ import React from "react";
 import { Button, ListGroup, Modal } from "react-bootstrap";
 
 function ConfirmationForm(props) {
-  const confirmationItems = props.confirmationItems;
-  const dateTime = confirmationItems.slice(-1)[0];
   const show = props.show;
   const setShow = props.setShow;
   const sendLog = props.sendLog;
+  const confirmationItems = props.confirmationItems;
+
+  const dateTime = confirmationItems.slice(-1)[0];
 
   function handleSubmit() {
     sendLog();
@@ -14,12 +15,8 @@ function ConfirmationForm(props) {
   }
 
   function parseTime(dt) {
-    if (dt) {
-      const newDateTime = new Date(dt).toLocaleString();
-      return newDateTime;
-    } else {
-      return Date.now();
-    }
+    // For viewing purposes only. Content sent to backed adjusted elsewhere
+    return new Date(dt).toLocaleString();
   }
 
   return (
@@ -35,8 +32,7 @@ function ConfirmationForm(props) {
             {confirmationItems.slice(0, -1).map((item) => {
               return (
                 <ListGroup.Item key={item.medication}>
-                  {" "}
-                  {item.name} {item.strength} ({item.quantity}){" "}
+                  {item.name} {item.strength} ({item.quantity})
                 </ListGroup.Item>
               );
             })}

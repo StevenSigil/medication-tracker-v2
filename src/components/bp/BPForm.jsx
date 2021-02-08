@@ -19,7 +19,7 @@ function BPForm(props) {
   }
 
   function checkData() {
-    // Checks to make sure the required data is included in the form before submission
+    // Checks for the required data before allowing time input (then submission)
     if (
       inputData.sys.length > 0 &&
       inputData.dia.length > 0 &&

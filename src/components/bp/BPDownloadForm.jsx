@@ -4,7 +4,10 @@ import { Modal, Button, Form } from "react-bootstrap";
 import ISODateTimeToLocalView, {
   localSplitDTStringToISO,
 } from "../../util/dateTime";
+
 import axiosInstance from "../../util/axios";
+
+// TODO: Combine this form with MedDownloadForm and move functions, etc... to parent components.
 
 function BPDownloadForm(props) {
   const handleClose = props.handleClose;
@@ -26,10 +29,10 @@ function BPDownloadForm(props) {
   }
 
   function handleSubmit() {
-    // Submits start/end dates to backend and returns the downloaded csv file.
+    // Submits start/end dates to backend and returns the csv file as download.
 
-    // Use .util function to change users local (displayed) date/time to API valid date/time
     const startDateTime = localSplitDTStringToISO(
+      // Use .util function to change users local (displayed) date/time to API valid date/time
       data.start,
       new Date().toISOString().slice(11)
     );
@@ -43,7 +46,7 @@ function BPDownloadForm(props) {
     const fileName = "blood-pressure_" + data.start + "_" + data.end + ".csv";
 
     axiosInstance
-      .post("bp/bp_csv/", {
+      .post("bp/download_bplogs/", {
         start: startDateTime,
         end: endDateTime,
         time_offset: data.time_offset,
@@ -65,6 +68,7 @@ function BPDownloadForm(props) {
       <p style={{ textAlign: "center" }}>
         Please select a start and end date to download
       </p>
+
       <Form className="download-form">
         <Form.Group>
           <Form.Label>Start Date</Form.Label>
@@ -77,6 +81,7 @@ function BPDownloadForm(props) {
             aria-label="Start Date"
           />
         </Form.Group>
+
         <Form.Group>
           <Form.Label>End Date</Form.Label>
           <Form.Control

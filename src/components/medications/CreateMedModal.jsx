@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Container } from "react-bootstrap";
+
 import axiosInstance from "../../util/axios";
 
 function CreateMedModal(props) {
@@ -24,17 +25,15 @@ function CreateMedModal(props) {
 
   function prepData(name, strength) {
     // Prepares the data before sending to backend.
-    var data = {};
     name = name.toLowerCase();
     strength = strength.toLowerCase();
-    data.name = name;
-    data.strength = strength;
+    const data = { name, strength };
     return data;
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    
+
     const data = prepData(inputData.name, inputData.strength);
     axiosInstance
       .post("medications/new_medication/", data)
@@ -46,7 +45,7 @@ function CreateMedModal(props) {
   }
 
   function resetModal() {
-    // Closes the modal, resets the input and refreshes the list of users medications
+    // Closes the modal, resets the input, and refreshes the list of users medications
     setShow(false);
     setInputData({ name: "", strength: "" });
     props.getUsersMedications();

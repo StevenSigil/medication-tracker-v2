@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Row, Container, Button } from "react-bootstrap";
+
 import axiosInstance from "../../util/axios";
 
 import CreateMedModal from "./CreateMedModal";
@@ -14,7 +15,6 @@ function UsersMedications(props) {
   const [showManageMedModal, setShowManageMedModal] = useState(false);
 
   function getUsersMedications() {
-    // Sets the medications on the users dashboard
     axiosInstance
       .get("medications/medication_to_user/")
       .then((response) => {
@@ -26,7 +26,6 @@ function UsersMedications(props) {
         }
       })
       .catch((error) => console.log(error));
-
     return null;
   }
 

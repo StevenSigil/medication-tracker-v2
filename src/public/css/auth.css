@@ -1,10 +1,8 @@
 body {
   background-color: #e0e0e0;
-  /* background-color: cadetblue; */
 }
 
 .login-card {
-  /* max-width: ; */
   margin: auto;
   min-height: 80vh;
   background-color: #eeeeeeb9;
@@ -26,6 +24,18 @@ body {
 }
 .login-card .form-group {
   margin-bottom: 1rem;
+}
+
+.register-body {
+  display: flex;
+  justify-content: space-evenly;
+}
+.register-container {
+  padding: 0;
+}
+.register-container > .h5 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .password-help p {

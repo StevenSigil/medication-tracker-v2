@@ -8,9 +8,9 @@ function Heading(props) {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   const token = sessionStorage.getItem("Token");
-    if (token) {
-      axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
-    }
+  if (token) {
+    axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
+  }
 
   function handleSelect(eventKey) {
     if (eventKey === "medications") {

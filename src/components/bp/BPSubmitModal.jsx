@@ -4,6 +4,7 @@ import { Button, Container, ListGroup, Modal } from "react-bootstrap";
 function BPSubmitModal(props) {
   const show = props.show;
   const setShow = props.setShow;
+
   const Items = props.items;
   const sendLog = props.sendLog;
 
@@ -13,12 +14,8 @@ function BPSubmitModal(props) {
   }
 
   function parseTime(dt) {
-    if (dt) {
-      const newDateTime = new Date(dt).toLocaleString();
-      return newDateTime;
-    } else {
-      return Date.now();
-    }
+    // For viewing only. Submitted datetime adjusted elsewhere
+    return new Date(dt).toLocaleString();
   }
 
   return (

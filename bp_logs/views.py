@@ -1,17 +1,10 @@
+from django.utils import timezone
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from django.utils import timezone
-from datetime import datetime
-
-
-from .models import BPLog
 from . import serializers
-
-import csv
-import json
-from django.http import HttpResponse
+from .models import BPLog
 
 
 class BPLogView(viewsets.GenericViewSet):
@@ -36,16 +29,17 @@ class BPLogView(viewsets.GenericViewSet):
             new_log = BPLog.objects.create(**serializer.validated_data)
             new_log.save()
         query = self.get_queryset().filter(user=request.user,
-                                           date_time__date__gte=timezone.datetime.now() - timezone.timedelta(days=3, hours=12),
+                                           date_time__date__gte=timezone.datetime.now() - timezone.timedelta(days=3,
+                                                                                                             hours=12),
                                            date_time__date__lte=timezone.datetime.now() + timezone.timedelta(days=1))
         serializer = self.get_serializer(query, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=['GET', 'POST'], detail=False)
-    def bp_csv(self, request):
+    def download_bplogs(self, request):
         """
-        Allows a user to download data from BPLog instances via POST req. containing a start/end date/time with optional timezone offset.
-        Time_offset is expected to be in minutes, start/end dates/times expected in (non TZ) ISO format.
+        Allows a user to download data from BPLog instances via POST req. containing a start/end datetime with a
+        timezone offset. Time_offset is expected to be in minutes, start/end datetime expected in (non TZ) ISO format.
         """
         from django.http import HttpResponse
         import csv
@@ -81,4 +75,3 @@ class BPLogView(viewsets.GenericViewSet):
             return response
 
         return Response(serializer.data, status.HTTP_200_OK)
-

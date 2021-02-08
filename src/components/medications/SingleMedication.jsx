@@ -5,8 +5,10 @@ import SubmitQuantityModal from "./SubmitQuantityModal";
 function SingleMedication(props) {
   const med = props.medication;
   const addMedication = props.addMedication;
+
   const resetSignal = props.resetSignal;
   const setResetSignal = props.setResetSignal;
+
   const [disabledButton, setDisabledButton] = useState(false);
   const [showQuantityModal, setShowQuantityModal] = useState(false);
 

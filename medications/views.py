@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ImproperlyConfigured
 from rest_framework import viewsets, permissions, status, filters
 from rest_framework.decorators import action
@@ -6,12 +5,12 @@ from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 
-from .models import Medication
 from . import serializers
+from .models import Medication
 
 
 class MedicationView(viewsets.GenericViewSet):
-    permission_classes = [permissions.IsAuthenticated,]
+    permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = serializers.MedicationSerializer
     serializer_classes = {
         'new_medication': serializers.MedicationCreateSerializer,
@@ -22,13 +21,13 @@ class MedicationView(viewsets.GenericViewSet):
 
     def list(self, request):
         """
-        Returns a list of (all-at this time) medications
+        Returns a list of (all-at this time) medications => NOT IN USE ON FRONTEND
         """
         query = self.get_queryset()
         serializer = self.get_serializer(query, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @action(methods=['POST',], detail=False)
+    @action(methods=['POST', ], detail=False)
     def new_medication(self, request, *args, **kwargs):
         """
         Creates an instance of the Medication model and sets 'created_by' to the requesting user.
@@ -58,6 +57,7 @@ class MedicationView(viewsets.GenericViewSet):
     @action(methods=['GET', 'POST'], detail=False)
     def remove_medication(self, request):
         """
+        NOT IN USE AT THIS TIME - delete_medication() instead.
         POST: Removes a medication instance from a users list of medications assuming medication.id is passed.
         GET: Returns the medications a user is 'following'
         """
@@ -72,6 +72,9 @@ class MedicationView(viewsets.GenericViewSet):
 
     @action(methods=['GET', 'POST'], detail=False)
     def delete_medication(self, request):
+        """
+        Deletes a medication instance entirely from database.
+        """
         if request.method == 'POST':
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -98,6 +101,7 @@ class MedicationView(viewsets.GenericViewSet):
 
 class MedicationPartialUpdateView(GenericAPIView, UpdateModelMixin):
     """
+    NOT IN USE AT THIS TIME
     Provides a view for the user to update the medication name and/or the recommended time to be taken.
     """
     queryset = Medication.objects.all()
@@ -109,6 +113,11 @@ class MedicationPartialUpdateView(GenericAPIView, UpdateModelMixin):
 
 
 class MedicationSearchView(ListAPIView):
+    """
+    NOT IN USE AT THIS TIME
+    Filters medication instances be name/strength to save space on DB by having multiple users
+    with the same medication object.
+    """
     queryset = Medication.objects.all()
     serializer_class = serializers.MedicationSerializer
     filter_backends = [filters.SearchFilter]

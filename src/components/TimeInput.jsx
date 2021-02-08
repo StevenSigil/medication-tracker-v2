@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { InputGroup, FormControl, Button, Row } from "react-bootstrap";
-import ISODateTimeToLocalView, {localSplitDTStringToISO} from "../util/dateTime";
+import ISODateTimeToLocalView, {
+  localSplitDTStringToISO,
+} from "../util/dateTime";
 
 function TimeInput(props) {
   const addTimeTaken = props.addTimeTaken;
   const disabledButton = props.disabledButton;
-
-  // const formDateTime = ISODateTimeToLocalView();
-  // const [formDate, setFormDate] = useState(formDateTime.date);
-  // const [formTime, setFormTime] = useState(formDateTime.time);
 
   const [inputData, setInputData] = useState({
     date: ISODateTimeToLocalView().date,
@@ -23,7 +21,10 @@ function TimeInput(props) {
   }
 
   function handleSubmit() {
-    const nonLocalDateTime = localSplitDTStringToISO(inputData.date, inputData.time);
+    const nonLocalDateTime = localSplitDTStringToISO(
+      inputData.date,
+      inputData.time
+    );
     addTimeTaken(nonLocalDateTime);
   }
 

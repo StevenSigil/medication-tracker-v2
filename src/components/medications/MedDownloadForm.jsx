@@ -26,18 +26,20 @@ function MedDownloadForm(props) {
   }
 
   function handleSubmit() {
-    // Returns the downloaded data object
+    // Submit and return the logs requested in csv download
 
-    // Use .util function to change users local (displayed) date/time to API valid date/time
     const startDateTime = localSplitDTStringToISO(
+      // Use util/ function to change users local (displayed) date/time to API valid date/time
       data.start,
-      new Date().toISOString().slice(11)
+      new Date().toISOString().slice(11) // time
     );
 
     const endDateTime = localSplitDTStringToISO(
       data.end,
-      new Date().toISOString().slice(11)
+      new Date().toISOString().slice(11) // time
     );
+
+    console.log(startDateTime, endDateTime);
 
     // Set the file name to include start/end times for user convenience
     const fileName = "medications_" + data.start + "_" + data.end + ".csv";

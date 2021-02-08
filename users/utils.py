@@ -8,7 +8,8 @@ def get_and_authenticate_user(email, password):
     """
     user = authenticate(username=email, password=password)
     if not user:
-        raise serializers.ValidationError({'email': ['Invalid email or password'], 'password': ['Invalid email or password']})
+        raise serializers.ValidationError(
+            {'email': ['Invalid email or password'], 'password': ['Invalid email or password']})
     return user
 
 

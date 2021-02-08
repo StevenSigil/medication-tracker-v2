@@ -11,15 +11,18 @@ function ManageMedicationModal(props) {
   const [medicationsClicked, setMedicationsClicked] = useState([]);
 
   function handleClick(medication) {
+    // Adds the medication to confirmation list and changes button styles
     setMedicationsClicked((prev) => {
       return [...prev, medication];
     });
+
     document.getElementById(medication.id).disabled = true;
     document.getElementById(medication.id).classList =
       "med-btn btn btn-primary";
   }
 
   function handleContinue() {
+    // Move the user to confirmation modal
     if (medicationsClicked.length < 1) {
       alert("Please select a medication to continue.");
     } else {
@@ -28,7 +31,7 @@ function ManageMedicationModal(props) {
     }
   }
 
-  function resetChoices() {
+  function resetChoicesAndStyles() {
     medicationsClicked.forEach((med) => {
       var medID = med.id;
       document.getElementById(medID).disabled = false;
@@ -86,7 +89,7 @@ function ManageMedicationModal(props) {
           <Button variant="secondary" onClick={resetModal}>
             Cancel
           </Button>
-          <Button variant="warning" onClick={resetChoices}>
+          <Button variant="warning" onClick={resetChoicesAndStyles}>
             Reset choices
           </Button>
           <Button variant="success" onClick={handleContinue}>

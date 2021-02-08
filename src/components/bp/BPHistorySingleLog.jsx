@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, ListGroup, Col, Row, Container } from "react-bootstrap";
-import ISODateTimeToLocalView from "../../util/dateTime";
 
 function BPHistorySingleLog(props) {
   const item = props.historyItem;
@@ -11,7 +10,7 @@ function BPHistorySingleLog(props) {
   const date = dateTime[0];
   const time = dateTime[1];
 
-  return item ? (
+  return (
     <>
       <Card.Header>
         <Card.Title className="history-title">
@@ -44,7 +43,7 @@ function BPHistorySingleLog(props) {
         </ListGroup>
       </Card.Body>
     </>
-  ) : null;
+  );
 }
 
 export default BPHistorySingleLog;

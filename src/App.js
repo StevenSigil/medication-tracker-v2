@@ -7,27 +7,19 @@ import RegistrationPage from "./components/auth/RegistrationPage";
 import MedMain from "./components/MedMain";
 import BPMain from "./components/BloodPressureMain";
 
-import axiosInstance from "./util/axios";
 import "./public/css/auth.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function checkForToken() {
-    // Checks for a token in the browser and returns the
-    //   user to either main if true or login if false.
+    // Checks for the access token in the browser and returns the 
+    // user to either main if true or login if false.
     const token = sessionStorage.getItem("Token");
 
     if (token) {
-      console.log("token");
-      axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
       setIsLoggedIn(true);
-      return (
-        <>
-          <Heading setLogin={setIsLoggedIn} />
-          <MedMain />
-        </>
-      );
+      window.location = "/main/";
     } else {
       window.location = "/login/";
     }
@@ -59,13 +51,18 @@ function App() {
             </Route>
 
             <Route exact path={"/main/"}>
-              {checkForToken}
+              <Heading setLogin={setIsLoggedIn} />
+              <MedMain />
             </Route>
 
             <Route exact path={"/bp/"}>
               <Heading setLogin={setIsLoggedIn} />
 
-              {window.sessionStorage.getItem('Token') ? <BPMain /> : <LoginPage/>}
+              {window.sessionStorage.getItem("Token") ? (
+                <BPMain />
+              ) : (
+                <LoginPage />
+              )}
             </Route>
           </Switch>
         </div>

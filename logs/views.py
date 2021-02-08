@@ -1,18 +1,13 @@
 from django.core.exceptions import ImproperlyConfigured
-from rest_framework.response import Response
-from rest_framework import viewsets, permissions, status
-from rest_framework.decorators import action
-
-from rest_framework.settings import api_settings
-from rest_framework_csv.renderers import CSVRenderer
-
 from django.utils import timezone
-from datetime import datetime
-
 from medications.models import Medication
 from medications.serializers import MedicationSerializer
-from .models import Log, MedicationAndQuantity
+from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from . import serializers
+from .models import Log, MedicationAndQuantity
 
 
 class LogViewSet(viewsets.GenericViewSet):
@@ -62,7 +57,8 @@ class LogViewSet(viewsets.GenericViewSet):
         Used on the main interaction screen - limited amount of data for api.
         """
         queryset = Log.objects.filter(user=request.user,
-                                      time_taken__date__gte=timezone.datetime.now() - timezone.timedelta(days=3, hours=12),
+                                      time_taken__date__gte=timezone.datetime.now() - timezone.timedelta(days=3,
+                                                                                                         hours=12),
                                       time_taken__date__lte=timezone.datetime.now() + timezone.timedelta(days=1))
         data = self.get_serializer(queryset, many=True).data
         return Response(data, status=status.HTTP_200_OK)
@@ -81,8 +77,8 @@ class LogViewSet(viewsets.GenericViewSet):
     @action(methods=['POST', 'GET'], detail=False)
     def download_logs(self, request):
         """
-        Allows a user to download data from Log instances via POST req. containing a start/end date/time with optional timezone offset.
-        Time_offset is expected to be in minutes, start/end dates/times expected in (non TZ) ISO format.
+        Allows a user to download data from Log instances via POST req. containing a start/end datetime with optional
+        timezone offset. Time_offset is expected to be in minutes, start/end datetime expected in (non TZ) ISO format.
         """
         from django.http import HttpResponse
         import csv
@@ -91,8 +87,9 @@ class LogViewSet(viewsets.GenericViewSet):
             serializer = self.serializer_class(Log.objects.filter(user=request.user), many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            serializer = self.get_serializer(data=request.data) # data = date/time input
+            serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
+
             start = serializer.validated_data['start']
             end = serializer.validated_data['end']
             time_offset = serializer.validated_data['time_offset']
@@ -100,7 +97,9 @@ class LogViewSet(viewsets.GenericViewSet):
 
             # Filter logs by user and time between start & end
             med_logs = Log.objects.filter(user=request.user, time_taken__date__gte=start, time_taken__date__lte=end)
-            log_serializer = serializers.UsersCondensedLogsSerializer(med_logs, many=True).data # serializer returns log and meds instances
+
+            # Returns log and meds instances
+            log_serializer = serializers.UsersCondensedLogsSerializer(med_logs, many=True).data
 
             # Prep CSV document as 'response' object
             response = HttpResponse(content_type='text/csv')
@@ -108,13 +107,24 @@ class LogViewSet(viewsets.GenericViewSet):
             writer = csv.writer(response)
             writer.writerow(['date', 'time', 'medication', 'dosage per', 'quantity'])
 
+            def try_parsing_datetimes(text):
+                # Checks for old and new datetime formats due to previous version not including Ms before
+                # instance.save() => Returns the strptime() of text.
+                for fmt in ["%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%dT%H:%M:%SZ"]:
+                    try:
+                        return timezone.datetime.strptime(text, fmt)
+                    except ValueError:
+                        pass
+                raise ValueError
+
             # Formats and writes Log object to csv response before returning as downloadable file.
             for log in log_serializer:
                 med_q = log['medication_quantities']
                 for mq in med_q:
                     group_values = []
+
                     # Split the 'time_taken' field into separate date & time then writes csv rows.
-                    converter = timezone.datetime.strptime(log['time_taken'], "%Y-%m-%dT%H:%M:%S.%fZ") - time_delta
+                    converter = try_parsing_datetimes(log['time_taken']) - time_delta
                     group_values.append(converter.date())
                     group_values.append(converter.time())
                     group_values.append(mq['name'])

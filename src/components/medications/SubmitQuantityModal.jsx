@@ -4,13 +4,15 @@ import { Modal, Button, Form } from "react-bootstrap";
 function SubmitQuantityModal(props) {
   const show = props.show;
   const setShow = props.setShow;
+
   const medID = props.medID;
   const medName = props.medName;
+
   const setResetSignal = props.setResetSignal;
   const finishButtonInput = props.finishButtonInput;
   const [quantity, setQuantity] = useState(false);
 
-  function handleClose() {
+  function handleSubmit() {
     finishButtonInput({ medication: medID, quantity: quantity });
   }
 
@@ -62,7 +64,7 @@ function SubmitQuantityModal(props) {
         </Form.Control>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleClose}>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </Modal.Footer>
     </Modal>
   );

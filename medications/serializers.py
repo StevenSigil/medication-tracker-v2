@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+
 from .models import Medication
 
 User = get_user_model()
@@ -53,6 +54,7 @@ class MedicationCreateSerializer(serializers.ModelSerializer):
 
 class MedicationBasicUpdate(serializers.ModelSerializer):
     """
+    NOT IN USE AT THIS TIME.
     Serializer for a user to update the name/strength for a single medication instance.
     Ideally, a user won't use this but will create a new medication with other dosage.
     """
