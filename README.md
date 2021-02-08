@@ -52,7 +52,7 @@ DATABASES = {
 
 - **package.json**
 
-```json
+```js
 // include the following
 "proxy": "http://127.0.0.1:8000"
 ```
