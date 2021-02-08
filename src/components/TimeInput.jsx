@@ -1,34 +1,30 @@
 import React, { useState } from "react";
 import { InputGroup, FormControl, Button, Row } from "react-bootstrap";
+import ISODateTimeToLocalView, {localSplitDTStringToISO} from "../util/dateTime";
 
 function TimeInput(props) {
   const addTimeTaken = props.addTimeTaken;
   const disabledButton = props.disabledButton;
 
-  const formDateTime = getDateTime();
-  const [formDate, setFormDate] = useState(formDateTime.slice(0, 10));
-  const [formTime, setFormTime] = useState(formDateTime.slice(11, 16));
+  // const formDateTime = ISODateTimeToLocalView();
+  // const [formDate, setFormDate] = useState(formDateTime.date);
+  // const [formTime, setFormTime] = useState(formDateTime.time);
 
-  function getDateTime() {
-    const now = new Date();
-    const offsetMs = now.getTimezoneOffset() * 60 * 1000;
-    const dateLocal = new Date(now.getTime() - offsetMs);
-    const str = dateLocal
-      .toISOString()
-      // .slice(0, 19)
-      // .replace(/-/g, "/")
-      .replace("T", " ");
+  const [inputData, setInputData] = useState({
+    date: ISODateTimeToLocalView().date,
+    time: ISODateTimeToLocalView().time,
+  });
 
-    return str;
+  function handleChange(e) {
+    const [name, value] = e.target;
+    setInputData((prev) => {
+      return { ...prev, [name]: value };
+    });
   }
 
-  function handleSubmit(date, time) {
-    var d = null;
-    var t = null;
-    date !== formDateTime.slice(0, 10) ? (d = date) : (d = formDate);
-    time !== formDateTime.slice(11, 16) ? (t = time) : (t = formTime);
-
-    addTimeTaken(d + "T" + t);
+  function handleSubmit() {
+    const nonLocalDateTime = localSplitDTStringToISO(inputData.date, inputData.time);
+    addTimeTaken(nonLocalDateTime);
   }
 
   return (
@@ -43,8 +39,8 @@ function TimeInput(props) {
           <FormControl
             type="date"
             className="dateTime-input"
-            value={formDate}
-            onChange={(e) => setFormDate(e.target.value)}
+            value={inputData.date}
+            onChange={handleChange}
             aria-label="Date"
             aria-describedby="date-input1"
           />
@@ -59,8 +55,8 @@ function TimeInput(props) {
           <FormControl
             type="time"
             className="dateTime-input"
-            value={formTime}
-            onChange={(e) => setFormTime(e.target.value)}
+            value={inputData.time}
+            onChange={handleChange}
             aria-label="Time"
             aria-describedby="Time-input1"
           />
@@ -71,7 +67,7 @@ function TimeInput(props) {
           disabled={disabledButton}
           size="lg"
           variant={disabledButton ? "outline-success" : "success"}
-          onClick={() => handleSubmit(formDate, formTime)}
+          onClick={handleSubmit}
         >
           Confirm this time
         </Button>

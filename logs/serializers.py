@@ -19,7 +19,7 @@ class MedicationAndQuantitySerialiser(serializers.ModelSerializer):
 class CreateLog(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    time_taken = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now)
+    time_taken = serializers.DateTimeField(default=timezone.now)
     medication_quantities = MedicationAndQuantitySerialiser(many=True)
 
     class Meta:
@@ -59,8 +59,9 @@ class DeleteLogSerializer(serializers.Serializer):
 
 
 class StartEndTime(serializers.Serializer):
-    start = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())
-    end = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())
+    start = serializers.DateTimeField(default=timezone.now())
+    end = serializers.DateTimeField(default=timezone.now())
+    time_offset = serializers.IntegerField(default=0)
 
 
 class UsersCSVLogsSerializer(serializers.ModelSerializer):

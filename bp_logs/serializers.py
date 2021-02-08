@@ -6,7 +6,7 @@ from .models import BPLog
 class BPLogSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    date_time = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now)
+    date_time = serializers.DateTimeField(default=timezone.now)
     sys = serializers.IntegerField(required=True)
     dia = serializers.IntegerField(required=True)
     pulse = serializers.IntegerField(required=True)
@@ -18,5 +18,6 @@ class BPLogSerializer(serializers.ModelSerializer):
 
 
 class DateTimeSerializer(serializers.Serializer):
-    start = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())
-    end = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", default=timezone.now())
+    start = serializers.DateTimeField(default=timezone.now())
+    end = serializers.DateTimeField(default=timezone.now())
+    time_offset = serializers.IntegerField(default=0)

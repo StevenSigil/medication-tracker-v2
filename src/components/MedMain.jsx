@@ -31,8 +31,11 @@ function MEDMain() {
   function addTimeTaken(dT) {
     // Converts the dateTime param from "yyy-mm-dd hh:mm:ss" to "yyyy-mm-ddThh:mm:sss.mmm(tz)"
     // and adds it to 'submitData'. Confirmation Modal then will show.
-    dT = dT.replace(" ", "T");
-    dT = new Date(dT).toISOString();
+
+    // dT = dT.replace(" ", "T");
+    // dT = new Date(dT).toISOString();
+    console.log(dT);
+
     setSubmitData({ time_taken: dT, medication_quantities: submitMedications });
     PrepConfirmationForm(dT);
     setShowConfirmLogModal(true);

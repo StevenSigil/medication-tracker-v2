@@ -14,7 +14,7 @@ function BPHistory(props) {
       axiosInstance
         .get("bp/get_post_bp_logs/")
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.length === 0) {
             setData([{ id: null, sys: null, dia: null, pulse: null, note: "" }]);
           } else setData(response.data.reverse());

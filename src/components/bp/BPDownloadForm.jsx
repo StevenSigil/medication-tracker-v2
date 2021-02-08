@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
+import ISODateTimeToLocalView, {
+  localSplitDTStringToISO,
+} from "../../util/dateTime";
 import axiosInstance from "../../util/axios";
 
 function BPDownloadForm(props) {
   const handleClose = props.handleClose;
-  const [data, setData] = useState({
-    start: new Date().toISOString().split("T")[0],
-    end: new Date().toISOString().split("T")[0],
-  });
 
-  function convertTime(input) {
-    // Used to append data to input before sending to api
-    input = input.split("-");
-    var date = new Date().setFullYear(input[0], input[1] - 1, input[2]);
-    date = new Date(date).toISOString();
-    return date;
-  }
+  const [data, setData] = useState({
+    start: ISODateTimeToLocalView().date,
+    end: ISODateTimeToLocalView().date,
+    time_offset: new Date().getTimezoneOffset(),
+  });
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -30,15 +27,21 @@ function BPDownloadForm(props) {
 
   function handleSubmit() {
     // Returns the downloaded data object on submit.
-    const start = convertTime(data.start);
-    const end = convertTime(data.end);
+    const startDateTime = localSplitDTStringToISO(
+      data.start,
+      new Date().toLocaleTimeString().slice(0, 8)
+    );
+
+    const endDateTime = localSplitDTStringToISO(
+      data.end,
+      new Date().toLocaleTimeString().slice(0, 8)
+    );
 
     // Set the file name to include start/end times for user convenience
-    const fileName =
-      "blood-pressure_" + start.slice(0, 10) + "_" + end.slice(0, 10) + ".csv";
+    const fileName = "blood-pressure_" + data.start + "_" + data.end + ".csv";
 
     axiosInstance
-      .post("bp/bp_csv/", { start: start, end: end })
+      .post("bp/bp_csv/", { start: startDateTime, end: endDateTime, data, time_offset: data.time_offset })
       .then((response) => {
         // Prep the response to proper downloaded text doc.
         let blob = new Blob([response.data]);

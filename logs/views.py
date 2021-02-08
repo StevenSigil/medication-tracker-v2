@@ -6,7 +6,8 @@ from rest_framework.decorators import action
 from rest_framework.settings import api_settings
 from rest_framework_csv.renderers import CSVRenderer
 
-from django.utils.timezone import datetime, timedelta
+from django.utils import timezone
+from datetime import datetime
 
 from medications.models import Medication
 from medications.serializers import MedicationSerializer
@@ -61,8 +62,8 @@ class LogViewSet(viewsets.GenericViewSet):
         Used on the main interaction screen - limited amount of data for api.
         """
         queryset = Log.objects.filter(user=request.user,
-                                      time_taken__date__gte=datetime.now() - timedelta(days=3, hours=12),
-                                      time_taken__date__lte=datetime.now() + timedelta(days=1))
+                                      time_taken__date__gte=timezone.datetime.now() - timezone.timedelta(days=3, hours=12),
+                                      time_taken__date__lte=timezone.datetime.now() + timezone.timedelta(days=1))
         data = self.get_serializer(queryset, many=True).data
         return Response(data, status=status.HTTP_200_OK)
 
@@ -80,8 +81,8 @@ class LogViewSet(viewsets.GenericViewSet):
     @action(methods=['POST', 'GET'], detail=False)
     def download_logs(self, request):
         """
-        Allows a user to download data from Log instances (incl. med & quant) via POST req. containing a start/end date & time.
-        Expecting date/time format as "%Y-%m-%dT%H:%M:%S" - defaults to timezone.now()
+        Allows a user to download data from Log instances via POST req. containing a start/end date/time with optional timezone offset.
+        Time_offset is expected to be in minutes, start/end dates/times expected in (non TZ) ISO format.
         """
         from django.http import HttpResponse
         import csv
@@ -94,32 +95,32 @@ class LogViewSet(viewsets.GenericViewSet):
             serializer.is_valid(raise_exception=True)
             start = serializer.validated_data['start']
             end = serializer.validated_data['end']
+            time_offset = serializer.validated_data['time_offset']
+            time_delta = timezone.timedelta(hours=time_offset)
 
             # Filter logs by user and time between start & end
             med_logs = Log.objects.filter(user=request.user, time_taken__date__gte=start, time_taken__date__lte=end)
             log_serializer = serializers.UsersCondensedLogsSerializer(med_logs, many=True).data # serializer returns log and meds instances
 
-            # Due to through model/nested serializer adding values manually to lists for retrieval.
-            final_values = []
-            for log in log_serializer:
-                med_q = log['medication_quantities']
-                for mq in med_q:
-                    group_values = []
-                    group_values.append(log['time_taken'])
-                    group_values.append(mq['name'])
-                    group_values.append(mq['strength'])
-                    group_values.append(mq['quantity'])
-                    final_values.append(group_values)
-
             # Prep CSV document as 'response' object
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="users.csv"'
             writer = csv.writer(response)
-            writer.writerow(['date_time', 'medication', 'dosage per', 'quantity'])
+            writer.writerow(['date', 'time', 'medication', 'dosage per', 'quantity'])
 
-            # Writes data from above to csv response obj. and returns as downloadable file.
-            for value in final_values:
-                writer.writerow(value)
+            # Formats and writes Log object to csv response before returning as downloadable file.
+            for log in log_serializer:
+                med_q = log['medication_quantities']
+                for mq in med_q:
+                    group_values = []
+                    # Split the 'time_taken' field into separate date & time values for export.
+                    converter = timezone.datetime.strptime(log['time_taken'], "%Y-%m-%dT%H:%M:%S.%fZ") + time_delta
+                    group_values.append(converter.date())
+                    group_values.append(converter.time())
+                    group_values.append(mq['name'])
+                    group_values.append(mq['strength'])
+                    group_values.append(mq['quantity'])
+                    writer.writerow(group_values)
             return response
 
     def get_serializer_class(self):

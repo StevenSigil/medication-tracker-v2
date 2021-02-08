@@ -1,7 +1,9 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.utils.timezone import datetime, timedelta
+
+from django.utils import timezone
+from datetime import datetime
 
 
 from .models import BPLog
@@ -34,16 +36,16 @@ class BPLogView(viewsets.GenericViewSet):
             new_log = BPLog.objects.create(**serializer.validated_data)
             new_log.save()
         query = self.get_queryset().filter(user=request.user,
-                                           date_time__date__gte=datetime.now() - timedelta(days=3, hours=12),
-                                           date_time__date__lte=datetime.now() + timedelta(days=1))
+                                           date_time__date__gte=timezone.datetime.now() - timezone.timedelta(days=3, hours=12),
+                                           date_time__date__lte=timezone.datetime.now() + timezone.timedelta(days=1))
         serializer = self.get_serializer(query, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=['GET', 'POST'], detail=False)
     def bp_csv(self, request):
         """
-        Allows a user to download data from BPLog instances via POST req. containing a start/end date/time.
-        Expecting date/time format as "%Y-%m-%dT%H:%M:%S" - defaults to timezone.now()
+        Allows a user to download data from BPLog instances via POST req. containing a start/end date/time with optional timezone offset.
+        Time_offset is expected to be in minutes, start/end dates/times expected in (non TZ) ISO format.
         """
         from django.http import HttpResponse
         import csv
@@ -56,20 +58,29 @@ class BPLogView(viewsets.GenericViewSet):
         if request.method == 'POST':
             start = serializer.validated_data['start']
             end = serializer.validated_data['end']
+            time_offset = serializer.validated_data['time_offset']
+            time_delta = timezone.timedelta(minutes=time_offset)
+            print(time_offset)
+
             # Retrieves the BPLog's between start/end date/time(s) 
-            # Start has 1 day offset for lazy UTC conversion per user feedback
-            bp_logs = BPLog.objects.filter(user=request.user, date_time__date__gte=start - timedelta(days=1), date_time__date__lte=end)
+            bp_logs = BPLog.objects.filter(user=request.user, date_time__date__gte=start, date_time__date__lte=end)
             bp_filtered_values = bp_logs.values_list('date_time', 'sys', 'dia', 'pulse', 'note')
 
             # Prep CSV document as 'response' object
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="users.csv"'
             writer = csv.writer(response)
-            writer.writerow(['date_time', 'systolic', 'diastolic', 'pulse', 'note'])
+            writer.writerow(['date', 'time', 'systolic', 'diastolic', 'pulse', 'note'])
 
-            # Writes data from above date/time query to csv response obj. and returns as downloadable file.
-            for value in bp_filtered_values:
-                writer.writerow(value)
+            # Formats and writes Log object to csv response before returning as downloadable file.
+            for log in bp_filtered_values:
+                log = list(log)
+                print(log[0])
+                converter = log[0] - time_delta
+                print(converter)
+                log[0] = converter.date()
+                log.insert(1, converter.time())
+                writer.writerow(log)
             return response
 
         return Response(serializer.data, status.HTTP_200_OK)

@@ -44,7 +44,7 @@ function BPMain() {
     axiosInstance
       .post("bp/get_post_bp_logs/", inputData)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         resetData();
         setGetHistory(true);
       })
