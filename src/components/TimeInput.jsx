@@ -14,7 +14,7 @@ function TimeInput(props) {
   });
 
   function handleChange(e) {
-    const [name, value] = e.target;
+    const { name, value } = e.target;
     setInputData((prev) => {
       return { ...prev, [name]: value };
     });
@@ -40,6 +40,7 @@ function TimeInput(props) {
           <FormControl
             type="date"
             className="dateTime-input"
+            name="date"
             value={inputData.date}
             onChange={handleChange}
             aria-label="Date"
@@ -56,6 +57,7 @@ function TimeInput(props) {
           <FormControl
             type="time"
             className="dateTime-input"
+            name="time"
             value={inputData.time}
             onChange={handleChange}
             aria-label="Time"

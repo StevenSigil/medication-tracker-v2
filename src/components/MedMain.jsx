@@ -86,6 +86,7 @@ function MEDMain() {
                   setUsersMedications={setUsersMedications}
                   resetSignal={resetSignal}
                   setResetSignal={setResetSignal}
+                  setGetHistory={setGetHistory}
                 />
 
                 <h2>Confirm the date and time taken</h2>

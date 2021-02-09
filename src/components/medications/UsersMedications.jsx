@@ -10,6 +10,7 @@ import SingleMedication from "./SingleMedication";
 function UsersMedications(props) {
   const usersMedications = props.usersMedications;
   const setUsersMedications = props.setUsersMedications;
+  const setGetHistory = props.setGetHistory;
 
   const [showCreateMedModal, setShowCreateMedModal] = useState(false);
   const [showManageMedModal, setShowManageMedModal] = useState(false);
@@ -24,6 +25,7 @@ function UsersMedications(props) {
         } else {
           setUsersMedications(response.data);
         }
+        setGetHistory(true);
       })
       .catch((error) => console.log(error));
     return null;
