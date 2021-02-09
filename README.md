@@ -8,16 +8,9 @@ This application is a solution for people who want to quickly and easily track t
 
 ---
 
-<br/>
+![Medication Tracking Dashboard](/readme_imgs/Med_main.png?raw=true "Medication Tracking Dashboard")
 
-<figure>
-   <img 
-      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/Med_main.png' 
-      alt="Medication Tracking Dashboard"/>
-   <figcaption><strong>Medication Tracking Dashboard</strong></figcaption>
-</figure>
-
-## <br/>
+<figcaption><strong>Medication Tracking Dashboard</strong></figcaption>
 
 This project came to be, when a friend explained how so many medication
 tracking applications, on desktop and mobile, are way too cumbersome (given her intended use). After asking more questions to clarify what she was looking for, I couldn't see any reason that it couldn't be done!
@@ -27,8 +20,6 @@ _With the current version, tracking of blood pressure has also been included per
 ---
 
 ---
-
-<br/>
 
 ## Outline of project:
 
@@ -49,62 +40,37 @@ _With the current version, tracking of blood pressure has also been included per
 
 ---
 
-<br />
-
 ## Screenshots
 
-<figure>
-   <img 
-      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/bp_main.png' 
-      alt="Blood Pressure Tracking Dashboard"/>
-   <figcaption><strong>Blood Pressure Tracking Dashboard</strong></figcaption>
-</figure>
+![Blood Pressure Tracking Dashboard](/readme_imgs/bp_main.png?raw=true "Blood Pressure Tracking Dashboard")
 
-<br />
+<figcaption><strong>Blood Pressure Tracking Dashboard</strong></figcaption>
 
-<figure>
-   <img 
-      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/Med_manage.png' 
-      alt="Manage Medications Modal"/>
-   <figcaption><strong>Manage Medications Modal</strong> - Delete medications from your User instance</figcaption>
-</figure>
+---
 
-<br />
+![Manage Medications Modal](/readme_imgs/Med_manage.png?raw=true "Manage Medications Modal")
 
-<figure>
-   <img 
-      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/Med_manage.png' 
-      alt="Blood Pressure Tracking Dashboard"/>
-   <figcaption><strong>Blood Pressure Tracking Dashboard</strong></figcaption>
-</figure>
+<figcaption><strong>Manage Medications Modal</strong> - Delete medications from your User instance</figcaption>
 
-<br />
+---
 
-<figure>
-   <img 
-      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/download.png' 
-      alt="Download History Modal"/>
-   <figcaption><strong>Download history modal</strong> - Select a start & end date and the download will retrieve your logs between those dates.</figcaption>
-</figure>
+![Download History Modal](/readme_imgs/download.png?raw=true "Download History Modal")
 
-<br />
+<figcaption><strong>Download history modal</strong> - Select a start & end date and the download will retrieve your logs between those dates.</figcaption>
 
-<figure>
-   <img 
-      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/download_example.png'
-      alt="Example Output from Download"/>
-   <figcaption><strong>Example Output from Download</strong> - (CSV formatted log instances)</figcaption>
-</figure>
+---
+
+![Example Output from Download](/readme_imgs/download_example.png?raw=true "Example Output from Download")
+
+<figcaption><strong>Example Output from Download</strong> - (CSV formatted log instances)</figcaption>
 
 ---
 
 ---
-
-<br/>
 
 ## Local development notes
 
-### For local development, change the following settings:
+**For local development, change the following settings:**
 
 - **backend/settings.py**
 
