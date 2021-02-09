@@ -2,22 +2,33 @@
 
 ## A medication and blood pressure tracking application
 
-<br>
+https://medication-track.herokuapp.com/
 
-[Link to deployed project](https://medication-track.herokuapp.com/)
-
-This project came to be when a friend explained how so many medication
-tracking applications on desktop and mobile are way too cumbersome given her intended
-use of these types of applications. After asking more questions to clarify what she was after,
-I couldn't see any reason that it couldn't be done. This application is a solution for
-people who want to track their medication intake.
-
-With the current version tracking blood pressure has also been implemented per another
-suggestion from a friend.
-
-If you would like to visit the website yourself, visit https://medication-track.herokuapp.com/
+This application is a solution for people who want to quickly and easily track their medication intake; and, if needed, easily compile the data to give to a physician.
 
 ---
+
+<br/>
+
+<figure>
+   <img 
+      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/Med_main.png' 
+      alt="Medication Tracking Dashboard"/>
+   <figcaption><strong>Medication Tracking Dashboard</strong></figcaption>
+</figure>
+
+## <br/>
+
+This project came to be, when a friend explained how so many medication
+tracking applications, on desktop and mobile, are way too cumbersome (given her intended use). After asking more questions to clarify what she was looking for, I couldn't see any reason that it couldn't be done!
+
+_With the current version, tracking of blood pressure has also been included per another suggestion from a friend._
+
+---
+
+---
+
+<br/>
 
 ## Outline of project:
 
@@ -35,6 +46,63 @@ If you would like to visit the website yourself, visit https://medication-track.
 4. Deploy to Heroku for client use.
 
 ---
+
+---
+
+<br />
+
+## Screenshots
+
+<figure>
+   <img 
+      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/bp_main.png' 
+      alt="Blood Pressure Tracking Dashboard"/>
+   <figcaption><strong>Blood Pressure Tracking Dashboard</strong></figcaption>
+</figure>
+
+<br />
+
+<figure>
+   <img 
+      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/Med_manage.png' 
+      alt="Manage Medications Modal"/>
+   <figcaption><strong>Manage Medications Modal</strong> - Delete medications from your User instance</figcaption>
+</figure>
+
+<br />
+
+<figure>
+   <img 
+      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/Med_manage.png' 
+      alt="Blood Pressure Tracking Dashboard"/>
+   <figcaption><strong>Blood Pressure Tracking Dashboard</strong></figcaption>
+</figure>
+
+<br />
+
+<figure>
+   <img 
+      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/download.png' 
+      alt="Download History Modal"/>
+   <figcaption><strong>Download history modal</strong> - Select a start & end date and the download will retrieve your logs between those dates.</figcaption>
+</figure>
+
+<br />
+
+<figure>
+   <img 
+      src='https://github.com/StevenSigil/ToDo-Django-React/readme_imgs/download_example.png'
+      alt="Example Output from Download"/>
+   <figcaption><strong>Example Output from Download</strong> - (CSV formatted log instances)</figcaption>
+</figure>
+
+---
+
+---
+
+<br/>
+
+## Local development notes
 
 ### For local development, change the following settings:
 

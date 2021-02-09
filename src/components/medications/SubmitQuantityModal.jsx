@@ -10,7 +10,7 @@ function SubmitQuantityModal(props) {
 
   const setResetSignal = props.setResetSignal;
   const finishButtonInput = props.finishButtonInput;
-  const [quantity, setQuantity] = useState(false);
+  const [quantity, setQuantity] = useState(0);
 
   function handleSubmit() {
     finishButtonInput({ medication: medID, quantity: quantity });
@@ -18,7 +18,7 @@ function SubmitQuantityModal(props) {
 
   function handleCancel() {
     setResetSignal(true);
-    setQuantity(false);
+    setQuantity(0);
     setShow(false);
   }
 
