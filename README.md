@@ -12,6 +12,8 @@ This application is a solution for people who want to quickly and easily track t
 
 <figcaption><strong>Medication Tracking Dashboard</strong></figcaption>
 
+<br/><br/>
+
 This project came to be, when a friend explained how so many medication
 tracking applications, on desktop and mobile, are way too cumbersome (given her intended use). After asking more questions to clarify what she was looking for, I couldn't see any reason that it couldn't be done!
 
