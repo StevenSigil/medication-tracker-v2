@@ -120,7 +120,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000"
 ]
 
-SESSION_COOKIE_SECURE = True  # Wont send session cookie over non https
+SESSION_COOKIE_SECURE = True
 
 django_heroku.settings(locals())
 

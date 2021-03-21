@@ -55,10 +55,10 @@ function MEDMain() {
     axiosInstance
       .post("logs/create_log/", submitData)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setGetHistory(true);
       })
-      .catch((error) => console.log(error));
+      // .catch((error) => console.log(error));
 
     resetSubmitData();
   }
@@ -95,7 +95,7 @@ function MEDMain() {
                   disabledButton={disabledButton}
                 />
                 <Row noGutters className="current-time-btn">
-                  <Button variant="outline-danger" onClick={resetSubmitData}>
+                  <Button variant="outline-danger" size="lg" onClick={resetSubmitData}>
                     Start over
                   </Button>
                 </Row>

@@ -39,8 +39,6 @@ function MedDownloadForm(props) {
       new Date().toISOString().slice(11) // time
     );
 
-    console.log(startDateTime, endDateTime);
-
     // Set the file name to include start/end times for user convenience
     const fileName = "medications_" + data.start + "_" + data.end + ".csv";
 
@@ -59,7 +57,7 @@ function MedDownloadForm(props) {
         document.body.appendChild(link);
         link.click();
       })
-      .catch((error) => console.log(error));
+      // .catch((error) => console.log(error));
   }
 
   return (

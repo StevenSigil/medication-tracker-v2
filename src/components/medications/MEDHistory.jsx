@@ -14,14 +14,14 @@ function MEDHistory(props) {
       axiosInstance
         .get("logs/users_logs/")
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data.length === 0) {
             // Catch in-case a user hasn't previously submitted a log instance.
             // setData([{ id: null, name: null, strength: null, quantity: null }]);
             return
           } else setData(response.data.reverse());
         })
-        .catch((error) => console.log(error));
+        // .catch((error) => console.log(error));
     }
     return () => {
       setGetData(false);

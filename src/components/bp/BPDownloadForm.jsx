@@ -60,7 +60,7 @@ function BPDownloadForm(props) {
         document.body.appendChild(link);
         link.click();
       })
-      .catch((error) => console.log(error));
+      // .catch((error) => console.log(error));
   }
 
   return (

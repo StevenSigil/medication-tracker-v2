@@ -28,12 +28,12 @@ function Heading(props) {
     axiosInstance
       .post("users/logout")
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         sessionStorage.removeItem("Token");
         setLogin(false);
         history.push("/login/");
       })
-      .catch((error) => console.log(error));
+      // .catch((error) => console.log(error));
   }
 
   return (

@@ -19,7 +19,7 @@ function UsersMedications(props) {
     axiosInstance
       .get("medications/medication_to_user/")
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.length === 0) {
           setUsersMedications([{ id: "x" }]);
         } else {
@@ -27,14 +27,14 @@ function UsersMedications(props) {
         }
         setGetHistory(true);
       })
-      .catch((error) => console.log(error));
+      // .catch((error) => console.log(error));
   }
 
   useEffect(() => {
     axiosInstance
       .get("medications/medication_to_user/")
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.length === 0) {
           setUsersMedications([{ id: "x" }]);
         } else {
@@ -42,10 +42,10 @@ function UsersMedications(props) {
         }
         setGetHistory(true);
       })
-      .catch((error) => console.log(error));
+      // .catch((error) => console.log(error));
   }, [setGetHistory, setUsersMedications]);
 
-  console.log(usersMedications);
+  // console.log(usersMedications);
 
   return usersMedications.length > 0 ? (
     <>

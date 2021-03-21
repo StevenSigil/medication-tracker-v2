@@ -78,7 +78,7 @@ h2 {
   padding: 2rem 2rem 0;
 }
 .usersMeds-div {
-  /* padding-bottom: 5rem; */
+  padding-bottom: 2rem;
   width: auto;
 }
 .usersMeds-div .container {
@@ -134,7 +134,7 @@ h2 {
 /* Right Column */
 .history-col {
   min-height: 100%;
-  padding: 2rem 2rem 5rem;
+  padding: 2rem 2rem;
   background-color: rgb(255, 255, 255);
 }
 .outerHistory-card {

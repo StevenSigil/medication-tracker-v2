@@ -17,10 +17,10 @@ function RemoveMedicationModal(props) {
       axiosInstance
         .post("medications/delete_medication/", { id: med.id })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           handleClose();
         })
-        .catch((error) => console.log(error));
+        // .catch((error) => console.log(error));
     });
   }
 

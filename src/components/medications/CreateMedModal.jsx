@@ -38,10 +38,10 @@ function CreateMedModal(props) {
     axiosInstance
       .post("medications/new_medication/", data)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         resetModal();
       })
-      .catch((error) => console.log(error));
+      // .catch((error) => console.log(error));
   }
 
   function resetModal() {
