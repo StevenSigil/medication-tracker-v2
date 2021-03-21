@@ -15,35 +15,56 @@ h2 {
 }
 
 /* Main Heading (NAV) */
-@media (min-width: 992px) {
-  #custom-navbar {
-    margin-right: 2rem;
-  }
-}
-@media (max-width: 991px) {
-  #custom-navbar {
-    margin: 0 2rem;
-  }
-}
 .customNav {
   background-color: rgb(159, 89, 224);
-  height: 5rem;
-}
-.customNav h2 {
-  border-bottom: none;
+  /* height: 5rem; */
+  border-bottom: 1px solid rgb(108, 55, 158);
+  position: relative;
+  top: 0;
+  
 }
 .customNav a {
-  color: black !important;
+  color: #eeeeee !important;
 }
 .customNav a:hover {
-  color: rgb(231, 231, 231) !important;
+  color: #ddddddaf !important;
+}
+.customNav > .navbar-brand {
+  margin: 0 2rem;
+  border-bottom: none;
+  font-weight: 600;
+  color: rgb(36, 36, 36);
+}
+.customNav > .navbar-brand h2 {
+  border-bottom: none;
+}
+.navbarToggle-outerdiv{
+  margin: 0 2rem;
+  padding: 2px;
+}
+.innerNav-collapse {
+  /* margin: 0 2rem; */
+  justify-content: flex-end;
+}
+.innerNav-collapse .navbar-nav {
+  font-weight: 400;
+  font-size: 1.1em;
+  /* color: #000 !important; */
+  padding: 1rem 2rem;
+  background-color: rgb(159, 89, 224);
 }
 
 /* Main Interaction Row */
+
 .main-row {
   text-align: center;
   margin-top: 1rem;
   justify-content: center;
+}
+@media (max-width: 991px) {
+  .main-row {
+    margin-top: 0;
+  }
 }
 .main-row .col {
   padding: 0;

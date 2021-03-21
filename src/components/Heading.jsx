@@ -25,29 +25,27 @@ function Heading(props) {
   }
 
   function handleLogout() {
-    axiosInstance
-      .post("users/logout")
-      .then((response) => {
-        // console.log(response);
-        sessionStorage.removeItem("Token");
-        setLogin(false);
-        history.push("/login/");
-      })
-      // .catch((error) => console.log(error));
+    axiosInstance.post("users/logout").then((response) => {
+      // console.log(response);
+      sessionStorage.removeItem("Token");
+      setLogin(false);
+      history.push("/login/");
+    });
+    // .catch((error) => console.log(error));
   }
 
   return (
     <>
-      <Navbar sticky="top" className="customNav" expand="lg">
-        <Navbar.Brand href="/main/" style={{ margin: "0 2rem" }}>
+      <Navbar className="customNav" expand="lg">
+        <Navbar.Brand href="/main/">
           <h2 style={{ margin: "auto" }}>The Drug Keep</h2>
         </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="custom-navbar"
-          style={{ margin: "0 2rem" }}
-        />
+        
+        <div className="navbarToggle-outerdiv">
+          <Navbar.Toggle aria-controls="custom-navbar" />
+        </div>
 
-        <Navbar.Collapse id="custom-navbar" className="justify-content-end">
+        <Navbar.Collapse id="custom-navbar" className="innerNav-collapse">
           <Nav onSelect={handleSelect}>
             <Nav.Item>
               <Nav.Link href="/main/">Medications</Nav.Link>
