@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axiosInstance from "../../util/axios";
 
 import { Button, Card, Form, Col, Container } from "react-bootstrap";
+import { useHistory } from "react-router";
 
 function LoginPage(props) {
+  // const history = props.history;
   const checkForToken = props.checkForToken;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +15,8 @@ function LoginPage(props) {
     password: null,
   });
 
+  const history = useHistory();
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -21,8 +25,12 @@ function LoginPage(props) {
       .then((response) => {
         // console.log(response);
         var token = response.data.auth_token;
-        sessionStorage.setItem("Token", token);
-        checkForToken();
+
+        if (token) {
+          sessionStorage.setItem("Token", token);
+          checkForToken();
+          history.push("/main/");
+        }
       })
       .catch((error) => {
         // console.log(error);
@@ -46,7 +54,7 @@ function LoginPage(props) {
   }
 
   function goToRegisterPage() {
-    return (window.location = "/register/");
+    history.push("/register/");
   }
 
   return (

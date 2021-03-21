@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Container, Button } from "react-bootstrap";
 
 import axiosInstance from "../../util/axios";
@@ -28,23 +28,57 @@ function UsersMedications(props) {
         setGetHistory(true);
       })
       .catch((error) => console.log(error));
-    return null;
   }
+
+  useEffect(() => {
+    axiosInstance
+      .get("medications/medication_to_user/")
+      .then((response) => {
+        console.log(response);
+        if (response.data.length === 0) {
+          setUsersMedications([{ id: "x" }]);
+        } else {
+          setUsersMedications(response.data);
+        }
+        setGetHistory(true);
+      })
+      .catch((error) => console.log(error));
+  }, [setGetHistory, setUsersMedications]);
+
+  console.log(usersMedications);
 
   return usersMedications.length > 0 ? (
     <>
       <Row noGutters>
-        {usersMedications.map((med) => {
-          return (
-            <SingleMedication
-              key={med.id}
-              medication={med}
-              addMedication={props.addMedication}
-              resetSignal={props.resetSignal}
-              setResetSignal={props.setResetSignal}
-            />
-          );
-        })}
+        {usersMedications[0].id !== "x" ? (
+          usersMedications.map((med) => {
+            return (
+              <SingleMedication
+                key={med.id}
+                medication={med}
+                addMedication={props.addMedication}
+                resetSignal={props.resetSignal}
+                setResetSignal={props.setResetSignal}
+              />
+            );
+          })
+        ) : (
+          <>
+            <h3>Welcome!</h3>
+            <p>Add a medication below to get started.</p>
+          </>
+        )}
+        {/* {usersMedications.map((med) => {
+        return (
+          <SingleMedication
+            key={med.id}
+            medication={med}
+            addMedication={props.addMedication}
+            resetSignal={props.resetSignal}
+            setResetSignal={props.setResetSignal}
+          />
+        );
+      })} */}
       </Row>
 
       <Container className="addMed-container">
@@ -55,7 +89,7 @@ function UsersMedications(props) {
           Add Medication
         </Button>
         <Button
-          variant="outline-secondary"
+          variant="outline-dark"
           onClick={() => setShowManageMedModal(true)}
         >
           Manage medications
@@ -83,9 +117,7 @@ function UsersMedications(props) {
         getUsersMedications={getUsersMedications}
       />
     </>
-  ) : (
-    getUsersMedications()
-  );
+  ) : null;
 }
 
 export default UsersMedications;

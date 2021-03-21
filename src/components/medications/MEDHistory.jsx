@@ -7,17 +7,18 @@ import MEDHistorySingleLog from "./MEDHistorySingleLog";
 function MEDHistory(props) {
   const getData = props.getData;
   const setGetData = props.setGetData;
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([{ id: null, name: null, strength: null, quantity: null, time_taken: new Date(Date().toLocaleString()).toISOString() }]);
 
   useEffect(() => {
-    if (data.length === 0 || getData === true) {
+    if (getData === true) {
       axiosInstance
         .get("logs/users_logs/")
         .then((response) => {
           console.log(response);
           if (response.data.length === 0) {
-            // Catch incase a user hasn't previously submitted a log instance.
-            setData([{ id: null, name: null, strength: null, quantity: null }]);
+            // Catch in-case a user hasn't previously submitted a log instance.
+            // setData([{ id: null, name: null, strength: null, quantity: null }]);
+            return
           } else setData(response.data.reverse());
         })
         .catch((error) => console.log(error));
@@ -25,7 +26,7 @@ function MEDHistory(props) {
     return () => {
       setGetData(false);
     };
-  }, [data, getData, setGetData]);
+  }, [getData, setGetData]);
 
   return (
     <>

@@ -38,7 +38,7 @@ function MEDHistorySingleLog(props) {
                   </ListGroup.Item>
                 );
               })
-            : null}
+            : <Col style={{ alignItems: "center" }}><p>No Data to Display</p><p>Please Add an entry to get started</p></Col>}
         </ListGroup>
       </Card.Body>
     </>

@@ -27,10 +27,13 @@ function TimeInput(props) {
     );
     addTimeTaken(nonLocalDateTime);
   }
+  function handleBlockSubmit() {
+    alert("Please select at least one medication before submitting.")
+  }
 
   return (
     <>
-      <Row noGutters>
+      <Row noGutters className='timeInput-row'>
         <InputGroup size="lg">
           <InputGroup.Prepend>
             <InputGroup.Text className="dateTime-input1" id="date-input1">
@@ -67,10 +70,11 @@ function TimeInput(props) {
       </Row>
       <Row noGutters className="current-time-btn">
         <Button
-          disabled={disabledButton}
+          // disabled={disabledButton}
           size="lg"
+          className={disabledButton ? "btn customDisabledButton" : "btn"}
           variant={disabledButton ? "outline-success" : "success"}
-          onClick={handleSubmit}
+          onClick={disabledButton ? handleBlockSubmit : handleSubmit}
         >
           Confirm this time
         </Button>

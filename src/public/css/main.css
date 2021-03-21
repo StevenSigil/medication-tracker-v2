@@ -9,15 +9,34 @@ h2 {
   max-width: 100vw;
   overflow-x: hidden;
 }
-
 .card,
 .card * {
   border-color: blueviolet;
 }
 
-/* Main Heading */
+/* Main Heading (NAV) */
+@media (min-width: 992px) {
+  #custom-navbar {
+    margin-right: 2rem;
+  }
+}
+@media (max-width: 991px) {
+  #custom-navbar {
+    margin: 0 2rem;
+  }
+}
 .customNav {
-  background-color: rgb(199, 179, 245);
+  background-color: rgb(159, 89, 224);
+  height: 5rem;
+}
+.customNav h2 {
+  border-bottom: none;
+}
+.customNav a {
+  color: black !important;
+}
+.customNav a:hover {
+  color: rgb(231, 231, 231) !important;
 }
 
 /* Main Interaction Row */
@@ -53,13 +72,17 @@ h2 {
 
 /* Left column */
 .usersMeds {
-  background-color: #eee;
-  padding-top: 1rem;
-  min-height: 95vh;
+  min-height: calc(100vh - (5rem + 1rem));
+  background-color: rgb(255, 255, 255);
+  /* padding: 2rem 2rem 5rem; */
+  padding: 2rem 2rem 0;
 }
 .usersMeds-div {
-  padding-bottom: 5rem;
+  /* padding-bottom: 5rem; */
   width: auto;
+}
+.usersMeds-div .container {
+  padding: 0;
 }
 /* Meds area */
 .med-col {
@@ -80,9 +103,10 @@ h2 {
   width: 45%;
   margin: 0 2.5%;
 }
+
 /* Time Input */
-.middle-col > .container {
-  padding: 20px 60px;
+.timeInput-row > .input-group {
+  margin: 0.25rem 0;
 }
 .dateTime-input1 {
   min-height: 100%;
@@ -90,24 +114,28 @@ h2 {
   font-size: large;
 }
 .dateTime-input {
-  background-color: #cccccc86;
+  background-color: #c0cbce71;
 }
 .dateTime-input:hover {
-  background-color: #eeeeee;
+  background-color: #ffffff;
 }
 .current-time-btn {
   margin: 2rem auto 1rem;
   width: inherit;
 }
+.current-time-btn .customDisabledButton {
+  cursor: initial;
+}
+.current-time-btn .customDisabledButton:hover {
+  background-color: transparent;
+  color: #198754;
+}
 
 /* Right Column */
 .history-col {
-  min-height: 95vh;
-  padding-right: 2rem;
-  padding-left: 2rem;
-  padding-bottom: 5rem;
-  padding-top: 1rem;
-  background-color: #eee;
+  min-height: 100%;
+  padding: 2rem 2rem 5rem;
+  background-color: rgb(255, 255, 255);
 }
 .outerHistory-card {
   margin: 1rem 5px;

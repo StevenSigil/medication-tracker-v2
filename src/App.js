@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
+
+import axiosInstance from "./util/axios";
 
 import Heading from "./components/Heading";
 import LoginPage from "./components/auth/LoginPage";
@@ -11,17 +19,15 @@ import "./public/css/auth.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const history = useHistory();
 
   function checkForToken() {
-    // Checks for the access token in the browser and returns the 
-    // user to either main if true or login if false.
+    // Checks for the access token in browser storage and sets as default header.
     const token = sessionStorage.getItem("Token");
 
     if (token) {
+      axiosInstance.defaults.headers.common["Authorization"] = "Token " + token;
       setIsLoggedIn(true);
-      window.location = "/main/";
-    } else {
-      window.location = "/login/";
     }
   }
 
@@ -46,22 +52,29 @@ function App() {
               {isLoggedIn ? (
                 <Redirect to="/main/" />
               ) : (
-                <LoginPage checkForToken={checkForToken} />
+                <LoginPage history={history} checkForToken={checkForToken} />
               )}
             </Route>
 
             <Route exact path={"/main/"}>
-              <Heading setLogin={setIsLoggedIn} />
-              <MedMain />
+              {window.sessionStorage.getItem("Token") ? (
+                <>
+                  <Heading setLogin={setIsLoggedIn} />
+                  <MedMain />
+                </>
+              ) : (
+                <Redirect to="/login/" />
+              )}
             </Route>
 
             <Route exact path={"/bp/"}>
-              <Heading setLogin={setIsLoggedIn} />
-
               {window.sessionStorage.getItem("Token") ? (
-                <BPMain />
+                <>
+                  <Heading setLogin={setIsLoggedIn} />
+                  <BPMain />
+                </>
               ) : (
-                <LoginPage />
+                <Redirect to="/login/" />
               )}
             </Route>
           </Switch>

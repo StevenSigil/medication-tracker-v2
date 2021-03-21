@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axiosInstance from "../../util/axios";
 import { Card, Form, Button, Col } from "react-bootstrap";
+import { useHistory } from "react-router";
 
 function RegistrationPage(props) {
   const checkForToken = props.checkForToken;
@@ -14,8 +15,11 @@ function RegistrationPage(props) {
     password: null,
   });
 
+  const history = useHistory();
+
   function handleSubmit(e) {
     e.preventDefault();
+
     const data = {
       email,
       password,
@@ -26,8 +30,14 @@ function RegistrationPage(props) {
     axiosInstance
       .post("users/register", data)
       .then((response) => {
-        console.log(response);
-        checkForToken();
+        // console.log(response);
+        var token = response.data.auth_token;
+
+        if (token) {
+          sessionStorage.setItem("Token", token);
+          checkForToken();
+          history.push("/main/");
+        }
       })
       .catch((error) => {
         console.log(error.response);
