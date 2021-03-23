@@ -17,11 +17,13 @@ function LoginPage(props) {
 
   const history = useHistory();
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(e, demo) {
+    if (e) e.preventDefault();
+
+    const submitData = demo ? demo : { email, password };
 
     axiosInstance
-      .post("users/login", { email, password }, { with_credentials: true })
+      .post("users/login", submitData, { with_credentials: true })
       .then((response) => {
         // console.log(response);
         var token = response.data.auth_token;
@@ -57,23 +59,21 @@ function LoginPage(props) {
     history.push("/register/");
   }
 
+  function loginAsDemo() {
+    const data = { email: "demo@example.com", password: "1234$abcd"}
+    handleSubmit(null, data);
+  }
+
   return (
     <>
-      <Col
-        xs={10}
-        sm={8}
-        md={6}
-        lg={5}
-        xl={4}
-        style={{ margin: "auto", marginTop: "2rem", marginBottom: "2rem" }}
-      >
+      <Col xs={10} sm={8} md={6} lg={5} xl={4} className="loginCol">
         <Card className="login-card">
           <Card.Header>
             <Card.Title as={"h1"}>Welcome Back</Card.Title>
             <Card.Subtitle>Please sign in</Card.Subtitle>
           </Card.Header>
 
-          <Card.Body>
+          <Card.Body className="cardBody-form">
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -112,12 +112,19 @@ function LoginPage(props) {
           </Card.Body>
 
           <Card.Body className="register-body">
-            <Container className="register-container">
+            <Col xs={12} lg={6} className="register-container">
               <Card.Title>Not registered?</Card.Title>
               <Card.Title>
                 <Button onClick={goToRegisterPage}>Register</Button>
               </Card.Title>
-            </Container>
+            </Col>
+
+            <Col xs={12} lg={6} className="register-container">
+              <Card.Title>Here for a Demo?</Card.Title>
+              <Card.Title>
+                <Button onClick={loginAsDemo}>Demo</Button>
+              </Card.Title>
+            </Col>
           </Card.Body>
         </Card>
       </Col>
