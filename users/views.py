@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from . import serializers
-from .utils import get_and_authenticate_user, create_user_accont
+from .utils import get_and_authenticate_user, create_user_accont, prepare_demo_account_info
 
 User = get_user_model()
 
@@ -36,6 +36,8 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         user = get_and_authenticate_user(**serializer.validated_data)
         login(request, user)
+        if user.email == 'demo@example.com':
+            prepare_demo_account_info(user)
         data = serializers.AuthUserSerializer(user).data
         return Response(data=data, status=status.HTTP_200_OK)
 
@@ -48,7 +50,6 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = create_user_accont(**serializer.validated_data)
-        # user = get_and_authenticate_user(user.email, user.password)
         login(request, user)
         data = serializers.AuthUserSerializer(user).data
         return Response(data, status=status.HTTP_201_CREATED)

@@ -32,14 +32,15 @@ function BPHistorySingleLog(props) {
               <Col>{item.pulse}</Col>
             </Row>
           </ListGroup.Item>
-          <ListGroup.Item className="BPHistory-listGroup">
-            {item.note.length > 0 ? (
+
+          {item.note ? (
+            <ListGroup.Item className="BPHistory-listGroup">
               <Row noGutters className="BPHistory-note">
                 <p>Note:</p>
                 <Container>{item.note}</Container>
               </Row>
-            ) : null}
-          </ListGroup.Item>
+            </ListGroup.Item>
+          ) : null}
         </ListGroup>
       </Card.Body>
     </>

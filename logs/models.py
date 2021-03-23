@@ -17,9 +17,15 @@ class Log(models.Model):
     # total_dosage = models.CharField(max_length=15)    # NotImplemented at this time
     # notes = models.CharField(max_length=500)          # NotImplemented at this time
 
+    def __str__(self):
+        return f"{self.user.email} - {self.time_taken} {self.medication_quantities.medication}"
+
 
 class MedicationAndQuantity(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     medication = models.ForeignKey('medications.Medication', related_name='logged_quantity', on_delete=models.CASCADE)
     quantity = models.IntegerField()
     log = models.ForeignKey(Log, related_name='logged_quantity', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.id}'
