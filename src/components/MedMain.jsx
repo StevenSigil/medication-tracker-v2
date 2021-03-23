@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import "../public/css/main.css";
+import "../public/static/css/main.css";
 
 import UsersMedications from "./medications/UsersMedications";
 import TimeInput from "./TimeInput";
 import ConfirmationForm from "./medications/ConfirmationForm";
 import MEDHistory from "./medications/MEDHistory";
+import Footer from "./Footer";
 import axiosInstance from "../util/axios";
 
 function MEDMain() {
@@ -52,13 +53,11 @@ function MEDMain() {
   }
 
   function sendLog() {
-    axiosInstance
-      .post("logs/create_log/", submitData)
-      .then((response) => {
-        // console.log(response);
-        setGetHistory(true);
-      })
-      // .catch((error) => console.log(error));
+    axiosInstance.post("logs/create_log/", submitData).then((response) => {
+      // console.log(response);
+      setGetHistory(true);
+    });
+    // .catch((error) => console.log(error));
 
     resetSubmitData();
   }
@@ -95,7 +94,11 @@ function MEDMain() {
                   disabledButton={disabledButton}
                 />
                 <Row noGutters className="current-time-btn">
-                  <Button variant="outline-danger" size="lg" onClick={resetSubmitData}>
+                  <Button
+                    variant="outline-danger"
+                    size="lg"
+                    onClick={resetSubmitData}
+                  >
                     Start over
                   </Button>
                 </Row>
@@ -121,6 +124,8 @@ function MEDMain() {
           </Col>
         </Row>
       </div>
+
+      <Footer />
     </>
   );
 }

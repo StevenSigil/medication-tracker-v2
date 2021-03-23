@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
-import "../public/css/main.css";
+import "../public/static/css/main.css";
 
 import axiosInstance from "../util/axios";
 
@@ -8,6 +8,7 @@ import BPForm from "./bp/BPForm";
 import TimeInput from "./TimeInput";
 import BPHistory from "./bp/BPHistory";
 import BPSubmitModal from "./bp/BPSubmitModal";
+import Footer from "./Footer";
 
 function BPMain() {
   const [disabledButton, setDisabledButton] = useState(true);
@@ -40,14 +41,12 @@ function BPMain() {
   }
 
   function handleSubmit() {
-    axiosInstance
-      .post("bp/get_post_bp_logs/", inputData)
-      .then((response) => {
-        // console.log(response);
-        resetData();
-        setGetHistory(true);
-      })
-      // .catch((error) => console.log(error));
+    axiosInstance.post("bp/get_post_bp_logs/", inputData).then((response) => {
+      // console.log(response);
+      resetData();
+      setGetHistory(true);
+    });
+    // .catch((error) => console.log(error));
   }
 
   function resetData() {
@@ -93,6 +92,8 @@ function BPMain() {
           </Col>
         </Row>
       </div>
+
+      <Footer />
 
       <BPSubmitModal
         show={showConfirmation}

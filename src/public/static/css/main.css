@@ -4,6 +4,47 @@ h2 {
   padding-bottom: 1rem;
   border-bottom: 2px solid blueviolet;
 }
+.App {
+  position: relative;
+  min-height: 100vh;
+}
+
+footer {
+  text-align: center;
+  min-height: 100%;
+  padding: 1rem 1rem 0;
+  margin-top: 2rem;
+  background-color: rgb(110, 101, 139);
+  bottom: 0;
+}
+footer p {
+  font-size: 1.25em;
+  font-weight: 300;
+  color: #eee;
+  /* border-bottom: 1px solid #eee; */
+  max-width: max-content;
+  margin: 0 auto 1rem;
+  /* text-decoration: underline solid black 1px; */
+}
+.github-btn {
+  margin: 0 1.5rem 1rem;
+  padding: 0;
+}
+.github-btn img {
+  height: 40px;
+  width: auto;
+  padding: 6px 8px;
+}
+.github-btn img {
+  filter: invert(100);
+}
+.github-btn img:hover {
+  filter: initial;
+}
+.tooltip-inner p {
+  margin: 0.25rem;
+}
+
 
 .main {
   max-width: 100vw;
@@ -17,11 +58,9 @@ h2 {
 /* Main Heading (NAV) */
 .customNav {
   background-color: rgb(159, 89, 224);
-  /* height: 5rem; */
   border-bottom: 1px solid rgb(108, 55, 158);
   position: relative;
   top: 0;
-  
 }
 .customNav a {
   color: #eeeeee !important;
@@ -33,24 +72,21 @@ h2 {
   margin: 0 2rem;
   border-bottom: none;
   font-weight: 600;
-  color: rgb(36, 36, 36);
 }
 .customNav > .navbar-brand h2 {
   border-bottom: none;
 }
-.navbarToggle-outerdiv{
+.navbarToggle-outerdiv {
   margin: 0 2rem;
   padding: 2px;
 }
 .innerNav-collapse {
-  /* margin: 0 2rem; */
   justify-content: flex-end;
 }
 .innerNav-collapse .navbar-nav {
   font-weight: 400;
   font-size: 1.1em;
-  /* color: #000 !important; */
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
   background-color: rgb(159, 89, 224);
 }
 
@@ -94,8 +130,8 @@ h2 {
 .usersMeds {
   min-height: calc(100vh - (5rem + 1rem));
   background-color: rgb(255, 255, 255);
-  /* padding: 2rem 2rem 5rem; */
   padding: 2rem 2rem 0;
+  border-radius: 1%;
 }
 .usersMeds-div {
   padding-bottom: 2rem;
@@ -156,6 +192,7 @@ h2 {
   min-height: 100%;
   padding: 2rem 2rem;
   background-color: rgb(255, 255, 255);
+  border-radius: 1%;
 }
 .outerHistory-card {
   margin: 1rem 5px;

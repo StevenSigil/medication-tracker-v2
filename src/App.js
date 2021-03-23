@@ -15,7 +15,7 @@ import RegistrationPage from "./components/auth/RegistrationPage";
 import MedMain from "./components/MedMain";
 import BPMain from "./components/BloodPressureMain";
 
-import "./public/css/auth.css";
+import "./public/static/css/auth.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
