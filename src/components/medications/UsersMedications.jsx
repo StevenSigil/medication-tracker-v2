@@ -16,36 +16,32 @@ function UsersMedications(props) {
   const [showManageMedModal, setShowManageMedModal] = useState(false);
 
   function getUsersMedications() {
-    axiosInstance
-      .get("medications/medication_to_user/")
-      .then((response) => {
-        // console.log(response);
-        if (response.data.length === 0) {
-          setUsersMedications([{ id: "x" }]);
-        } else {
-          setUsersMedications(response.data);
-        }
-        setGetHistory(true);
-      })
-      // .catch((error) => console.log(error));
+    axiosInstance.get("medications/medication_to_user/").then((response) => {
+      // console.log(response);
+      if (response.data.length === 0) {
+        setUsersMedications([{ id: "x" }]);
+      } else {
+        setUsersMedications(response.data);
+      }
+      setGetHistory(true);
+    });
+    // .catch((error) => console.log(error));
   }
 
   useEffect(() => {
-    axiosInstance
-      .get("medications/medication_to_user/")
-      .then((response) => {
-        // console.log(response);
-        if (response.data.length === 0) {
-          setUsersMedications([{ id: "x" }]);
-        } else {
-          setUsersMedications(response.data);
-        }
-        setGetHistory(true);
-      })
-      // .catch((error) => console.log(error));
+    axiosInstance.get("medications/medication_to_user/").then((response) => {
+      // console.log(response);
+      if (response.data.length === 0) {
+        setUsersMedications([{ id: "x" }]);
+      } else {
+        setUsersMedications(response.data);
+      }
+      setGetHistory(true);
+    });
+    // .catch((error) => console.log(error));
   }, [setGetHistory, setUsersMedications]);
 
-  // console.log(usersMedications);
+  console.log(usersMedications);
 
   return usersMedications.length > 0 ? (
     <>

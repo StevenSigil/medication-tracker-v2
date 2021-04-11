@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Button, Image, Tooltip, Overlay, Container } from "react-bootstrap";
+import { Button, Image, Tooltip, Overlay } from "react-bootstrap";
 
 import GithubLogo from "../public/static/media/GitHub-Mark-32px.png";
 import LinkedinLogo from "../public/static/media/linkedin.svg";

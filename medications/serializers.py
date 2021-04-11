@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models import Medication
+from logs.models import MedicationAndQuantity
 
 User = get_user_model()
 
@@ -14,14 +15,20 @@ class MedicationSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=100, required=True)
     strength = serializers.CharField(max_length=30, required=True)
     date_created = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S", read_only=True)
+    last_time_taken = serializers.SerializerMethodField()
 
     class Meta:
         model = Medication
-        fields = ('id', 'name', 'strength', 'date_created')
+        fields = ('id', 'name', 'strength', 'date_created', 'last_time_taken')
 
     def get_created_by(self, med_obj):
         created_by = User.objects.get(id=med_obj.created_by.id)
         return created_by.__str__()
+    
+    def get_last_time_taken(self, medication):
+        query = MedicationAndQuantity.objects.filter(log__in=User.objects.get(id=medication.created_by.id).logs.all()) & MedicationAndQuantity.objects.filter(medication=medication)
+        med_name = query.values_list('medication__name', flat=True)[0]
+        return f"{query.latest('log__time_taken').log.time_taken.strftime('%Y-%m-%dT%H:%M:%S')}"
 
 
 class UserAddRemoveFromMedication(serializers.ModelSerializer):

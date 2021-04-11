@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Col } from "react-bootstrap";
 import SubmitQuantityModal from "./SubmitQuantityModal";
 
-function SingleMedication(props) {
+export default function SingleMedication(props) {
   const med = props.medication;
   const addMedication = props.addMedication;
 
@@ -40,9 +40,12 @@ function SingleMedication(props) {
         className="med-btn"
         onClick={handleClick}
       >
-        {med.name} <br />
-        {med.strength}
+        <p className="m-0">{med.name}</p>
+
+        <p className="m-0">{med.strength}</p>
       </Button>
+
+      <DateTimeDiff previousTime={`${med.last_time_taken}Z`} />
 
       <SubmitQuantityModal
         show={showQuantityModal}
@@ -56,4 +59,37 @@ function SingleMedication(props) {
   );
 }
 
-export default SingleMedication;
+function DateTimeDiff({ previousTime }) {
+  previousTime = new Date(previousTime);
+  const [diffSec, setDiffSec] = useState(0);
+  const [diffHr, setDiffHr] = useState(0);
+  const [diffMin, setDiffMin] = useState(0);
+
+  function updateCurrentTime() {
+    const newTime = new Date();
+
+    const mS = Math.abs(newTime - previousTime);
+
+    const hr = Math.floor(mS / 1000 / 60 / 60);
+
+    const mins = Math.floor(mS / 1000 / 60);
+    const adjMin = mins - hr * 60;
+
+    const secs = Math.floor(mS / 1000);
+    const adjSec = secs - mins * 60;
+
+    setDiffHr(hr);
+    setDiffMin(adjMin);
+    setDiffSec(adjSec);
+  }
+
+  setInterval(updateCurrentTime, 1000);
+
+  return (
+    <>
+      <small title="Time since last taken" className="m-0">
+        {diffHr}h : {diffMin}m : {diffSec}s
+      </small>
+    </>
+  );
+}

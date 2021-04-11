@@ -30,15 +30,20 @@ function MEDHistorySingleLog(props) {
       </Card.Header>
       <Card.Body>
         <ListGroup>
-          {item.medication_quantities
-            ? item.medication_quantities.map((med) => {
-                return (
-                  <ListGroup.Item key={med.id} className="history-listItem">
-                    <InnerMap data={med} />
-                  </ListGroup.Item>
-                );
-              })
-            : <Col style={{ alignItems: "center" }}><p>No Data to Display</p><p>Please Add an entry to get started</p></Col>}
+          {item.medication_quantities ? (
+            item.medication_quantities.map((med) => {
+              return (
+                <ListGroup.Item key={med.id} className="history-listItem">
+                  <InnerMap data={med} />
+                </ListGroup.Item>
+              );
+            })
+          ) : (
+            <Col style={{ alignItems: "center" }}>
+              <p>No Data to Display</p>
+              <p>Please Add an entry to get started</p>
+            </Col>
+          )}
         </ListGroup>
       </Card.Body>
     </>

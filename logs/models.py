@@ -18,7 +18,7 @@ class Log(models.Model):
     # notes = models.CharField(max_length=500)          # NotImplemented at this time
 
     def __str__(self):
-        return f"{self.user.email} - {self.time_taken} {self.medication_quantities.medication}"
+        return f"{self.user.email} - {self.time_taken} {self.logged_quantity.all()}"
 
 
 class MedicationAndQuantity(models.Model):
@@ -28,4 +28,4 @@ class MedicationAndQuantity(models.Model):
     log = models.ForeignKey(Log, related_name='logged_quantity', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.id}'
+        return f'{self.medication} {self.quantity}'

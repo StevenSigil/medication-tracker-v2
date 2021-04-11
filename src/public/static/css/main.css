@@ -45,7 +45,6 @@ footer p {
   margin: 0.25rem;
 }
 
-
 .main {
   max-width: 100vw;
   overflow-x: hidden;
@@ -143,6 +142,10 @@ footer p {
 /* Meds area */
 .med-col {
   padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 .med-btn {
   min-width: 7rem;
