@@ -60,7 +60,7 @@ class LogViewSet(viewsets.GenericViewSet):
                                       time_taken__date__gte=timezone.datetime.now() - timezone.timedelta(days=3,
                                                                                                          hours=12),
                                       time_taken__date__lte=timezone.datetime.now() + timezone.timedelta(days=1))
-        data = self.get_serializer(queryset, many=True).data
+        data = self.get_serializer(queryset, many=True, context=request).data
         return Response(data, status=status.HTTP_200_OK)
 
     @action(methods=['POST', ], detail=False)

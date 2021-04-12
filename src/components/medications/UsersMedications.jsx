@@ -41,8 +41,6 @@ function UsersMedications(props) {
     // .catch((error) => console.log(error));
   }, [setGetHistory, setUsersMedications]);
 
-  console.log(usersMedications);
-
   return usersMedications.length > 0 ? (
     <>
       <Row noGutters>

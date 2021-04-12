@@ -41,7 +41,7 @@ class UsersCondensedLogsSerializer(serializers.ModelSerializer):
         new_data = []
         for i in m_and_q:
             med = Medication.objects.get(id=i['medication'])
-            med_serializer = MedicationSerializer(med).data
+            med_serializer = MedicationSerializer(med, context=self.context).data
             med_serializer.pop('date_created')
             med_serializer['quantity'] = i['quantity']
             new_data.append(med_serializer)

@@ -40,7 +40,7 @@ class MedicationView(viewsets.GenericViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(methods=['POST', 'GET'], detail=False)
-    def medication_to_user(self, request):
+    def medication_to_user(self, request, *args, **kwargs):
         """
         POST: Adds a user to a medication representing that user wants the drug on their dashboard.
         GET: Returns the medications a user is 'following'
@@ -51,7 +51,8 @@ class MedicationView(viewsets.GenericViewSet):
             medication = Medication.objects.get(id=serializer.validated_data['id'])
             medication.users_taking.add(request.user)
         medications = request.user.medications_taking
-        res_data = self.serializer_class(medications, many=True).data
+        
+        res_data = self.serializer_class(medications, many=True, context=request, *args, **kwargs).data
         return Response(res_data, status=status.HTTP_202_ACCEPTED)
 
     @action(methods=['GET', 'POST'], detail=False)

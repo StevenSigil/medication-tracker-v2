@@ -28,13 +28,13 @@ function LoginPage(props) {
     axiosInstance
       .post("users/login", submitData, { with_credentials: true })
       .then((response) => {
-        // console.log(response);
+        console.log(response);
         var token = response.data.auth_token;
 
         if (token) {
           sessionStorage.setItem("Token", token);
           checkForToken();
-          history.push("/main/");
+          if (response.status === 200) history.push("/main/");
         }
       })
       .catch((error) => {
