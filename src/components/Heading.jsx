@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import axiosInstance from "../util/axios";
 import DownloadDataModal from "./DownloadDataModal";
 
-function Heading(props) {
+export default function Heading(props) {
   const setLogin = props.setLogin;
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
@@ -17,10 +17,22 @@ function Heading(props) {
   }
 
   function handleSelect(eventKey) {
-    if (eventKey === "download") {
-      setShowDownloadModal(true);
-    } else if (eventKey === "logout") {
-      handleLogout();
+    switch (eventKey) {
+      case "main":
+        history.push("/main/");
+        break;
+      case "bp":
+        history.push("/bp/");
+        break;
+      case "download":
+        setShowDownloadModal(true);
+        break;
+      case "logout":
+        handleLogout();
+        break;
+
+      default:
+        history.push("/main");
     }
   }
 
@@ -37,28 +49,18 @@ function Heading(props) {
   return (
     <>
       <Navbar className="customNav" expand="lg">
-        <Navbar.Brand href="/main/">
-          <h2 style={{ margin: "auto" }}>The Drug Keep</h2>
+        <Navbar.Brand onClick={() => handleSelect("main")} as={Nav.Link}>
+          <h2>The Drug Keep</h2>
         </Navbar.Brand>
-        
-        <div className="navbarToggle-outerdiv">
-          <Navbar.Toggle aria-controls="custom-navbar" />
-        </div>
+
+        <Navbar.Toggle aria-controls="custom-navbar" />
 
         <Navbar.Collapse id="custom-navbar" className="innerNav-collapse">
           <Nav onSelect={handleSelect}>
-            <Nav.Item>
-              <Nav.Link href="/main/">Medications</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="/bp/">Blood Pressure</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="download">Download Data</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="logout">Logout</Nav.Link>
-            </Nav.Item>
+            <Nav.Link eventKey="main">Medications</Nav.Link>
+            <Nav.Link eventKey="bp">Blood Pressure</Nav.Link>
+            <Nav.Link eventKey="download">Download Data</Nav.Link>
+            <Nav.Link eventKey="logout">Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -70,5 +72,3 @@ function Heading(props) {
     </>
   );
 }
-
-export default Heading;

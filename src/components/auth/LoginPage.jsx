@@ -7,8 +7,7 @@ import { useHistory } from "react-router";
 import PreAuthNav from "./PreAuthNav";
 import Footer from "../Footer";
 
-function LoginPage(props) {
-  // const history = props.history;
+export default function LoginPage(props) {
   const checkForToken = props.checkForToken;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,10 +55,6 @@ function LoginPage(props) {
         return { ...prev, password: responseData.password[0] };
       });
     }
-  }
-
-  function goToRegisterPage() {
-    history.push("/register/");
   }
 
   function loginAsDemo() {
@@ -125,7 +120,7 @@ function LoginPage(props) {
               <Col xs={12} lg={6} className="register-container">
                 <Card.Title>Not registered?</Card.Title>
                 <Card.Title>
-                  <Button onClick={goToRegisterPage}>Register</Button>
+                  <Button onClick={() => history.push("/register/")}>Register</Button>
                 </Card.Title>
               </Col>
 
@@ -145,4 +140,4 @@ function LoginPage(props) {
   );
 }
 
-export default LoginPage;
+

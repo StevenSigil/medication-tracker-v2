@@ -65,25 +65,25 @@ function DateTimeDiff({ previousTime }) {
   const [diffHr, setDiffHr] = useState(0);
   const [diffMin, setDiffMin] = useState(0);
 
-  function updateCurrentTime() {
-    const newTime = new Date();
+  useEffect(() => {
+    let interval = setInterval(() => {
+      const newTime = new Date();
+      const mS = Math.abs(newTime - previousTime);
+      const hr = Math.floor(mS / 1000 / 60 / 60);
+      const mins = Math.floor(mS / 1000 / 60);
+      const adjMin = mins - hr * 60;
+      const secs = Math.floor(mS / 1000);
+      const adjSec = secs - mins * 60;
 
-    const mS = Math.abs(newTime - previousTime);
+      setDiffHr(hr);
+      setDiffMin(adjMin);
+      setDiffSec(adjSec);
+    }, 1000);
 
-    const hr = Math.floor(mS / 1000 / 60 / 60);
-
-    const mins = Math.floor(mS / 1000 / 60);
-    const adjMin = mins - hr * 60;
-
-    const secs = Math.floor(mS / 1000);
-    const adjSec = secs - mins * 60;
-
-    setDiffHr(hr);
-    setDiffMin(adjMin);
-    setDiffSec(adjSec);
-  }
-
-  setInterval(updateCurrentTime, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [previousTime]);
 
   return (
     <>

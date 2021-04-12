@@ -47,7 +47,7 @@ class LogViewSet(viewsets.GenericViewSet):
             final_serializer = serializers.UsersCondensedLogsSerializer(log_entry)
         else:
             query = Medication.objects.all()
-            final_serializer = MedicationSerializer(query, many=True)
+            final_serializer = MedicationSerializer(query, many=True, context=request)
         return Response(final_serializer.data, status=status.HTTP_201_CREATED)
 
     @action(methods=['GET', ], detail=False)

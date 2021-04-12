@@ -36,7 +36,7 @@ class MedicationView(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         medication = Medication.objects.create(created_by=request.user, **serializer.validated_data)
         medication.users_taking.add(request.user)
-        serializer = self.serializer_class(medication)
+        serializer = self.serializer_class(medication, context=request)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(methods=['POST', 'GET'], detail=False)
@@ -68,7 +68,7 @@ class MedicationView(viewsets.GenericViewSet):
             medication = Medication.objects.get(id=serializer.validated_data['id'])
             medication.users_taking.remove(request.user)
         medications = request.user.medications_taking
-        res_data = self.serializer_class(medications, many=True).data
+        res_data = self.serializer_class(medications, many=True, context=request).data
         return Response(res_data, status=status.HTTP_200_OK)
 
     @action(methods=['GET', 'POST'], detail=False)
@@ -82,7 +82,7 @@ class MedicationView(viewsets.GenericViewSet):
             medication = Medication.objects.get(id=serializer.validated_data['id'])
             medication.delete()
         medications = request.user.medications_taking
-        res_data = self.serializer_class(medications, many=True).data
+        res_data = self.serializer_class(medications, many=True, context=request).data
         return Response(res_data, status=status.HTTP_200_OK)
 
     def get_queryset(self):

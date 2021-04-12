@@ -6,8 +6,6 @@ from logs.models import MedicationAndQuantity
 
 from datetime import datetime
 
-# from rest_framework.fields import CurrentUserDefault
-
 User = get_user_model()
 
 
@@ -30,11 +28,14 @@ class MedicationSerializer(serializers.ModelSerializer):
         return created_by.__str__()
     
     def get_last_time_taken(self, medication):
-        user = self.context.user
-        query = MedicationAndQuantity.objects.filter(log__in=User.objects.get(id=user.id).logs.all()) & MedicationAndQuantity.objects.filter(medication=medication)
-        
-        if query.values().count() > 0:
-            return query.latest('log__time_taken').log.time_taken.strftime('%Y-%m-%dT%H:%M:%S')
+        if self.context:
+            
+            user = self.context.user
+            query = MedicationAndQuantity.objects.filter(log__in=User.objects.get(id=user.id).logs.all()) & MedicationAndQuantity.objects.filter(medication=medication)
+            
+            if query.values().count() > 0:
+                return query.latest('log__time_taken').log.time_taken.strftime('%Y-%m-%dT%H:%M:%S')
+            pass
         return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
 
 
