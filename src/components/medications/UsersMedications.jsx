@@ -10,7 +10,11 @@ import SingleMedication from "./SingleMedication";
 function UsersMedications(props) {
   const usersMedications = props.usersMedications;
   const setUsersMedications = props.setUsersMedications;
+
   const setGetHistory = props.setGetHistory;
+
+  const getMedications = props.getMedications;
+  const setGetMedications = props.setGetMedications;
 
   const [showCreateMedModal, setShowCreateMedModal] = useState(false);
   const [showManageMedModal, setShowManageMedModal] = useState(false);
@@ -29,17 +33,28 @@ function UsersMedications(props) {
   }
 
   useEffect(() => {
-    axiosInstance.get("medications/medication_to_user/").then((response) => {
-      // console.log(response);
-      if (response.data.length === 0) {
-        setUsersMedications([{ id: "x" }]);
-      } else {
-        setUsersMedications(response.data);
-      }
-      setGetHistory(true);
-    });
-    // .catch((error) => console.log(error));
-  }, [setGetHistory, setUsersMedications]);
+    if (getMedications || usersMedications.length === 0) {
+      axiosInstance.get("medications/medication_to_user/").then((response) => {
+        // console.log(response);
+        if (response.data.length === 0) {
+          setUsersMedications([{ id: "x" }]);
+        } else {
+          setUsersMedications(response.data);
+        }
+        setGetHistory(true);
+      });
+      // .catch((error) => console.log(error));
+    }
+    return () => {
+      setGetMedications(false);
+    };
+  }, [
+    getMedications,
+    setGetMedications,
+    setGetHistory,
+    setUsersMedications,
+    usersMedications,
+  ]);
 
   return usersMedications.length > 0 ? (
     <>

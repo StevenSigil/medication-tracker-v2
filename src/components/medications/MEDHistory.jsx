@@ -4,7 +4,7 @@ import { Card } from "react-bootstrap";
 import axiosInstance from "../../util/axios";
 import MEDHistorySingleLog from "./MEDHistorySingleLog";
 
-function MEDHistory(props) {
+export default function MEDHistory(props) {
   const getData = props.getData;
   const setGetData = props.setGetData;
   const [data, setData] = useState([
@@ -39,13 +39,14 @@ function MEDHistory(props) {
       <h2>Your recent history</h2>
       {data.map((d) => {
         return (
-          <Card className="outerHistory-card" key={d.id}>
-            <MEDHistorySingleLog historyItem={d} />
-          </Card>
+          <MEDHistorySingleLog
+            key={d.id}
+            historyItem={d}
+            setGetData={setGetData}
+            setGetMedications={props.setGetMedications}
+          />
         );
       })}
     </>
   );
 }
-
-export default MEDHistory;

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, ListGroup, Col } from "react-bootstrap";
+import RemoveLogModal from "./RemoveLogModal";
 
-function MEDHistorySingleLog(props) {
+export default function MEDHistorySingleLog(props) {
   const item = props.historyItem;
+
+  const [showRemoveLogModal, setShowRemoveLogModal] = useState(false);
 
   // Preparing datetime from item to user's local time.
   var dateTime = new Date(Date.parse(item.time_taken));
@@ -22,7 +25,10 @@ function MEDHistorySingleLog(props) {
   };
 
   return item ? (
-    <>
+    <Card
+      className="outerHistory-card"
+      onClick={() => setShowRemoveLogModal(!showRemoveLogModal)}
+    >
       <Card.Header>
         <Card.Title className="history-title">
           <Col>{time}</Col> <Col>{date}</Col>
@@ -46,8 +52,16 @@ function MEDHistorySingleLog(props) {
           )}
         </ListGroup>
       </Card.Body>
-    </>
+
+      {showRemoveLogModal ? (
+        <RemoveLogModal
+          log={item}
+          setGetHistory={props.setGetData}
+          setGetMedications={props.setGetMedications}
+          show={showRemoveLogModal}
+          setShow={setShowRemoveLogModal}
+        />
+      ) : null}
+    </Card>
   ) : null;
 }
-
-export default MEDHistorySingleLog;

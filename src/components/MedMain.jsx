@@ -9,8 +9,10 @@ import MEDHistory from "./medications/MEDHistory";
 import Footer from "./Footer";
 import axiosInstance from "../util/axios";
 
-function MEDMain() {
+export default function MEDMain() {
   const [getHistory, setGetHistory] = useState(false);
+  const [getMedications, setGetMedications] = useState(false);
+
   const [usersMedications, setUsersMedications] = useState([]); // from GET req.
   const [disabledButton, setDisabledButton] = useState(true); // Disables the med btns after selection
 
@@ -53,11 +55,13 @@ function MEDMain() {
   }
 
   function sendLog() {
-    axiosInstance.post("logs/create_log/", submitData).then((response) => {
-      // console.log(response);
-      setGetHistory(true);
-    });
-    // .catch((error) => console.log(error));
+    axiosInstance
+      .post("logs/create_log/", submitData)
+      .then((response) => {
+        // console.log(response);
+        setGetMedications(true);
+      })
+      .catch((error) => console.log(error));
 
     resetSubmitData();
   }
@@ -86,6 +90,8 @@ function MEDMain() {
                   resetSignal={resetSignal}
                   setResetSignal={setResetSignal}
                   setGetHistory={setGetHistory}
+                  getMedications={getMedications}
+                  setGetMedications={setGetMedications}
                 />
 
                 <h2>Confirm the date and time taken</h2>
@@ -119,7 +125,11 @@ function MEDMain() {
           {/* RIGHT COLUMN */}
           <Col md={12} lg={5}>
             <div className="history-col">
-              <MEDHistory getData={getHistory} setGetData={setGetHistory} />
+              <MEDHistory
+                getData={getHistory}
+                setGetData={setGetHistory}
+                setGetMedications={setGetMedications}
+              />
             </div>
           </Col>
         </Row>
@@ -129,5 +139,3 @@ function MEDMain() {
     </>
   );
 }
-
-export default MEDMain;
