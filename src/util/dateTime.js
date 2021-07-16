@@ -1,7 +1,6 @@
-export default function ISODateTimeToLocalView(dt) {
-  /* Receives a Non-local date/time object (or not) and returns the date/time
+/* Receives a Non-local date/time object (or not) and returns the date/time
   in the users local time zone for viewing (not submitting). */
-
+export default function ISODateTimeToLocalView(dt) {
   var now = null;
   if (!dt) {
     now = new Date();
@@ -16,10 +15,8 @@ export default function ISODateTimeToLocalView(dt) {
   return { date, time };
 }
 
+/* Receives a date str as "YYYY-MM-DD" and a time str as "HH:MM:SS:SSS.sss(Z)" and returns a string with both inputs combined and altered to UTC ISO format. */
 export function localSplitDTStringToISO(date, time) {
-  /* Receives a date str as "YYYY-MM-DD" and a time str as "HH:MM:SS:SSS.sss(Z)" and
-  returns a string with both inputs combined and altered to UTC ISO format. */
-
   if (!time.includes("Z")) {
     time = time + "Z";
   }
