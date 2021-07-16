@@ -115,7 +115,7 @@ footer p {
   min-height: calc(100vh - (5rem + 1rem));
   background-color: rgb(255, 255, 255);
   padding: 2rem 2rem 0;
-  border-radius: 1%;
+  border-radius: 12px;
 }
 .usersMeds-div {
   padding-bottom: 2rem;
@@ -180,7 +180,7 @@ footer p {
   min-height: 100%;
   padding: 2rem 2rem;
   background-color: rgb(255, 255, 255);
-  border-radius: 1%;
+  border-radius: 12px;
 }
 .outerHistory-card {
   margin: 1rem 5px;
