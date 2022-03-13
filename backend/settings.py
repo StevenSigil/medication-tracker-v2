@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://medication-track.herokuapp.com/']#, 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://medication-track.herokuapp.com/']  # ['localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -115,10 +115,10 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:8000"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://127.0.0.1:8000"
+# ]
 
 SESSION_COOKIE_SECURE = True
 

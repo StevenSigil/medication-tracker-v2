@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from rest_framework import serializers
 
 from .models import Medication
@@ -31,9 +32,10 @@ class MedicationSerializer(serializers.ModelSerializer):
         if self.context:
             
             user = self.context.user
-            query = MedicationAndQuantity.objects.filter(log__in=User.objects.get(id=user.id).logs.all()) & MedicationAndQuantity.objects.filter(medication=medication)
+            query = MedicationAndQuantity.objects.filter(log__in=User.objects.get(id=user.id).logs.filter(time_taken__lt=timezone.now())) & MedicationAndQuantity.objects.filter(medication=medication)
             
             if query.values().count() > 0:
+                # print()
                 return query.latest('log__time_taken').log.time_taken.strftime('%Y-%m-%dT%H:%M:%S')
             pass
         return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')

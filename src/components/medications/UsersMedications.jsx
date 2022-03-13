@@ -35,7 +35,6 @@ function UsersMedications(props) {
   useEffect(() => {
     if (getMedications || usersMedications.length === 0) {
       axiosInstance.get("medications/medication_to_user/").then((response) => {
-        // console.log(response);
         if (response.data.length === 0) {
           setUsersMedications([{ id: "x" }]);
         } else {
@@ -93,19 +92,17 @@ function UsersMedications(props) {
       <Container className="addMed-container">
         <Button
           variant="outline-danger"
-          onClick={() => setShowCreateMedModal(true)}
-        >
+          onClick={() => setShowCreateMedModal(true)}>
           Add Medication
         </Button>
         <Button
           variant="outline-dark"
-          onClick={() => setShowManageMedModal(true)}
-        >
+          onClick={() => setShowManageMedModal(true)}>
           Manage medications
         </Button>
       </Container>
 
-      {/* POSSIBLE DEPRECATION 
+      {/* LIKELY DEPRECATION 
       <SearchMedModal
         show={showSearchModal}
         setShow={setShowSearchModal}

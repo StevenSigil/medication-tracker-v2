@@ -12,5 +12,5 @@ const axiosInstance = axios.create({
 
 export default axiosInstance;
 
-// package.json 
+// package.json
 //  "proxy": "http://127.0.0.1:8000",

@@ -58,7 +58,7 @@ export default function MEDMain() {
     axiosInstance
       .post("logs/create_log/", submitData)
       .then((response) => {
-        // console.log(response);
+        console.log(response);
         setGetMedications(true);
       })
       .catch((error) => console.log(error));
@@ -98,14 +98,15 @@ export default function MEDMain() {
                 <TimeInput
                   addTimeTaken={addTimeTaken}
                   disabledButton={disabledButton}
+                  resetSignal={resetSignal}
                 />
+
                 <Row noGutters className="current-time-btn">
                   <Button
                     variant="outline-danger"
                     size="lg"
-                    onClick={resetSubmitData}
-                  >
-                    Start over
+                    onClick={resetSubmitData}>
+                    Clear and Restart
                   </Button>
                 </Row>
               </Container>

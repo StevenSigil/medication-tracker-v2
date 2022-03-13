@@ -12,6 +12,8 @@ export default function SingleMedication(props) {
   const [disabledButton, setDisabledButton] = useState(false);
   const [showQuantityModal, setShowQuantityModal] = useState(false);
 
+  // TODO: Disallow the option to add a future date/time before submitting a log record.
+
   function handleClick() {
     setShowQuantityModal(true);
     setDisabledButton(true);
@@ -38,8 +40,7 @@ export default function SingleMedication(props) {
         disabled={disabledButton}
         variant={disabledButton ? "primary" : "outline-primary"}
         className="med-btn"
-        onClick={handleClick}
-      >
+        onClick={handleClick}>
         <p className="m-0">{med.name}</p>
 
         <p className="m-0">{med.strength}</p>
@@ -61,21 +62,28 @@ export default function SingleMedication(props) {
 
 function DateTimeDiff({ previousTime }) {
   previousTime = new Date(previousTime);
-  const [diffSec, setDiffSec] = useState(0);
+
+  const [diffDay, setDiffDay] = useState(0);
   const [diffHr, setDiffHr] = useState(0);
   const [diffMin, setDiffMin] = useState(0);
+  const [diffSec, setDiffSec] = useState(0);
 
   useEffect(() => {
     let interval = setInterval(() => {
       const newTime = new Date();
       const mS = Math.abs(newTime - previousTime);
+
+      const day = Math.floor(mS / 1000 / 60 / 60 / 24);
       const hr = Math.floor(mS / 1000 / 60 / 60);
       const mins = Math.floor(mS / 1000 / 60);
-      const adjMin = mins - hr * 60;
       const secs = Math.floor(mS / 1000);
+
+      const adjHr = hr - day * 24;
+      const adjMin = mins - hr * 60;
       const adjSec = secs - mins * 60;
 
-      setDiffHr(hr);
+      setDiffDay(day);
+      setDiffHr(adjHr);
       setDiffMin(adjMin);
       setDiffSec(adjSec);
     }, 1000);
@@ -85,10 +93,16 @@ function DateTimeDiff({ previousTime }) {
     };
   }, [previousTime]);
 
+  if (diffDay > 30) {
+    return "> 1 mo.";
+  }
+
   return (
     <>
       <small title="Time since last taken" className="m-0">
-        {diffHr}h : {diffMin}m : {diffSec}s
+        {diffDay > 0 ? `${diffDay}d : ` : null}
+        {diffDay < 1 && diffHr < 1 ? null : `${diffHr}h : `}
+        {diffMin}m : {diffSec}s
       </small>
     </>
   );
