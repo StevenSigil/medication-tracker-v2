@@ -10,7 +10,7 @@
 .env
 .idea
 .eslintcache
-
+old.env
 /build
 
 db.sqlite3
